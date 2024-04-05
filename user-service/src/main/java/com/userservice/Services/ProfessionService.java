@@ -12,5 +12,5 @@ public interface ProfessionService {
     List<Profession> getAllProfessions();
     Profession getProfessionById(UUID id);
     Profession updateProfession(Profession profession, UUID id);
-//    void deleteProfession(long id);
+    void deleteProfession(UUID id);
 }

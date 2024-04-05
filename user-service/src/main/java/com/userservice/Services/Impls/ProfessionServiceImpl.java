@@ -59,4 +59,15 @@ public class ProfessionServiceImpl implements ProfessionService {
         return existingProfession;
     }
 
+
+    @Override
+    public void deleteProfession(UUID id) {
+
+        professionRepository.findById(id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Employee", "Id", id)
+                );
+        professionRepository.deleteById(id);
+    }
+
 }
