@@ -35,6 +35,12 @@ public class ProfessionController {
         return new ResponseEntity<Profession>(professionService.getProfessionById(professionId), HttpStatus.OK);
     }
 
+    @PutMapping("/api/v1/users/professions/{id}")
+    public ResponseEntity<Profession> updateProfession(@PathVariable("id") UUID id
+            ,@RequestBody Profession profession){
+        return new ResponseEntity<Profession>(professionService.updateProfession(profession, id), HttpStatus.OK);
+    }
+
 
 
 }

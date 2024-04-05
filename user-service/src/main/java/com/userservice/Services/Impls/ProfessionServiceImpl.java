@@ -42,4 +42,21 @@ public class ProfessionServiceImpl implements ProfessionService {
 
     }
 
+
+    @Override
+    public Profession updateProfession(Profession profession, UUID id) {
+
+
+        Profession existingProfession = professionRepository.findById(id)
+                .orElseThrow(
+                    () -> new ResourceNotFoundException("Employee", "Id", id)
+                );
+
+        existingProfession.setName(profession.getName());
+        existingProfession.setStatus(profession.getStatus());
+
+        professionRepository.save(existingProfession);
+        return existingProfession;
+    }
+
 }
