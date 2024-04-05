@@ -26,7 +26,7 @@ public class Inventory {
     private String name;
 
     @Column(name = "serial_num",length = 50)
-    private String serialNUm;
+    private String serialNum;
 
     @Column(length = 100)
     private String manufacturer;
@@ -61,8 +61,8 @@ public class Inventory {
     @Column(name = "purchase_cost")
     private Float purchaseCost;
 
-    @Column(name = "warrenty_expiry")
-    private LocalDate warrentyExpiry;
+    @Column(name = "warranty_expiry")
+    private LocalDate warrantyExpiry;
 
     @Column(name = "short_note",length = 100)
     private String shortNote;
