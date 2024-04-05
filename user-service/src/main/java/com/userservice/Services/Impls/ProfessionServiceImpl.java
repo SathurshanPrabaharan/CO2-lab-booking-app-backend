@@ -2,12 +2,14 @@ package com.userservice.Services.Impls;
 
 
 
+import com.userservice.Exception.ResourceNotFoundException;
 import com.userservice.Models.Profession;
 import com.userservice.Repositories.ProfessionRepository;
 import com.userservice.Services.ProfessionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProfessionServiceImpl implements ProfessionService {
@@ -28,6 +30,16 @@ public class ProfessionServiceImpl implements ProfessionService {
     @Override
     public List<Profession> getAllProfessions() {
         return professionRepository.findAll();
+    }
+
+    @Override
+    public Profession getProfessionById(UUID id) {
+
+        return professionRepository.findById(id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Employee", "Id", id)
+                );
+
     }
 
 }
