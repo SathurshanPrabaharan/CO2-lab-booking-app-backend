@@ -25,6 +25,9 @@ public class ProfessionServiceImpl implements ProfessionService {
         return professionRepository.save(profession);
     }
 
-
+    @Override
+    public List<Profession> getAllProfessions() {
+        return professionRepository.findAll();
+    }
 
 }

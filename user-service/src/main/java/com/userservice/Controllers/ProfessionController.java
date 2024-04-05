@@ -26,6 +26,11 @@ public class ProfessionController {
         return new ResponseEntity<Profession>(professionService.saveProfession(profession), HttpStatus.CREATED);
     }
 
+    @GetMapping("/api/v1/users/professions")
+    public List<Profession> getAllProfessions(){
+        return professionService.getAllProfessions();
+    }
+
 
 
 }
