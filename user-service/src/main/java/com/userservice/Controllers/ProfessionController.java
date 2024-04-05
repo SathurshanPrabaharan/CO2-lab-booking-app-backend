@@ -4,12 +4,10 @@ import com.userservice.Models.Profession;
 import com.userservice.Services.ProfessionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class ProfessionController {
@@ -29,6 +27,12 @@ public class ProfessionController {
     @GetMapping("/api/v1/users/professions")
     public List<Profession> getAllProfessions(){
         return professionService.getAllProfessions();
+    }
+
+
+    @GetMapping("/api/v1/users/professions/{id}")
+    public ResponseEntity<Profession> getEmployeeById(@PathVariable("id") UUID professionId){
+        return new ResponseEntity<Profession>(professionService.getProfessionById(professionId), HttpStatus.OK);
     }
 
 
