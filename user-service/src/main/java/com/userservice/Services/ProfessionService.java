@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProfessionService {
 
     Profession saveProfession(Profession profession);
-//    List<Profession> getAllProfessions();
+    List<Profession> getAllProfessions();
 //    Profession getProfessionById(UUID id);
 //    Profession updateProfession(Profession inventory, UUID id);
 //    void deleteProfession(long id);
