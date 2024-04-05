@@ -42,5 +42,14 @@ public class ProfessionController {
     }
 
 
+    @DeleteMapping("/api/v1/users/professions/{id}")
+    public ResponseEntity<String> deleteProfession(@PathVariable("id") UUID id){
+
+        professionService.deleteProfession(id);
+
+        return new ResponseEntity<String>("Profession deleted successfully!.", HttpStatus.OK);
+    }
+
+
 
 }
