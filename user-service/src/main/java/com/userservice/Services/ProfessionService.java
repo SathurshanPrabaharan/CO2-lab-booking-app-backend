@@ -11,6 +11,6 @@ public interface ProfessionService {
     Profession saveProfession(Profession profession);
     List<Profession> getAllProfessions();
     Profession getProfessionById(UUID id);
-//    Profession updateProfession(Profession inventory, UUID id);
+    Profession updateProfession(Profession profession, UUID id);
 //    void deleteProfession(long id);
 }
