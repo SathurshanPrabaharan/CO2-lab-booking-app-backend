@@ -1,13 +1,13 @@
-package com.backend;
+package com.inventoryservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Co2LabBookingAppBackendApplication {
+public class InventoryServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Co2LabBookingAppBackendApplication.class, args);
+		SpringApplication.run(InventoryServiceApplication.class, args);
 	}
 
 }
