@@ -17,4 +17,4 @@ jobs:
           distribution: 'temurin'  
 
       - name: Build with Maven 
-        run: mvn clean test 
+        run: mvn -f inventory-service/pom.xml clean test 
