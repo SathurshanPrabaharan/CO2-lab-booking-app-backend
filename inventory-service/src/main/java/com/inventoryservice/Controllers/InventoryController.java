@@ -27,28 +27,21 @@ public class InventoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Inventory> saveEmployee(@RequestBody Inventory inventory){
+    public ResponseEntity<Inventory> saveEmployee(@RequestBody Inventory inventory) {
         return new ResponseEntity<Inventory>(inventoryService.saveInventory(inventory), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<Inventory> getAllInventory(){
+    public List<Inventory> getAllInventory() {
         return inventoryRepository.findAll();
     }
 
 
-    @GetMapping("{id}")
-    public ResponseEntity<Inventory> getInventorybyId(@PathVariable UUID id) {
-        Inventory inventory = inventoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inventory not found with id " + id));
-        return ResponseEntity.ok(inventory);
-    }
-
     @PutMapping("{id}")
-    public ResponseEntity<Inventory> updateInventory(@PathVariable UUID id ,@RequestBody Inventory inventoryDetails){
+    public ResponseEntity<Inventory> updateInventory(@PathVariable UUID id, @RequestBody Inventory inventoryDetails) {
 
         Inventory updateInventory = inventoryRepository.findById(id).orElseThrow(
-                ()->new ResolutionException("Inventory not found with id " +id)
+                () -> new ResolutionException("Inventory not found with id " + id)
         );
 
         updateInventory.setName(inventoryDetails.getName());
@@ -78,6 +71,19 @@ public class InventoryController {
     }
 
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteInventory(@PathVariable UUID id) {
+        Inventory inventory = inventoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inventory not found with id " + id));
+        inventoryRepository.delete(inventory);
+        return ResponseEntity.ok("Inventory id " + id + "has been deleted");
+    }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Inventory> getInventoryDetails(@PathVariable UUID id) {
+        Inventory inventory = inventoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inventory not found with id " + id));
+        return ResponseEntity.ok(inventory);
+    }
 
 }
