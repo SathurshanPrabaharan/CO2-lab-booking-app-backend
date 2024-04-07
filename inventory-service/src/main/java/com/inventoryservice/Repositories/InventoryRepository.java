@@ -4,12 +4,7 @@ import com.inventoryservice.Enums.STATUS;
 import com.inventoryservice.Models.Inventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-<<<<<<< HEAD
 
-import java.util.UUID;
-
-public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
-=======
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +27,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
 
     List<Inventory> findByOperatingSystem(String operatingSystem);
 
-
     List<Inventory> findByStatus(STATUS status);
 
     List<Inventory> findByPurchaseDate(LocalDate purchaseDate);
@@ -47,6 +41,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
 
     List<Inventory> findByInstalledSoftwares(List<Integer> installedSoftwares);
 
->>>>>>> origin/main
+    List<Inventory> findBySerialNum(String serialNum);
 
 }
