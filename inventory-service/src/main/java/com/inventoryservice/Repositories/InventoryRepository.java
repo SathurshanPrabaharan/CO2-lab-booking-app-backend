@@ -26,7 +26,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
 
     List<Inventory> findByOperatingSystem(String operatingSystem);
 
-
     List<Inventory> findByStatus(STATUS status);
 
     List<Inventory> findByPurchaseDate(LocalDate purchaseDate);
@@ -40,6 +39,5 @@ public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
     List<Inventory> findByCreatedBy(Long createdBy);
 
     List<Inventory> findByInstalledSoftwares(List<Integer> installedSoftwares);
-
-
+    List<Inventory> findBySerialNum(String serialNum);
 }
