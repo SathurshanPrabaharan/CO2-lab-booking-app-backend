@@ -1,12 +1,13 @@
 package com.inventoryservice.Controllers;
 
+import com.inventoryservice.DTO.InventoryRequest;
 import com.inventoryservice.Enums.STATUS;
-import com.inventoryservice.Exception.ResourceNotFoundException;
+import com.inventoryservice.Exception.InventoryNotFoundException;
 import com.inventoryservice.Models.Inventory;
 import com.inventoryservice.Repositories.InventoryRepository;
+import com.inventoryservice.Response.InventoryResponse;
 import com.inventoryservice.Services.InventoryService;
 
-import java.lang.module.ResolutionException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class InventoryController {
     @Autowired
     private InventoryRepository inventoryRepository;
 
+    @Autowired
     private InventoryService inventoryService;
 
     public InventoryController(InventoryService inventoryService) {
@@ -30,14 +32,19 @@ public class InventoryController {
         this.inventoryService = inventoryService;
     }
 
+    //create
     @PostMapping
-    public ResponseEntity<Inventory> saveEmployee(@RequestBody Inventory inventory){
-        return new ResponseEntity<Inventory>(inventoryService.saveInventory(inventory), HttpStatus.CREATED);
+    public ResponseEntity<Object> saveInventory(@RequestBody InventoryRequest result){
+        Inventory savedInventory = inventoryService.saveInventory(result);
+        String message = "Inventory  posted successfully";
+        InventoryResponse response = new InventoryResponse(savedInventory, message);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<Inventory> getAllInventory(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastMaintenanceDate,
+    public ResponseEntity<Object> getAllInventory(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastMaintenanceDate,
                                            @RequestParam(required = false) String name,
+                                                  @RequestParam(required = false) String serialNum,
                                            @RequestParam(required = false) String manufacturer,
                                            @RequestParam(required = false) String model,
                                            @RequestParam(required = false) String processor,
@@ -47,16 +54,18 @@ public class InventoryController {
                                            @RequestParam(required = false) String storageSize,
                                            @RequestParam(required = false) String operatingSystem,
                                            @RequestParam(required = false) STATUS status,
-                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate purchaseDate,
+                                           @RequestParam(required = false) @DateTimeFormat (iso = DateTimeFormat.ISO.DATE) LocalDate purchaseDate,
                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate warrantyExpiry,
                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate nextMaintenanceDate,
                                            @RequestParam(required = false) Float purchaseCost,
                                            @RequestParam(required = false) Long createdBy,
-                                           @RequestParam(required = false) List<Integer>installedSoftwares) {
-
+                                           @RequestParam(required = false) List<Integer>installedSoftwares) throws InventoryNotFoundException {
         List<Inventory> inventoryList;
         if (lastMaintenanceDate != null) {
             inventoryList = inventoryRepository.findByLastMaintenanceDate(lastMaintenanceDate);
+        }
+        else if (serialNum != null) {
+            inventoryList = inventoryRepository.findBySerialNum(serialNum);
         }
         else if (name !=null) {
             inventoryList=inventoryRepository.findByName(name);
@@ -108,123 +117,28 @@ public class InventoryController {
         else if (installedSoftwares !=null) {
             inventoryList=inventoryRepository.findByInstalledSoftwares(installedSoftwares);
         }
-
         else {
             inventoryList = inventoryRepository.findAll();
         }
         if (inventoryList.isEmpty()) {
-            throw new ResourceNotFoundException("No inventory found");
+            throw new InventoryNotFoundException("No inventory found");
         }
 
-        return inventoryList;
+        return  ResponseEntity.ok(inventoryList);
     }
 
 
-
-    @GetMapping("{id}")
-    public ResponseEntity<Inventory> getInventorybyId(@PathVariable UUID id) {
-        Inventory inventory = inventoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Inventory not found with id " + id));
-        return ResponseEntity.ok(inventory);
+   @GetMapping("{id}")
+    public ResponseEntity<Inventory> getInventorybyId(@PathVariable UUID id) throws InventoryNotFoundException {
+            return ResponseEntity.ok(inventoryService.getInventory(id));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Inventory> updateInventory(@PathVariable UUID id ,@RequestBody Inventory inventoryDetails){
-
-        Inventory updateInventory = inventoryRepository.findById(id).orElseThrow(
-                ()->new ResolutionException("Inventory not found with id " +id)
-        );
-
-
-        if(inventoryDetails.getName() !=null)
-        {
-            updateInventory.setName(inventoryDetails.getName());
-        }
-        if(inventoryDetails.getSerialNum() != null)
-        {
-            updateInventory.setSerialNum(inventoryDetails.getSerialNum());
-        }
-        if(inventoryDetails.getManufacturer() != null)
-        {
-            updateInventory.setManufacturer(inventoryDetails.getManufacturer());
-        }
-        if(inventoryDetails.getSerialNum() != null)
-        {
-            updateInventory.setModel(inventoryDetails.getModel());
-        }
-        if(inventoryDetails.getSerialNum() != null)
-        {
-            updateInventory.setProcessor(inventoryDetails.getProcessor());
-        }
-        if(inventoryDetails.getSerialNum() != null)
-        {
-            updateInventory.setMemoryType(inventoryDetails.getMemoryType());
-        }
-        if(inventoryDetails.getMemorySize() !=null)
-        {
-            updateInventory.setMemorySize(inventoryDetails.getMemorySize());
-        }
-        if(inventoryDetails.getStorageType() !=null)
-        {
-            updateInventory.setStorageType(inventoryDetails.getStorageType());
-        }
-        if(inventoryDetails.getStorageSize() !=null)
-        {
-            updateInventory.setStorageSize(inventoryDetails.getStorageSize());
-        }
-        if(inventoryDetails.getOperatingSystem() !=null)
-        {
-            updateInventory.setOperatingSystem(inventoryDetails.getOperatingSystem());
-
-        }
-        if(inventoryDetails.getPurchaseDate() !=null)
-        {
-            updateInventory.setPurchaseDate(inventoryDetails.getPurchaseDate());
-
-        }
-        if(inventoryDetails.getPurchaseCost() !=null)
-        {
-            updateInventory.setPurchaseCost(inventoryDetails.getPurchaseCost());
-
-        }
-        if(inventoryDetails.getWarrantyExpiry() !=null){
-            updateInventory.setWarrantyExpiry(inventoryDetails.getWarrantyExpiry());
-        }
-        if(inventoryDetails.getShortNote() !=null){
-            updateInventory.setShortNote(inventoryDetails.getShortNote());
-
-        }
-        if(inventoryDetails.getLastMaintenanceDate() !=null){
-            updateInventory.setLastMaintenanceDate(inventoryDetails.getLastMaintenanceDate());
-
-        }
-        if(inventoryDetails.getNextMaintenanceDate() !=null){
-            updateInventory.setNextMaintenanceDate(inventoryDetails.getNextMaintenanceDate());
-
-        }
-        if(inventoryDetails.getCreatedAt() !=null){
-            updateInventory.setCreatedAt(inventoryDetails.getCreatedAt());
-
-        }
-        if (inventoryDetails.getUpdatedAt() !=null)
-        {
-            updateInventory.setUpdatedAt(inventoryDetails.getUpdatedAt());
-
-        }
-        if(inventoryDetails.getCreatedAt() !=null)
-        {
-            updateInventory.setCreatedBy(inventoryDetails.getCreatedBy());
-
-        }
-        if(inventoryDetails.getInstalledSoftwares() !=null)
-        {
-            updateInventory.setInstalledSoftwares(inventoryDetails.getInstalledSoftwares());
-
-        }
-
-        inventoryRepository.save(updateInventory);
-
-        return ResponseEntity.ok(updateInventory);
+    public ResponseEntity<Object> updateInventory(@PathVariable UUID id ,@RequestBody Inventory inventoryDetails) throws InventoryNotFoundException {
+        Inventory updateInventory  = inventoryService.updateInventory(id,inventoryDetails);
+        String message = "Inventory  updated successfully";
+        InventoryResponse response = new InventoryResponse(updateInventory,message);
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
 }

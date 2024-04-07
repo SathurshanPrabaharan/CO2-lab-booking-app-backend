@@ -18,11 +18,10 @@ import java.util.UUID;
 @Table(name="inventories")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "build")
 public class Inventory {
 
     @Id
-
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
