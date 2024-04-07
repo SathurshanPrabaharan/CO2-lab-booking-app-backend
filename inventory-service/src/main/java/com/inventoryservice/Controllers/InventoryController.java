@@ -43,6 +43,7 @@ public class InventoryController {
 
     @GetMapping
     public ResponseEntity<Object> getAllInventory(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastMaintenanceDate,
+
                                            @RequestParam(required = false) String name,
                                                   @RequestParam(required = false) String serialNum,
                                            @RequestParam(required = false) String manufacturer,
@@ -133,6 +134,7 @@ public class InventoryController {
             return ResponseEntity.ok(inventoryService.getInventory(id));
     }
 
+
     @PutMapping("{id}")
     public ResponseEntity<Object> updateInventory(@PathVariable UUID id ,@RequestBody Inventory inventoryDetails) throws InventoryNotFoundException {
         Inventory updateInventory  = inventoryService.updateInventory(id,inventoryDetails);
@@ -141,4 +143,20 @@ public class InventoryController {
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteInventory(@PathVariable UUID id) {
+        Inventory inventory = inventoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inventory not found with id " + id));
+        inventoryRepository.delete(inventory);
+        return ResponseEntity.ok("Inventory id " + id + "has been deleted");
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Inventory> getInventoryDetails(@PathVariable UUID id) {
+        Inventory inventory = inventoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inventory not found with id " + id));
+        return ResponseEntity.ok(inventory);
+    }
+
 }
+

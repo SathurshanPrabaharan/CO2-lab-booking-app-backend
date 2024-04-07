@@ -4,6 +4,7 @@ import com.inventoryservice.Enums.STATUS;
 import com.inventoryservice.Models.Inventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -39,5 +40,7 @@ public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
     List<Inventory> findByCreatedBy(Long createdBy);
 
     List<Inventory> findByInstalledSoftwares(List<Integer> installedSoftwares);
+
     List<Inventory> findBySerialNum(String serialNum);
+
 }
