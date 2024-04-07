@@ -2,7 +2,9 @@ package com.inventoryservice.Models;
 
 import com.inventoryservice.Enums.STATUS;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,6 +17,8 @@ import java.util.UUID;
 @Entity
 @Table(name="inventories")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor(staticName = "build")
 public class Inventory {
 
     @Id
@@ -86,7 +90,5 @@ public class Inventory {
 
     @Column(name = "installed_softwares")
     private List<Integer> installedSoftwares;
-
-
 
 }
