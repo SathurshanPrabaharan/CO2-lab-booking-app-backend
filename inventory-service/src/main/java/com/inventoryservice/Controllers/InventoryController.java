@@ -129,12 +129,6 @@ public class InventoryController {
     }
 
 
-   @GetMapping("{id}")
-    public ResponseEntity<Inventory> getInventorybyId(@PathVariable UUID id) throws InventoryNotFoundException {
-            return ResponseEntity.ok(inventoryService.getInventory(id));
-    }
-
-
     @PutMapping("{id}")
     public ResponseEntity<Object> updateInventory(@PathVariable UUID id ,@RequestBody Inventory inventoryDetails) throws InventoryNotFoundException {
         Inventory updateInventory  = inventoryService.updateInventory(id,inventoryDetails);
@@ -143,20 +137,25 @@ public class InventoryController {
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
+
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteInventory(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteInventory(@PathVariable UUID id) throws InventoryNotFoundException {
         Inventory inventory = inventoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inventory not found with id " + id));
+                .orElseThrow(() -> new InventoryNotFoundException("Inventory not found with id: " + id));
+
         inventoryRepository.delete(inventory);
-        return ResponseEntity.ok("Inventory id " + id + "has been deleted");
+        String message = "Inventory with ID: " + id + " has been deleted";
+        return ResponseEntity.ok(message);
     }
+
 
     @GetMapping("{id}")
-    public ResponseEntity<Inventory> getInventoryDetails(@PathVariable UUID id) {
+    public ResponseEntity<InventoryResponse> getInventoryDetails(@PathVariable UUID id) throws InventoryNotFoundException {
         Inventory inventory = inventoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inventory not found with id " + id));
-        return ResponseEntity.ok(inventory);
+                .orElseThrow(() -> new InventoryNotFoundException("Inventory not found with id : " + id));
+        String message = "Inventory details retrieved successfully";
+        InventoryResponse response = new InventoryResponse(inventory, message);
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
-
 }
 
