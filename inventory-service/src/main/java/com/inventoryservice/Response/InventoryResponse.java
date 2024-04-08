@@ -12,5 +12,7 @@ public class InventoryResponse {
     private Inventory result;
     private String message;
 
+    public InventoryResponse(String message) {
+    }
 }
 
