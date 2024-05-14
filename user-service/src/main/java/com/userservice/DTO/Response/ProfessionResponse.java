@@ -13,6 +13,4 @@ public class ProfessionResponse {
     private String message;
     private Profession data;
 
-    public ProfessionResponse(String message) {
-    }
 }
