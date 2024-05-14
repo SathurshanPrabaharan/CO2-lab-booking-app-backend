@@ -8,6 +8,7 @@ import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Profession;
 import com.userservice.Repositories.ProfessionRepository;
 import com.userservice.Services.ProfessionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Service
 public class ProfessionServiceImpl implements ProfessionService {
 
-
+    @Autowired
     private ProfessionRepository professionRepository;
 
     public ProfessionServiceImpl(ProfessionRepository professionRepository) {
@@ -29,7 +30,7 @@ public class ProfessionServiceImpl implements ProfessionService {
         Profession profession = Profession.builder()
                 .id(UUID.randomUUID())
                 .name(professionRequest.getName())
-                .created_by(professionRequest.getCreated_by())
+                .createdBy(professionRequest.getCreatedBy())
                 .status(STATUS.valueOf(professionRequest.getStatus().toUpperCase()))
                 .build();
 
@@ -41,6 +42,30 @@ public class ProfessionServiceImpl implements ProfessionService {
     @Override
     public List<Profession> getAllProfessions() {
         return professionRepository.findAll();
+    }
+
+
+    @Override
+    public List<Profession> getAllProfessions(String name, Long createdBy, STATUS status) {
+        if (name == null && createdBy == null && status == null) {
+            return professionRepository.findAll();
+        }
+
+        if (name != null && createdBy != null && status != null) {
+            return professionRepository.findByNameAndCreatedByAndStatus(name, createdBy, status);
+        } else if (name != null && createdBy != null) {
+            return professionRepository.findByNameAndCreatedBy(name, createdBy);
+        } else if (name != null && status != null) {
+            return professionRepository.findByNameAndStatus(name, status);
+        } else if (createdBy != null && status != null) {
+            return professionRepository.findByCreatedByAndStatus(createdBy, status);
+        } else if (name != null) {
+            return professionRepository.findByName(name);
+        } else if (createdBy != null) {
+            return professionRepository.findByCreatedBy(createdBy);
+        } else {
+            return professionRepository.findByStatus(status);
+        }
     }
 
     @Override

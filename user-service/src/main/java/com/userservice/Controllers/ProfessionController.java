@@ -1,7 +1,9 @@
 package com.userservice.Controllers;
 
 import com.userservice.DTO.Request.ProfessionRequest;
+import com.userservice.DTO.Response.ProfessionListResponse;
 import com.userservice.DTO.Response.ProfessionResponse;
+import com.userservice.Enums.STATUS;
 import com.userservice.Models.Profession;
 import com.userservice.Services.ProfessionService;
 import jakarta.validation.Valid;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,8 +39,35 @@ public class ProfessionController {
 
 
     @GetMapping
-    public List<Profession> getAllProfessions(){
-        return professionService.getAllProfessions();
+    public ResponseEntity<Object> getAllProfessions(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long createdBy,
+            @RequestParam(required = false) String status
+    ){
+        List<Profession> foundedProfessions;
+
+        if (name == null && createdBy == null && status == null){
+           foundedProfessions = professionService.getAllProfessions();
+        }else if(status == null){
+
+            foundedProfessions = professionService.getAllProfessions(name, createdBy, null);
+        }else{
+            foundedProfessions = professionService.getAllProfessions(name, createdBy, STATUS.valueOf(status));
+        }
+
+
+        String message = "Professions fetched successfully";
+
+        ProfessionListResponse response;
+        if(page==null && size==null) {
+            response = new ProfessionListResponse(message, foundedProfessions);
+        }else{
+            response = new ProfessionListResponse(message, foundedProfessions, page, size);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 
