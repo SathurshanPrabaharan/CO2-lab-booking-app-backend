@@ -16,5 +16,7 @@ public interface ProfessionService {
     List<Profession> getAllProfessions(String name, Long createdBy, STATUS status);
 
     Profession updateProfession(UUID id,ProfessionRequest professionRequest);
-    void deleteProfession(UUID id);
+
+
+    void archiveProfession(UUID id);
 }
