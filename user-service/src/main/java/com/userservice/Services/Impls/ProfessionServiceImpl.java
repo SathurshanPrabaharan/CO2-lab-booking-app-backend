@@ -4,6 +4,7 @@ package com.userservice.Services.Impls;
 
 import com.userservice.DTO.Request.ProfessionRequest;
 import com.userservice.Enums.STATUS;
+import com.userservice.Exceptions.ProfessionNotFoundException;
 import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Profession;
 import com.userservice.Repositories.ProfessionRepository;
@@ -68,31 +69,27 @@ public class ProfessionServiceImpl implements ProfessionService {
         }
     }
 
-    @Override
-    public Profession getProfessionById(UUID id) {
-
-        return professionRepository.findById(id)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Employee", "Id", id)
-                );
-
-    }
 
 
     @Override
-    public Profession updateProfession(Profession profession, UUID id) {
+    public Profession updateProfession(UUID id,ProfessionRequest professionRequest) {
 
 
         Profession existingProfession = professionRepository.findById(id)
                 .orElseThrow(
-                    () -> new ResourceNotFoundException("Employee", "Id", id)
+                    () -> new ProfessionNotFoundException("profession not found with id : " + id)
                 );
 
-        existingProfession.setName(profession.getName());
-        existingProfession.setStatus(profession.getStatus());
+        Profession updatedProfession = Profession.builder()
+                .id(existingProfession.getId())
+                .name(professionRequest.getName())
+                .createdBy(professionRequest.getCreatedBy())
+                .createdAt(existingProfession.getCreatedAt())
+                .status(STATUS.valueOf(professionRequest.getStatus().toUpperCase()))
+                .build();
 
-        professionRepository.save(existingProfession);
-        return existingProfession;
+        return  professionRepository.save(updatedProfession);
+
     }
 
 
