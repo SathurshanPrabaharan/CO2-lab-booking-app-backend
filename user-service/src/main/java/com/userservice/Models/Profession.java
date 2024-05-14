@@ -1,8 +1,11 @@
 package com.userservice.Models;
 
-import com.inventoryservice.Enums.STATUS;
+import com.userservice.Enums.STATUS;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,6 +18,9 @@ import java.util.UUID;
 @Entity
 @Table(name="professions")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Profession {
 
     @Id
@@ -27,19 +33,18 @@ public class Profession {
 
 
     @CreationTimestamp
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column
+    private LocalDateTime created_at;
 
     @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column
+    private LocalDateTime updated_at;
 
-    @Column(name = "created_by")
-    private Long createdBy;
+    @Column
+    private Long created_by;
 
     @Column
     private STATUS status;
-
 
 
 
