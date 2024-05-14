@@ -4,7 +4,9 @@ import com.userservice.DTO.Request.ProfessionRequest;
 import com.userservice.DTO.Response.ProfessionListResponse;
 import com.userservice.DTO.Response.ProfessionResponse;
 import com.userservice.Enums.STATUS;
+import com.userservice.Exceptions.ProfessionNotFoundException;
 import com.userservice.Models.Profession;
+import com.userservice.Repositories.ProfessionRepository;
 import com.userservice.Services.ProfessionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +23,9 @@ public class ProfessionController {
 
     @Autowired
     private ProfessionService professionService;
+
+    @Autowired
+    private ProfessionRepository professionRepository;
 
     public ProfessionController(ProfessionService professionService) {
         super();
@@ -67,17 +71,22 @@ public class ProfessionController {
             response = new ProfessionListResponse(message, foundedProfessions, page, size);
         }
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
     @GetMapping("{id}")
-    public ResponseEntity<Profession> getEmployeeById(@PathVariable("id") UUID professionId){
-        return new ResponseEntity<Profession>(professionService.getProfessionById(professionId), HttpStatus.OK);
+    public ResponseEntity<Object> getProfessionDetails(@PathVariable UUID id) throws ProfessionNotFoundException {
+        Profession profession = professionRepository.findById(id)
+                .orElseThrow(() -> new ProfessionNotFoundException("profession not found with id : " + id));
+        String message = "profession details fetched successfully";
+        ProfessionResponse response = new ProfessionResponse(message, profession);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+
     @PutMapping("{id}")
-    public ResponseEntity<Profession> updateProfession(@PathVariable("id") UUID id
+    public ResponseEntity<Profession> updateProfession( @PathVariable("id")  UUID id
             ,@RequestBody Profession profession){
         return new ResponseEntity<Profession>(professionService.updateProfession(profession, id), HttpStatus.OK);
     }
