@@ -4,7 +4,6 @@ package com.userservice.Services.Impls;
 
 import com.userservice.DTO.Request.ProfessionRequest;
 import com.userservice.Enums.STATUS;
-import com.userservice.Exceptions.ProfessionNotFoundException;
 import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Profession;
 import com.userservice.Repositories.ProfessionRepository;
@@ -77,7 +76,7 @@ public class ProfessionServiceImpl implements ProfessionService {
 
         Profession existingProfession = professionRepository.findById(id)
                 .orElseThrow(
-                    () -> new ProfessionNotFoundException("profession not found with id : " + id)
+                    () -> new ResourceNotFoundException("profession not found with id : " + id)
                 );
 
         Profession updatedProfession = Profession.builder()
@@ -98,10 +97,10 @@ public class ProfessionServiceImpl implements ProfessionService {
 
         Profession existingProfession = professionRepository.findById(id)
                 .orElseThrow(
-                        () -> new ProfessionNotFoundException("profession not found with id : " + id)
+                        () -> new ResourceNotFoundException("profession not found with id : " + id)
                 );
         if(existingProfession.getStatus()==STATUS.ARCHIVED){
-            throw new ProfessionNotFoundException("Invalid : Profession already archived");
+            throw new ResourceNotFoundException("Invalid : Profession already archived");
         }
 
         Profession archivedProfession = Profession.builder()

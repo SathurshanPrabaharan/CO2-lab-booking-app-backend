@@ -5,7 +5,7 @@ import com.userservice.DTO.Response.ProfessionListResponse;
 import com.userservice.DTO.Response.ProfessionResponse;
 import com.userservice.DTO.Response.ProfessionResponseMessage;
 import com.userservice.Enums.STATUS;
-import com.userservice.Exceptions.ProfessionNotFoundException;
+import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Profession;
 import com.userservice.Repositories.ProfessionRepository;
 import com.userservice.Services.ProfessionService;
@@ -77,9 +77,9 @@ public class ProfessionController {
 
 
     @GetMapping("{id}")
-    public ResponseEntity<Object> getProfessionDetails(@PathVariable UUID id) throws ProfessionNotFoundException {
+    public ResponseEntity<Object> getProfessionDetails(@PathVariable UUID id) throws ResourceNotFoundException {
         Profession profession = professionRepository.findById(id)
-                .orElseThrow(() -> new ProfessionNotFoundException("profession not found with id : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("profession not found with id : " + id));
         String message = "profession details fetched successfully";
         ProfessionResponse response = new ProfessionResponse(message, profession);
         return new ResponseEntity<>(response,HttpStatus.OK);
@@ -87,7 +87,7 @@ public class ProfessionController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> updateProfession(@PathVariable UUID id ,@RequestBody ProfessionRequest professionRequest) throws ProfessionNotFoundException {
+    public ResponseEntity<Object> updateProfession(@PathVariable UUID id ,@RequestBody ProfessionRequest professionRequest) throws ResourceNotFoundException {
         Profession updatedProfession  = professionService.updateProfession(id,professionRequest);
         String message = "Profession updated successfully";
         ProfessionResponse response = new ProfessionResponse(message,updatedProfession);
@@ -96,7 +96,7 @@ public class ProfessionController {
 
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> archiveProfession(@PathVariable UUID id) throws ProfessionNotFoundException {
+    public ResponseEntity<Object> archiveProfession(@PathVariable UUID id) throws ResourceNotFoundException {
         professionService.archiveProfession(id);
         String message = "Profession archived successfully";
         ProfessionResponseMessage response = new ProfessionResponseMessage(message);

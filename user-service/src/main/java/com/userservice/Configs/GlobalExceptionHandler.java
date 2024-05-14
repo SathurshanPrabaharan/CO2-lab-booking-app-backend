@@ -1,6 +1,6 @@
 package com.userservice.Configs;
 
-import com.userservice.Exceptions.ProfessionNotFoundException;
+import com.userservice.Exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +25,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(ProfessionNotFoundException.class)
-    public ResponseEntity<Map<String, List<String>>> handleNotFoundException(ProfessionNotFoundException ex) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, List<String>>> handleNotFoundException(ResourceNotFoundException ex) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
