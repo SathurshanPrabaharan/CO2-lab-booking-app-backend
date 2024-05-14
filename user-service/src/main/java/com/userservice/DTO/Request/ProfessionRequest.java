@@ -2,6 +2,7 @@ package com.userservice.DTO.Request;
 
 import com.userservice.Enums.STATUS;
 import com.userservice.Validations.ValidStatus;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -21,13 +22,13 @@ public class ProfessionRequest {
     @NotEmpty(message = "Invalid Name: Name cannot be empty")
     private String name;
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 
-    @NotNull(message = "Invalid created_by: Created by cannot be null")
-    @Positive(message = "Invalid created_by: Created by must be positive")
-    private Long created_by;
+    @NotNull(message = "Invalid createdBy: CreatedBy cannot be null")
+    @Positive(message = "Invalid createdBy: CreatedBy must be positive")
+    private Long createdBy;
 
     @NotNull(message = "Invalid status: Status cannot be null")
     @ValidStatus(message = "Invalid status: Status must be one of ACTIVE, INACTIVE, or ARCHIVED")

@@ -33,15 +33,15 @@ public class Profession {
 
 
     @CreationTimestamp
-    @Column
-    private LocalDateTime created_at;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column
-    private LocalDateTime updated_at;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
-    @Column
-    private Long created_by;
+    @Column(name = "created_by")
+    private Long createdBy;
 
     @Column
     private STATUS status;
