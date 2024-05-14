@@ -94,13 +94,25 @@ public class ProfessionServiceImpl implements ProfessionService {
 
 
     @Override
-    public void deleteProfession(UUID id) {
+    public void archiveProfession(UUID id) {
 
-        professionRepository.findById(id)
+        Profession existingProfession = professionRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResourceNotFoundException("Employee", "Id", id)
+                        () -> new ProfessionNotFoundException("profession not found with id : " + id)
                 );
-        professionRepository.deleteById(id);
+        if(existingProfession.getStatus()==STATUS.ARCHIVED){
+            throw new ProfessionNotFoundException("Invalid : Profession already archived");
+        }
+
+        Profession archivedProfession = Profession.builder()
+                .id(existingProfession.getId())
+                .name(existingProfession.getName())
+                .createdBy(existingProfession.getCreatedBy())
+                .createdAt(existingProfession.getCreatedAt())
+                .status(STATUS.ARCHIVED)
+                .build();
+
+        professionRepository.save(archivedProfession);
     }
 
 }

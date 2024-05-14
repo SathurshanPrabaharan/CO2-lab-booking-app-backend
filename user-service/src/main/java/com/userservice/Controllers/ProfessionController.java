@@ -3,6 +3,7 @@ package com.userservice.Controllers;
 import com.userservice.DTO.Request.ProfessionRequest;
 import com.userservice.DTO.Response.ProfessionListResponse;
 import com.userservice.DTO.Response.ProfessionResponse;
+import com.userservice.DTO.Response.ProfessionResponseMessage;
 import com.userservice.Enums.STATUS;
 import com.userservice.Exceptions.ProfessionNotFoundException;
 import com.userservice.Models.Profession;
@@ -95,11 +96,11 @@ public class ProfessionController {
 
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteProfession(@PathVariable("id") UUID id){
-
-        professionService.deleteProfession(id);
-
-        return new ResponseEntity<String>("Profession deleted successfully!.", HttpStatus.OK);
+    public ResponseEntity<Object> archiveProfession(@PathVariable UUID id) throws ProfessionNotFoundException {
+        professionService.archiveProfession(id);
+        String message = "Profession archived successfully";
+        ProfessionResponseMessage response = new ProfessionResponseMessage(message);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 
