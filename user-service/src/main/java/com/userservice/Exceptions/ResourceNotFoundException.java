@@ -1,4 +1,4 @@
-package com.userservice.Exception;
+package com.userservice.Exceptions;
 
 
 import org.springframework.http.HttpStatus;
