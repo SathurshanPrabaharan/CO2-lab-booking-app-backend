@@ -13,11 +13,8 @@ public interface ProfessionService {
     Profession saveProfession(ProfessionRequest profession);
     List<Profession> getAllProfessions();
 
-
     List<Profession> getAllProfessions(String name, Long createdBy, STATUS status);
 
-
-    Profession getProfessionById(UUID id);
-    Profession updateProfession(Profession profession, UUID id);
+    Profession updateProfession(UUID id,ProfessionRequest professionRequest);
     void deleteProfession(UUID id);
 }

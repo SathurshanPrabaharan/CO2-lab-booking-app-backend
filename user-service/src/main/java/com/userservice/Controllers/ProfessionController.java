@@ -86,9 +86,11 @@ public class ProfessionController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Profession> updateProfession( @PathVariable("id")  UUID id
-            ,@RequestBody Profession profession){
-        return new ResponseEntity<Profession>(professionService.updateProfession(profession, id), HttpStatus.OK);
+    public ResponseEntity<Object> updateProfession(@PathVariable UUID id ,@RequestBody ProfessionRequest professionRequest) throws ProfessionNotFoundException {
+        Profession updatedProfession  = professionService.updateProfession(id,professionRequest);
+        String message = "Profession updated successfully";
+        ProfessionResponse response = new ProfessionResponse(message,updatedProfession);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 
