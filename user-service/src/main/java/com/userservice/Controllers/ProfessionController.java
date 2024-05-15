@@ -1,10 +1,10 @@
 package com.userservice.Controllers;
 
-import com.userservice.DTO.Request.ProfessionCreateRequest;
-import com.userservice.DTO.Request.ProfessionUpdateRequest;
-import com.userservice.DTO.Response.ProfessionListResponse;
-import com.userservice.DTO.Response.ProfessionResponse;
-import com.userservice.DTO.Response.ProfessionResponseMessage;
+import com.userservice.DTO.Request.Profession.ProfessionCreateRequest;
+import com.userservice.DTO.Request.Profession.ProfessionUpdateRequest;
+import com.userservice.DTO.Response.Profession.ProfessionListResponse;
+import com.userservice.DTO.Response.Profession.ProfessionResponse;
+import com.userservice.DTO.Response.Profession.ProfessionResponseMessage;
 import com.userservice.Enums.STATUS;
 import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Profession;
@@ -79,16 +79,15 @@ public class ProfessionController {
 
     @GetMapping("{id}")
     public ResponseEntity<Object> getProfessionDetails(@PathVariable UUID id) throws ResourceNotFoundException {
-        Profession profession = professionRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("profession not found with id : " + id));
-        String message = "profession details fetched successfully";
+        Profession profession = professionService.findById(id);
+        String message = "Profession details fetched successfully";
         ProfessionResponse response = new ProfessionResponse(message, profession);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> updateProfession(@PathVariable UUID id ,@RequestBody ProfessionUpdateRequest professionUpdateRequest) throws ResourceNotFoundException {
+    public ResponseEntity<Object> updateProfession(@PathVariable UUID id ,@RequestBody @Valid ProfessionUpdateRequest professionUpdateRequest) throws ResourceNotFoundException {
         Profession updatedProfession  = professionService.updateProfession(id,professionUpdateRequest);
         String message = "Profession updated successfully";
         ProfessionResponse response = new ProfessionResponse(message,updatedProfession);

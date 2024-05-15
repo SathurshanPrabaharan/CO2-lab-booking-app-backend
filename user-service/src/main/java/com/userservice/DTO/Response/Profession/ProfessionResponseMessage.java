@@ -1,4 +1,4 @@
-package com.userservice.DTO.Response;
+package com.userservice.DTO.Response.Profession;
 
 
 import lombok.AllArgsConstructor;
