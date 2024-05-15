@@ -41,7 +41,10 @@ public class Profession {
     private LocalDateTime updatedAt;
 
     @Column(name = "created_by")
-    private Long createdBy;
+    private UUID createdBy;
+
+    @Column(name = "updated_by")
+    private UUID updatedBy;
 
     @Column
     private STATUS status;

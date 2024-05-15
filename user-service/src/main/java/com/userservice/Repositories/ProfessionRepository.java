@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProfessionRepository extends JpaRepository<Profession, UUID> {
-    List<Profession> findByNameAndCreatedByAndStatus(String name, Long createdBy, STATUS status);
+    List<Profession> findByNameAndCreatedByAndStatus(String name, UUID createdBy, STATUS status);
 
-    List<Profession> findByNameAndCreatedBy(String name, Long createdBy);
+    List<Profession> findByNameAndCreatedBy(String name, UUID createdBy);
 
     List<Profession> findByNameAndStatus(String name, STATUS status);
 
-    List<Profession> findByCreatedByAndStatus(Long createdBy, STATUS status);
+    List<Profession> findByCreatedByAndStatus(UUID createdBy, STATUS status);
 
     List<Profession> findByName(String name);
 
-    List<Profession> findByCreatedBy(Long createdBy);
+    List<Profession> findByCreatedBy(UUID createdBy);
 
     List<Profession> findByStatus(STATUS status);
 }
