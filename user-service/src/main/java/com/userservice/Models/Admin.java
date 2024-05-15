@@ -10,27 +10,30 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="professions")
+@Table(name="admins")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Profession {
+public class Admin {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column( nullable = false,length = 50)
+    @Column( nullable = false)
     private String name;
 
+    @Column( nullable = false)
+    private String email;
+
+    @Column( nullable = false)
+    private String password;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -49,6 +52,8 @@ public class Profession {
     @Column
     private STATUS status;
 
-
+    @ManyToOne
+    @JoinColumn(name = "profession_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_admin_profession"))
+    private Profession profession;
 
 }

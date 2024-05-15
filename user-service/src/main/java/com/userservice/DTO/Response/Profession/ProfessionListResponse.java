@@ -1,4 +1,4 @@
-package com.userservice.DTO.Response;
+package com.userservice.DTO.Response.Profession;
 
 
 import com.userservice.Models.Profession;
@@ -15,28 +15,28 @@ import java.util.List;
 public class ProfessionListResponse {
 
     private String message;
-    private Result data;
+    private ResultProfession data;
 
 
     public ProfessionListResponse(String message, List<Profession> foundedProfessions, int page, int size) {
         this.message = message;
-        this.data = new Result(foundedProfessions,page,size);
+        this.data = new ResultProfession(foundedProfessions,page,size);
     }
 
     public ProfessionListResponse(String message, List<Profession> foundedProfessions) {
         this.message = message;
-        this.data = new Result(foundedProfessions);
+        this.data = new ResultProfession(foundedProfessions);
     }
 }
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-class Result{
+class ResultProfession{
     private int total;
     private List<Profession> results;
 
-    Result(List<Profession> results, Integer page, Integer size) {
+    ResultProfession(List<Profession> results, Integer page, Integer size) {
         this.total = results.size();
         int startIndex = (page - 1) * size;
         int endIndex = Math.min(page * size, total);
@@ -47,7 +47,7 @@ class Result{
         }
     }
 
-    Result(List<Profession> results) {
+    ResultProfession(List<Profession> results) {
         this.total = results.size();
         this.results = results;
     }

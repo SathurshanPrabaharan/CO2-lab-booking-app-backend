@@ -1,8 +1,6 @@
-package com.userservice.DTO.Request;
+package com.userservice.DTO.Request.Profession;
 
-import com.userservice.Enums.STATUS;
 import com.userservice.Validations.ValidStatus;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -12,12 +10,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProfessionRequest {
+public class ProfessionCreateRequest {
 
     @NotEmpty(message = "Invalid Name: Name cannot be empty")
     private String name;
@@ -27,11 +26,10 @@ public class ProfessionRequest {
     private LocalDateTime updatedAt;
 
     @NotNull(message = "Invalid createdBy: CreatedBy cannot be null")
-    @Positive(message = "Invalid createdBy: CreatedBy must be positive")
-    private Long createdBy;
+    private UUID createdBy;
 
-    @NotNull(message = "Invalid status: Status cannot be null")
-    @ValidStatus(message = "Invalid status: Status must be one of ACTIVE, INACTIVE, or ARCHIVED")
-    private String status;
+
+
+
 
 }
