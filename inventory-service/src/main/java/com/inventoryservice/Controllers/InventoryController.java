@@ -45,7 +45,7 @@ public class InventoryController {
     public ResponseEntity<Object> getAllInventory(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastMaintenanceDate,
 
                                            @RequestParam(required = false) String name,
-                                                  @RequestParam(required = false) String serialNum,
+                                           @RequestParam(required = false) String serialNum,
                                            @RequestParam(required = false) String manufacturer,
                                            @RequestParam(required = false) String model,
                                            @RequestParam(required = false) String processor,
