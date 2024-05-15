@@ -2,7 +2,8 @@ package com.userservice.Services.Impls;
 
 
 
-import com.userservice.DTO.Request.ProfessionRequest;
+import com.userservice.DTO.Request.ProfessionCreateRequest;
+import com.userservice.DTO.Request.ProfessionUpdateRequest;
 import com.userservice.Enums.STATUS;
 import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Profession;
@@ -26,12 +27,12 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     @Override
-    public Profession saveProfession( ProfessionRequest professionRequest) {
+    public Profession saveProfession( ProfessionCreateRequest professionRequest) {
         Profession profession = Profession.builder()
                 .id(UUID.randomUUID())
                 .name(professionRequest.getName())
                 .createdBy(professionRequest.getCreatedBy())
-                .status(STATUS.valueOf(professionRequest.getStatus().toUpperCase()))
+                .status(STATUS.ACTIVE)
                 .build();
 
         return  professionRepository.save(profession);
@@ -46,7 +47,7 @@ public class ProfessionServiceImpl implements ProfessionService {
 
 
     @Override
-    public List<Profession> getAllProfessions(String name, Long createdBy, STATUS status) {
+    public List<Profession> getAllProfessions(String name, UUID createdBy, STATUS status) {
         if (name == null && createdBy == null && status == null) {
             return professionRepository.findAll();
         }
@@ -71,7 +72,7 @@ public class ProfessionServiceImpl implements ProfessionService {
 
 
     @Override
-    public Profession updateProfession(UUID id,ProfessionRequest professionRequest) {
+    public Profession updateProfession(UUID id, ProfessionUpdateRequest professionUpdateRequest) {
 
 
         Profession existingProfession = professionRepository.findById(id)
@@ -81,10 +82,11 @@ public class ProfessionServiceImpl implements ProfessionService {
 
         Profession updatedProfession = Profession.builder()
                 .id(existingProfession.getId())
-                .name(professionRequest.getName())
-                .createdBy(professionRequest.getCreatedBy())
+                .name(professionUpdateRequest.getName())
+                .createdBy(existingProfession.getCreatedBy())
                 .createdAt(existingProfession.getCreatedAt())
-                .status(STATUS.valueOf(professionRequest.getStatus().toUpperCase()))
+                .updatedBy(professionUpdateRequest.getUpdatedBy())
+                .status(STATUS.valueOf(professionUpdateRequest.getStatus().toUpperCase()))
                 .build();
 
         return  professionRepository.save(updatedProfession);

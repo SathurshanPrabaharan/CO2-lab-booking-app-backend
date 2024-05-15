@@ -1,6 +1,7 @@
 package com.userservice.Controllers;
 
-import com.userservice.DTO.Request.ProfessionRequest;
+import com.userservice.DTO.Request.ProfessionCreateRequest;
+import com.userservice.DTO.Request.ProfessionUpdateRequest;
 import com.userservice.DTO.Response.ProfessionListResponse;
 import com.userservice.DTO.Response.ProfessionResponse;
 import com.userservice.DTO.Response.ProfessionResponseMessage;
@@ -34,7 +35,7 @@ public class ProfessionController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveEmployee(@RequestBody @Valid ProfessionRequest profession){
+    public ResponseEntity<Object> saveEmployee(@RequestBody @Valid ProfessionCreateRequest profession){
         Profession savedProfession = professionService.saveProfession(profession);
         String message = "Profession created successfully";
         ProfessionResponse response = new ProfessionResponse(message, savedProfession);
@@ -48,7 +49,7 @@ public class ProfessionController {
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Long createdBy,
+            @RequestParam(required = false) UUID createdBy,
             @RequestParam(required = false) String status
     ){
         List<Profession> foundedProfessions;
@@ -87,8 +88,8 @@ public class ProfessionController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> updateProfession(@PathVariable UUID id ,@RequestBody ProfessionRequest professionRequest) throws ResourceNotFoundException {
-        Profession updatedProfession  = professionService.updateProfession(id,professionRequest);
+    public ResponseEntity<Object> updateProfession(@PathVariable UUID id ,@RequestBody ProfessionUpdateRequest professionUpdateRequest) throws ResourceNotFoundException {
+        Profession updatedProfession  = professionService.updateProfession(id,professionUpdateRequest);
         String message = "Profession updated successfully";
         ProfessionResponse response = new ProfessionResponse(message,updatedProfession);
         return new ResponseEntity<>(response,HttpStatus.OK);
