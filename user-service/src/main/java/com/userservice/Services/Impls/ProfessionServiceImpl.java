@@ -2,8 +2,8 @@ package com.userservice.Services.Impls;
 
 
 
-import com.userservice.DTO.Request.ProfessionCreateRequest;
-import com.userservice.DTO.Request.ProfessionUpdateRequest;
+import com.userservice.DTO.Request.Profession.ProfessionCreateRequest;
+import com.userservice.DTO.Request.Profession.ProfessionUpdateRequest;
 import com.userservice.Enums.STATUS;
 import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Profession;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,6 +39,11 @@ public class ProfessionServiceImpl implements ProfessionService {
         return  professionRepository.save(profession);
     }
 
+    @Override
+    public Profession findById(UUID id) {
+        Optional<Profession> professionOptional = professionRepository.findById(id);
+        return professionOptional.orElseThrow(() -> new ResourceNotFoundException("Profession not found with id : " + id));
+    }
 
 
     @Override

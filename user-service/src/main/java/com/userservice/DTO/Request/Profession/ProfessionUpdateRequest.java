@@ -1,4 +1,4 @@
-package com.userservice.DTO.Request;
+package com.userservice.DTO.Request.Profession;
 
 import com.userservice.Validations.ValidStatus;
 import jakarta.validation.constraints.NotEmpty;

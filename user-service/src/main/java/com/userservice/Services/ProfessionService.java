@@ -1,8 +1,8 @@
 package com.userservice.Services;
 
 
-import com.userservice.DTO.Request.ProfessionCreateRequest;
-import com.userservice.DTO.Request.ProfessionUpdateRequest;
+import com.userservice.DTO.Request.Profession.ProfessionCreateRequest;
+import com.userservice.DTO.Request.Profession.ProfessionUpdateRequest;
 import com.userservice.Enums.STATUS;
 import com.userservice.Models.Profession;
 
@@ -15,6 +15,8 @@ public interface ProfessionService {
     List<Profession> getAllProfessions();
 
     List<Profession> getAllProfessions(String name, UUID createdBy, STATUS status);
+
+    Profession findById(UUID id);
 
     Profession updateProfession(UUID id, ProfessionUpdateRequest professionUpdateRequest);
 
