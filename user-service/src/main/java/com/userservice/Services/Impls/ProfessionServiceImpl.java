@@ -10,7 +10,6 @@ import com.userservice.Models.Profession;
 import com.userservice.Repositories.ProfessionRepository;
 import com.userservice.Services.ProfessionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
