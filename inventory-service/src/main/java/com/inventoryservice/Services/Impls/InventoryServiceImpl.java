@@ -6,7 +6,6 @@ import com.inventoryservice.Models.Inventory;
 import com.inventoryservice.Repositories.InventoryRepository;
 import com.inventoryservice.Services.InventoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -16,12 +15,6 @@ import java.util.UUID;
 public class InventoryServiceImpl implements InventoryService {
 
     private final  InventoryRepository inventoryRepository;
-
-//    public InventoryServiceImpl(InventoryRepository inventoryRepository) {
-//        super();
-//        this.inventoryRepository = inventoryRepository;
-//    }
-
 
     public Inventory saveInventory(InventoryRequest inventoryRequest)
     {

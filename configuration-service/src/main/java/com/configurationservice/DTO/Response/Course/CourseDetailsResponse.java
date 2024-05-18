@@ -3,14 +3,9 @@ package com.configurationservice.DTO.Response.Course;
 import com.configurationservice.Enums.COURSE_TYPE;
 import com.configurationservice.Enums.STATUS;
 import com.configurationservice.Models.Course;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
