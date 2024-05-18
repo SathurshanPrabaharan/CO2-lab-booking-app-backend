@@ -9,6 +9,7 @@ import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Profession;
 import com.userservice.Repositories.ProfessionRepository;
 import com.userservice.Services.ProfessionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +18,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ProfessionServiceImpl implements ProfessionService {
 
-    @Autowired
-    private ProfessionRepository professionRepository;
+    private final ProfessionRepository professionRepository;
 
-    public ProfessionServiceImpl(ProfessionRepository professionRepository) {
-        super();
-        this.professionRepository = professionRepository;
-    }
 
     @Override
     public Profession saveProfession( ProfessionCreateRequest professionRequest) {

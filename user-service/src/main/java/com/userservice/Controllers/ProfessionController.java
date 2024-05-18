@@ -11,6 +11,7 @@ import com.userservice.Models.Profession;
 import com.userservice.Repositories.ProfessionRepository;
 import com.userservice.Services.ProfessionService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,18 +22,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users/professions")
+@RequiredArgsConstructor
 public class ProfessionController {
 
-    @Autowired
-    private ProfessionService professionService;
-
-    @Autowired
-    private ProfessionRepository professionRepository;
-
-    public ProfessionController(ProfessionService professionService) {
-        super();
-        this.professionService = professionService;
-    }
+    private final ProfessionService professionService;
 
     @PostMapping
     public ResponseEntity<Object> saveEmployee(@RequestBody @Valid ProfessionCreateRequest profession){
