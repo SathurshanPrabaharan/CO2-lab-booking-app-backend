@@ -19,8 +19,8 @@
         <module>user-service</module>
         <module>inventory-service</module>
         <module>configuration-service</module>
-        <module>discovery-service</module>
         <module>admin-api-gateway</module>
+        <module>discovery-server</module>
     </modules>
 
     <properties>
