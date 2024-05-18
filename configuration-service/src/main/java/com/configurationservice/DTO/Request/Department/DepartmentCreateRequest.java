@@ -1,4 +1,4 @@
-package com.userservice.DTO.Request.Admin;
+package com.configurationservice.DTO.Request.Department;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -13,18 +13,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AdminCreateRequest {
+public class DepartmentCreateRequest {
 
     @NotEmpty(message = "Invalid Name: Name cannot be empty")
     private String name;
 
-    @Email(message = "Invalid Email: Invalid email format")
-    @NotEmpty(message = "Invalid Email: Email cannot be empty")
-    private String email;
+    @NotNull(message = "Invalid hodId: hodId cannot be null")
+    private UUID hodId;
 
-    @NotEmpty(message = "Invalid Password: Password cannot be empty")
-    @Size(min = 8,message = "Password should be minimum 8 characters")
-    private String password;
 
     private LocalDateTime createdAt;
 
@@ -33,8 +29,7 @@ public class AdminCreateRequest {
     @NotNull(message = "Invalid createdBy: CreatedBy cannot be null")
     private UUID createdBy;
 
-    @NotNull(message = "Invalid professionId: professionId cannot be null")
-    private UUID professionId;
+
 
 
 }
