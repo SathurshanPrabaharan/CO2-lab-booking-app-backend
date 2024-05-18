@@ -21,7 +21,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/api/v1/courses")
+@RequestMapping("/api/v1/configuration/courses")
 public class CourseController {
 
     @Autowired

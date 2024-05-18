@@ -21,7 +21,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/api/v1/departments")
+@RequestMapping("/api/v1/configuration/departments")
 public class DepartmentController {
 
     @Autowired
