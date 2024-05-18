@@ -1,18 +1,15 @@
 package com.inventoryservice.DTO;
 
 import com.inventoryservice.Enums.STATUS;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-//request come from the postman / front end application
+
 @Data
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
