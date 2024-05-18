@@ -12,6 +12,7 @@ import com.userservice.Models.Admin;
 import com.userservice.Repositories.AdminRepository;
 import com.userservice.Services.AdminService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +23,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users/admins")
+@RequiredArgsConstructor
 public class AdminController {
 
-    @Autowired
-    private AdminService adminService;
-
-    @Autowired
-    private AdminRepository adminRepository;
-
-    public AdminController(AdminService adminService) {
-        super();
-        this.adminService = adminService;
-    }
+    private final AdminService adminService;
 
     @PostMapping
     public ResponseEntity<Object> saveEmployee(@RequestBody @Valid AdminCreateRequest admin){

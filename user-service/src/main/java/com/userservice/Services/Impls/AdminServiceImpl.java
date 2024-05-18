@@ -11,6 +11,7 @@ import com.userservice.Models.Profession;
 import com.userservice.Repositories.AdminRepository;
 import com.userservice.Services.AdminService;
 import com.userservice.Services.ProfessionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,28 +20,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
-    private AdminRepository adminRepository;
-
-    @Autowired
-    private ProfessionService professionService;
-    public AdminServiceImpl(AdminRepository adminRepository) {
-        super();
-        this.adminRepository = adminRepository;
-    }
+    private final AdminRepository adminRepository;
+    private final ProfessionService professionService;
 
     @Override
     public Admin saveAdmin( AdminCreateRequest adminCreateRequest) {
 
         Profession associatedProfession = professionService.findById(adminCreateRequest.getProfessionId());
 
-//        // Create an instance of BCryptPasswordEncoder
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//
-//        // Hash the password
-//        String hashedPassword = encoder.encode(password);
+
 
         Admin admin = Admin.builder()
                 .id(UUID.randomUUID())

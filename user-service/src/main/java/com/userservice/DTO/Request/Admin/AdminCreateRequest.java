@@ -1,15 +1,10 @@
 package com.userservice.DTO.Request.Admin;
 
-import com.userservice.Enums.STATUS;
-import com.userservice.Models.Profession;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

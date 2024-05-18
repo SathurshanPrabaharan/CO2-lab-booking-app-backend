@@ -5,29 +5,24 @@ import com.inventoryservice.Exception.InventoryNotFoundException;
 import com.inventoryservice.Models.Inventory;
 import com.inventoryservice.Repositories.InventoryRepository;
 import com.inventoryservice.Services.InventoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class InventoryServiceImpl implements InventoryService {
 
-    @Autowired
-    private InventoryRepository inventoryRepository;
+    private final  InventoryRepository inventoryRepository;
 
-    public InventoryServiceImpl(InventoryRepository inventoryRepository) {
-        super();
-        this.inventoryRepository = inventoryRepository;
-    }
+//    public InventoryServiceImpl(InventoryRepository inventoryRepository) {
+//        super();
+//        this.inventoryRepository = inventoryRepository;
+//    }
 
-  /*  @Override
-    public Inventory saveInventory(Inventory inventory) {
 
-        return inventoryRepository.save(inventory);
-    }
-*/
-    //save the user object to database
     public Inventory saveInventory(InventoryRequest inventoryRequest)
     {
 
