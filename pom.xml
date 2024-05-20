@@ -21,6 +21,7 @@
         <module>configuration-service</module>
         <module>admin-api-gateway</module>
         <module>discovery-server</module>
+        <module>identity-service</module>
     </modules>
 
     <properties>
