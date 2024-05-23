@@ -7,7 +7,7 @@ import com.userservice.DTO.Request.Admin.AdminUpdateRequest;
 import com.userservice.Enums.STATUS;
 import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Admin;
-import com.userservice.Models.Profession;
+import com.userservice.Models.SupportModels.Profession;
 import com.userservice.Repositories.AdminRepository;
 import com.userservice.Services.AdminService;
 import com.userservice.Services.ProfessionService;

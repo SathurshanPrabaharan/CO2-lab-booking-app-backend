@@ -4,10 +4,10 @@ import com.userservice.DTO.Request.Profession.ProfessionCreateRequest;
 import com.userservice.DTO.Request.Profession.ProfessionUpdateRequest;
 import com.userservice.DTO.Response.Profession.ProfessionListResponse;
 import com.userservice.DTO.Response.Profession.ProfessionResponse;
-import com.userservice.DTO.Response.Profession.ProfessionResponseMessage;
+import com.userservice.DTO.Response.ResponseMessage;
 import com.userservice.Enums.STATUS;
 import com.userservice.Exceptions.ResourceNotFoundException;
-import com.userservice.Models.Profession;
+import com.userservice.Models.SupportModels.Profession;
 import com.userservice.Services.ProfessionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -90,7 +90,7 @@ public class ProfessionController {
     public ResponseEntity<Object> archiveProfession(@PathVariable UUID id) throws ResourceNotFoundException {
         professionService.archiveProfession(id);
         String message = "Profession archived successfully";
-        ProfessionResponseMessage response = new ProfessionResponseMessage(message);
+        ResponseMessage response = new ResponseMessage(message);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 

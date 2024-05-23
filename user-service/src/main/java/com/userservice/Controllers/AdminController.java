@@ -5,7 +5,7 @@ import com.userservice.DTO.Request.Admin.AdminUpdateRequest;
 import com.userservice.DTO.Response.Admin.AdminDetailsResponse;
 import com.userservice.DTO.Response.Admin.AdminListResponse;
 import com.userservice.DTO.Response.Admin.AdminResponse;
-import com.userservice.DTO.Response.Admin.AdminResponseMessage;
+import com.userservice.DTO.Response.ResponseMessage;
 import com.userservice.Enums.STATUS;
 import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Admin;
@@ -33,6 +33,11 @@ public class AdminController {
         AdminResponse response = new AdminResponse(message, savedAdmin);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+//    @PostMapping(value = "/register")
+//    public ResponseEntity<Object> registerAdmin(@RequestBody AdminRegisterRequest request){
+//
+//    }
 
 
 
@@ -91,7 +96,7 @@ public class AdminController {
     public ResponseEntity<Object> archiveAdmin(@PathVariable UUID id) throws ResourceNotFoundException {
         adminService.archiveAdmin(id);
         String message = "Admin archived successfully";
-        AdminResponseMessage response = new AdminResponseMessage(message);
+        ResponseMessage response = new ResponseMessage(message);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 

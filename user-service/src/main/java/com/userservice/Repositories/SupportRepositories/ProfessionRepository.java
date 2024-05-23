@@ -1,7 +1,7 @@
-package com.userservice.Repositories;
+package com.userservice.Repositories.SupportRepositories;
 
 import com.userservice.Enums.STATUS;
-import com.userservice.Models.Profession;
+import com.userservice.Models.SupportModels.Profession;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
