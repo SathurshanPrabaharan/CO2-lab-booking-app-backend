@@ -23,7 +23,6 @@ public class RolePrivilegeCreateRequest {
     private String title;
 
 
-    @NotNull(message = "Invalid createdBy: CreatedBy cannot be null")
     private UUID createdBy;
 
 
