@@ -1,7 +1,11 @@
-package com.userservice.Models;
+package com.userservice.Models.SupportModels;
 
+
+import com.userservice.Enums.COURSE_TYPE;
 import com.userservice.Enums.STATUS;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,21 +18,35 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name="professions")
+@Table(name="courses")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Profession {
+public class Course {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column( nullable = false,length = 50)
+    @Column(nullable = false,unique = true)
+    private String code;
+
+    @Column( nullable = false)
     private String name;
 
+    @Column( nullable = false)
+    private COURSE_TYPE type;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_course_department"))
+    private Department department;
+
+    @Column( nullable = false)
+    @Min(value = 1, message = "Semester must be greater than or equal to 1")
+    @Max(value = 8, message = "Semester must be less than or equal to 8")
+    private short semester;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -44,9 +62,7 @@ public class Profession {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    @Column
+    @Column( nullable = false)
     private STATUS status;
-
-
 
 }

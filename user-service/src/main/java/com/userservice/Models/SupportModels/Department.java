@@ -1,7 +1,6 @@
-package com.userservice.Models;
+package com.userservice.Models.SupportModels;
 
 import com.userservice.Enums.STATUS;
-import com.userservice.Models.SupportModels.Profession;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,12 +14,12 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name="admins")
+@Table(name="departments")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Admin {
+public class Department {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -30,11 +29,8 @@ public class Admin {
     @Column( nullable = false)
     private String name;
 
-    @Column( nullable = false)
-    private String email;
-
-    @Column( nullable = false)
-    private String password;
+    @Column(name = "HOD_id")
+    private UUID hodId;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -50,11 +46,8 @@ public class Admin {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    @Column
+    @Column( nullable = false)
     private STATUS status;
 
-    @ManyToOne
-    @JoinColumn(name = "profession_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_admin_profession"))
-    private Profession profession;
 
 }

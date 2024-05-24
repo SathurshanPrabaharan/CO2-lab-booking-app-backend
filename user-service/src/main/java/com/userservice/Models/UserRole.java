@@ -1,7 +1,6 @@
 package com.userservice.Models;
 
 import com.userservice.Enums.STATUS;
-import com.userservice.Models.SupportModels.Profession;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,29 +11,38 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name="admins")
+@Table(name="user_roles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Admin {
+public class UserRole {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column( nullable = false)
-    private String name;
+    @Column(name = "user_role_key", nullable = false)
+    private String key;
 
     @Column( nullable = false)
-    private String email;
+    private String title;
 
-    @Column( nullable = false)
-    private String password;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_role_privileges",
+            joinColumns = @JoinColumn(name = "user_role_id"),
+            inverseJoinColumns = @JoinColumn(name = "privilege_id")
+    )
+    @Builder.Default
+    private Set<RolePrivilege> privilegeSet = new HashSet<>();
+
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -53,8 +61,6 @@ public class Admin {
     @Column
     private STATUS status;
 
-    @ManyToOne
-    @JoinColumn(name = "profession_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_admin_profession"))
-    private Profession profession;
+
 
 }

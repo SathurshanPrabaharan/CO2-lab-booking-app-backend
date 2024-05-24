@@ -1,7 +1,7 @@
-package com.userservice.DTO.Response.Profession;
+package com.userservice.DTO.Response.RolePrivilege;
 
 
-import com.userservice.Models.SupportModels.Profession;
+import com.userservice.Models.RolePrivilege;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,31 +12,31 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProfessionListResponse {
+public class RolePrivilegeListResponse {
 
     private String message;
-    private ResultProfession data;
+    private ResultRolePrivilege data;
 
 
-    public ProfessionListResponse(String message, List<Profession> foundedProfessions, int page, int size) {
+    public RolePrivilegeListResponse(String message, List<RolePrivilege> foundedRolePrivileges, int page, int size) {
         this.message = message;
-        this.data = new ResultProfession(foundedProfessions,page,size);
+        this.data = new ResultRolePrivilege(foundedRolePrivileges,page,size);
     }
 
-    public ProfessionListResponse(String message, List<Profession> foundedProfessions) {
+    public RolePrivilegeListResponse(String message, List<RolePrivilege> foundedRolePrivileges) {
         this.message = message;
-        this.data = new ResultProfession(foundedProfessions);
+        this.data = new ResultRolePrivilege(foundedRolePrivileges);
     }
 }
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-class ResultProfession{
+class ResultRolePrivilege {
     private int total;
-    private List<Profession> results;
+    private List<RolePrivilege> results;
 
-    ResultProfession(List<Profession> results, Integer page, Integer size) {
+    ResultRolePrivilege(List<RolePrivilege> results, Integer page, Integer size) {
         this.total = results.size();
         int startIndex = (page - 1) * size;
         int endIndex = Math.min(page * size, total);
@@ -47,7 +47,7 @@ class ResultProfession{
         }
     }
 
-    ResultProfession(List<Profession> results) {
+    ResultRolePrivilege(List<RolePrivilege> results) {
         this.total = results.size();
         this.results = results;
     }

@@ -1,7 +1,6 @@
 package com.userservice.Models;
 
 import com.userservice.Enums.STATUS;
-import com.userservice.Models.SupportModels.Profession;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,26 +14,23 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name="admins")
+@Table(name="rolePrivileges")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Admin {
+public class RolePrivilege {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column( nullable = false)
-    private String name;
+    @Column(name = "privilege_key", nullable = false, unique = true)
+    private String key;
 
     @Column( nullable = false)
-    private String email;
-
-    @Column( nullable = false)
-    private String password;
+    private String title;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -53,8 +49,6 @@ public class Admin {
     @Column
     private STATUS status;
 
-    @ManyToOne
-    @JoinColumn(name = "profession_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_admin_profession"))
-    private Profession profession;
+
 
 }

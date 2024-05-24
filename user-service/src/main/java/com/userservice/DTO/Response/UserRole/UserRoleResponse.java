@@ -1,6 +1,7 @@
-package com.userservice.DTO.Response.Admin;
+package com.userservice.DTO.Response.UserRole;
 
 
+import com.userservice.Models.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AdminResponseMessage {
+public class UserRoleResponse {
 
     private String message;
+    private UserRole data;
 
 }

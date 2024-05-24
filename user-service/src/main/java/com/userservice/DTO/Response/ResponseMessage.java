@@ -1,4 +1,4 @@
-package com.userservice.DTO.Response.Profession;
+package com.userservice.DTO.Response;
 
 
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProfessionResponseMessage {
+public class ResponseMessage {
 
     private String message;
 

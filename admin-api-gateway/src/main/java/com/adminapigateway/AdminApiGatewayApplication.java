@@ -8,6 +8,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class AdminApiGatewayApplication {
     public static void main(String[] args) {
+//        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         SpringApplication.run(AdminApiGatewayApplication.class, args);
     }
+
+
 }
