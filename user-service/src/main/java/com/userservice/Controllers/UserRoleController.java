@@ -127,8 +127,14 @@ public class UserRoleController {
         String message = "Privileges of UserRole fetched successfully";
         // Convert the PersistentSet to List<RolePrivilege>
         List<RolePrivilege> privilegeList = new ArrayList<>(userRole.getPrivilegeSet());
-        RolePrivilegeListResponse response = new RolePrivilegeListResponse(message, privilegeList);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        RolePrivilegeListResponse response;
+        if(page==null && size==null) {
+            response = new RolePrivilegeListResponse(message, privilegeList);
+        }else{
+            response = new RolePrivilegeListResponse(message, privilegeList, page, size);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Operation(summary = "Remove Privilege", description = "Remove Role Privileges from User Role Not delete them")
