@@ -38,7 +38,7 @@ public class UserRoleController {
     @PostMapping
     public ResponseEntity<Object> saveUserRole(@RequestBody @Valid UserRoleCreateRequest userRole) {
         UserRole savedUserRole = userRoleService.saveUserRole(userRole);
-        String message = "Role Privilege created successfully";
+        String message = "User role created successfully";
         UserRoleResponse response = new UserRoleResponse(message, savedUserRole);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
