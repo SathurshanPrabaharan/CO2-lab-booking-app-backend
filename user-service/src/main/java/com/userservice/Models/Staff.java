@@ -3,6 +3,7 @@ package com.userservice.Models;
 import com.userservice.Enums.GENDER;
 import com.userservice.Enums.STATUS;
 import com.userservice.Models.SupportModels.Course;
+import com.userservice.Models.SupportModels.Department;
 import com.userservice.Models.SupportModels.Profession;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -56,6 +57,10 @@ public class Staff {
     @ManyToOne
     @JoinColumn(name = "profession_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_staff_profession"))
     private Profession profession;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_student_department"))
+    private Department department;
 
     //save and merge together
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

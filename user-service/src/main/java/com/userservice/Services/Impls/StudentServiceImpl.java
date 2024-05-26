@@ -78,17 +78,19 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public Student saveStudent(StudentCreateRequest request) {
 
+        // Logic to set the userPrincipalName if it's not provided
+        if (request.getRegNum() != null && !request.getRegNum().isEmpty() && (request.getUserPrincipalName() == null || request.getUserPrincipalName().isEmpty())) {
+            String formattedRegNum = request.getRegNum().replace("/", "").toLowerCase();
+            request.setUserPrincipalName(formattedRegNum + "@" + domainName);
+        }
+
         Student existingStudent = studentRepository.findByUserPrincipalName(request.getUserPrincipalName()).orElse(null);
 
         if (existingStudent != null) {
             throw new IllegalArgumentException("'" + request.getUserPrincipalName() + "' already exists.");
         }
 
-        // Logic to set the userPrincipalName if it's not provided
-        if (request.getRegNum() != null && !request.getRegNum().isEmpty() && (request.getUserPrincipalName() == null || request.getUserPrincipalName().isEmpty())) {
-            String formattedRegNum = request.getRegNum().replace("/", "").toLowerCase();
-            request.setUserPrincipalName(formattedRegNum + "@" + domainName);
-        }
+
 
         // Create Azure AD user
         User newUser = mapStudentCreateRequestToUser(request);

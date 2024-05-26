@@ -41,6 +41,7 @@ class ResponseCreatedStudent {
     private GENDER gender;
     private String userRole;
     private String profession;
+    private String department;
     private Set<String> responsibleCourses = new HashSet<>();
     private String userPrincipalName;
     private String contact_email;
@@ -64,7 +65,6 @@ class ResponseCreatedStudent {
         this.mobile = student.getMobile();
         this.gender = student.getGender();
         this.userRole = student.getUserRole().getKey();
-        this.profession = student.getProfession().getName();
         this.userPrincipalName = student.getUserPrincipalName();
         this.contact_email = student.getContact_email();
         this.photoUrl = student.getPhotoUrl();
@@ -83,6 +83,14 @@ class ResponseCreatedStudent {
             for (Course course : temp) {
                 this.responsibleCourses.add(course.getName());
             }
+        }
+
+        if(student.getProfession() != null){
+            this.profession = student.getProfession().getName();
+        }
+
+        if(student.getDepartment() != null){
+            this.department = student.getDepartment().getName();
         }
 
     }
