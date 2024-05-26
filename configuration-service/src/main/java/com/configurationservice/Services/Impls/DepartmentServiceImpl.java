@@ -2,6 +2,7 @@ package com.configurationservice.Services.Impls;
 
 
 
+import com.configurationservice.DTO.Request.Department.DepartmentArchiveRequest;
 import com.configurationservice.DTO.Request.Department.DepartmentCreateRequest;
 import com.configurationservice.DTO.Request.Department.DepartmentUpdateRequest;
 import com.configurationservice.Enums.STATUS;
@@ -10,11 +11,15 @@ import com.configurationservice.Models.Department;
 import com.configurationservice.Repositories.DepartmentRepository;
 import com.configurationservice.Services.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -49,16 +54,22 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 
     @Override
-    public List<Department> getAllDepartments(UUID createdBy, STATUS status) {
-        if (createdBy != null && status != null) {
-            return departmentRepository.findByCreatedByAndStatus(createdBy, status);
-        } else if (createdBy != null) {
-            return departmentRepository.findByCreatedBy(createdBy);
-        } else if (status != null) {
-            return departmentRepository.findByStatus(status);
-        } else {
-            return departmentRepository.findAll();
-        }
+    public Page<Department> filterDepartment(UUID createdBy, String status, int page, int size) {
+        // Fetch all departments ordered by createdAt in descending order
+        List<Department> allDepartments = departmentRepository.findAllByOrderByCreatedAtDesc();
+
+        // Apply filters
+        List<Department> filteredDepartment = allDepartments.stream()
+                .filter(department -> createdBy == null || department.getCreatedBy().equals(createdBy))
+                .filter(department -> status == null || department.getStatus().toString().equalsIgnoreCase(status))
+                .collect(Collectors.toList());
+
+        // Apply pagination
+        int start = Math.min(page * size, filteredDepartment.size());
+        int end = Math.min((page + 1) * size, filteredDepartment.size());
+        List<Department> paginatedList = filteredDepartment.subList(start, end);
+
+        return new PageImpl<>(paginatedList, PageRequest.of(page, size), filteredDepartment.size());
     }
 
     @Override
@@ -93,7 +104,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 
     @Override
-    public void archiveDepartment(UUID id) {
+    public void archiveDepartment(UUID id, DepartmentArchiveRequest request) {
 
         Department existingDepartment = departmentRepository.findById(id)
                 .orElseThrow(
@@ -107,8 +118,9 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .id(existingDepartment.getId())
                 .name(existingDepartment.getName())
                 .hodId(existingDepartment.getHodId())
-                .createdBy(existingDepartment.getCreatedBy())
                 .createdAt(existingDepartment.getCreatedAt())
+                .createdBy(existingDepartment.getCreatedBy())
+                .updatedBy(request.getUpdatedBy())
                 .status(STATUS.ARCHIVED)
                 .build();
 
