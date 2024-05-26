@@ -31,7 +31,7 @@ public class Staff {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "object_id",unique = true)
+    @Column(name = "object_id",unique = true,nullable = false)
     private UUID objectId;
 
     @Column( name = "first_name",nullable = false)
@@ -40,7 +40,7 @@ public class Staff {
     @Column( name = "last_name",nullable = false)
     private String lastName;
 
-    @Column(name = "display_name")
+    @Column(name = "display_name", nullable = false)
     private String displayName;
 
     @Column
