@@ -1,38 +1,37 @@
 package com.userservice.DTO.Response.Admin;
 
-
-import com.userservice.DTO.Response.Department.ModifiedDepartment;
-import com.userservice.DTO.Response.Profession.ModifiedProfession;
-import com.userservice.DTO.Response.UserRole.ModifiedUserRole;
 import com.userservice.Enums.GENDER;
 import com.userservice.Enums.STATUS;
 import com.userservice.Models.Admin;
+import com.userservice.Models.SupportModels.Course;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AdminDetailsResponse {
+public class AdminCreatedResponse {
 
     private String message;
-    private ResponseAdminDetails data;
+    private ResponseCreatedAdmin data;
 
 
-    public AdminDetailsResponse(String message, Admin foundedAdmin) {
+    public AdminCreatedResponse(String message, Admin foundedAdmin) {
         this.message = message;
-        this.data = new ResponseAdminDetails(foundedAdmin);
+        this.data = new ResponseCreatedAdmin(foundedAdmin);
     }
 }
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-class ResponseAdminDetails {
+class ResponseCreatedAdmin {
     private UUID id;
     private UUID objectId;
     private String firstName;
@@ -40,9 +39,9 @@ class ResponseAdminDetails {
     private String displayName;
     private String mobile;
     private GENDER gender;
-    private ModifiedUserRole userRole;
-    private ModifiedProfession profession;
-    private ModifiedDepartment department;
+    private String userRole;
+    private String profession;
+    private String department;
     private String userPrincipalName;
     private String contact_email;
     private String photoUrl;
@@ -56,7 +55,7 @@ class ResponseAdminDetails {
     private UUID createdBy;
     private UUID updatedBy;
 
-    public ResponseAdminDetails(Admin admin) {
+    public ResponseCreatedAdmin(Admin admin) {
         this.id = admin.getId();
         this.objectId = admin.getObjectId();
         this.firstName = admin.getFirstName();
@@ -64,7 +63,7 @@ class ResponseAdminDetails {
         this.displayName = admin.getDisplayName();
         this.mobile = admin.getMobile();
         this.gender = admin.getGender();
-        this.userRole = new ModifiedUserRole(admin.getUserRole());
+        this.userRole = admin.getUserRole().getKey();
         this.userPrincipalName = admin.getUserPrincipalName();
         this.contact_email = admin.getContact_email();
         this.photoUrl = admin.getPhotoUrl();
@@ -78,13 +77,13 @@ class ResponseAdminDetails {
         this.createdBy = admin.getCreatedBy();
         this.updatedBy = admin.getUpdatedBy();
 
-        if (admin.getDepartment() != null) {
-            this.department = new ModifiedDepartment(admin.getDepartment());
-        }
-        if (admin.getProfession() != null) {
-            this.profession = new ModifiedProfession(admin.getProfession());
+        if(admin.getProfession() != null){
+            this.profession = admin.getProfession().getName();
         }
 
+        if(admin.getDepartment() != null){
+            this.department = admin.getDepartment().getName();
+        }
 
 
     }
