@@ -10,6 +10,7 @@ import com.inventoryservice.Services.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -53,10 +54,13 @@ public class InventoryServiceImpl implements InventoryService {
         Optional<Inventory> AdminOptional = inventoryRepository.findById(id);
         return AdminOptional.orElseThrow(() -> new InventoryNotFoundException("admin not found with id : " + id));
     }
-
+    @Override
+    public List<Inventory> getAllInventory(){
+        return inventoryRepository.findAll();
+    }
 
     @Override
-    public Inventory updateInventory(UUID id, InventoryUpdateRequest inventoryDetails) {
+    public Inventory updateInventory(UUID id, InventoryUpdateRequest inventoryUpdateRequest) {
 
 
         Inventory existingInventory = inventoryRepository.findById(id)
@@ -75,7 +79,7 @@ public class InventoryServiceImpl implements InventoryService {
                 .memorySize(existingInventory.getMemorySize())
                 .storageSize(existingInventory.getStorageSize())
                 .operatingSystem(existingInventory.getOperatingSystem())
-                .status(existingInventory.getStatus())
+                .status(STATUS.valueOf(inventoryUpdateRequest.getStatus().toUpperCase()))
                 .purchaseDate(existingInventory.getPurchaseDate())
                 .purchaseCost(existingInventory.getPurchaseCost())
                 .warrantyExpiry(existingInventory.getWarrantyExpiry())

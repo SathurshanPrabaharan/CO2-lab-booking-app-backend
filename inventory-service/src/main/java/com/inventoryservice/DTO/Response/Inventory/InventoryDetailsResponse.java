@@ -1,4 +1,5 @@
 package com.inventoryservice.DTO.Response.Inventory;
+
 import com.inventoryservice.Enums.STATUS;
 import com.inventoryservice.Models.Inventory;
 import lombok.AllArgsConstructor;
@@ -29,9 +30,9 @@ public class InventoryDetailsResponse {
 @NoArgsConstructor
 @Data
 class ResponseInventoryDetails {
- private UUID id;
- private String name;
- private String serialNum;
+    private UUID id;
+    private String name;
+    private String serialNum;
     private String manufacturer;
     private String model;
     private String processor;

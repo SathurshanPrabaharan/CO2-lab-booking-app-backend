@@ -1,7 +1,12 @@
 package com.inventoryservice.DTO.Request;
 
 import com.inventoryservice.Enums.STATUS;
+import com.inventoryservice.Validations.ValidStatus;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,6 +15,11 @@ import java.util.List;
 /*
 *  DTO is used when an existing inventory user is being updated.
 */
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InventoryUpdateRequest {
     @NotEmpty(message = "Invalid Name: Name cannot be empty")
     private String name;
@@ -32,8 +42,9 @@ public class InventoryUpdateRequest {
     private String storageSize;
     @Size(max = 50, message = "Operating System can be at most 50 characters")
     private String operatingSystem;
-    @NotNull(message = "Invalid Status: Status cannot be null")
-    private STATUS status;
+    @NotNull(message = "Invalid status: Status cannot be null")
+    @ValidStatus(message = "Invalid status: Status must be one of ACTIVE, INACTIVE, or ARCHIVED")
+    private String status;
     @PastOrPresent(message = "Invalid Purchase Date: Purchase Date cannot be in the future")
     private LocalDate purchaseDate;
     @DecimalMin(value = "0.0", inclusive = false, message = "Invalid Purchase Cost: Purchase Cost must be greater than 0")
