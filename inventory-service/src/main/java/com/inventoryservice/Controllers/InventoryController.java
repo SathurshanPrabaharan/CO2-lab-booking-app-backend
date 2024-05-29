@@ -2,6 +2,7 @@ package com.inventoryservice.Controllers;
 
 import com.inventoryservice.DTO.Request.InventoryCreateRequest;
 import com.inventoryservice.DTO.Request.InventoryUpdateRequest;
+import com.inventoryservice.DTO.Response.Inventory.InventoryDetailsResponse;
 import com.inventoryservice.DTO.Response.Inventory.InventoryResponse;
 import com.inventoryservice.Enums.STATUS;
 import com.inventoryservice.Exception.InventoryNotFoundException;
@@ -116,8 +117,8 @@ public class InventoryController {
     @PutMapping("{id}")
     public ResponseEntity<Object> updateInventory(@PathVariable UUID id, @RequestBody @Valid InventoryUpdateRequest inventoryUpdateRequest) throws InventoryNotFoundException {
         Inventory updateInventory = inventoryService.updateInventory(id, inventoryUpdateRequest);
-        String message = "Inventory  updated successfully";
-        InventoryResponse response = new InventoryResponse(message,updateInventory);
+        String message = "Inventory updated successfully";
+        InventoryDetailsResponse response = new InventoryDetailsResponse(message,updateInventory);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

@@ -13,6 +13,8 @@ public interface InventoryService {
 
    // Inventory getInventory(UUID id) throws InventoryNotFoundException;
 
+    Inventory findById(UUID id);
+
     Inventory updateInventory(UUID id, InventoryUpdateRequest inventoryUpdateRequest) throws InventoryNotFoundException;
 
 
