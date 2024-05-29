@@ -11,6 +11,15 @@ public class InventoryNotFoundException extends Exception{
         super(message);
     }
 
+    /**
+     * Constructs a new InventoryNotFoundException with the specified detail message
+     * and cause.
 
+     * message: the detail message
+     * cause: the cause (which is saved for later retrieval by the Throwable.getCause() method)
+     */
+    public InventoryNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }
