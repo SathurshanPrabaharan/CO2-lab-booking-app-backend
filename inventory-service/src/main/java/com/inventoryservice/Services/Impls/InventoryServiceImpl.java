@@ -1,6 +1,5 @@
 package com.inventoryservice.Services.Impls;
 
-import com.inventoryservice.DTO.InventoryRequest;
 import com.inventoryservice.Exception.InventoryNotFoundException;
 import com.inventoryservice.Models.Inventory;
 import com.inventoryservice.Repositories.InventoryRepository;
