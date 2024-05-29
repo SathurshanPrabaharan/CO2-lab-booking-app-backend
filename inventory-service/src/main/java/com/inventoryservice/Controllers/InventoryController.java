@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 public class InventoryController {
     @Autowired
     private InventoryRepository inventoryRepository;
-
     @Autowired
     private InventoryService inventoryService;
 
@@ -40,7 +39,7 @@ public class InventoryController {
     public ResponseEntity<Object> saveInventory(@RequestBody @Valid InventoryCreateRequest inventory) {
         Inventory savedInventory = inventoryService.saveInventory(inventory);
         String message = "Inventory created successfully";
-        InventoryResponse response = new InventoryResponse(message,savedInventory);
+        InventoryResponse response = new InventoryResponse(message, savedInventory);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -113,12 +112,12 @@ public class InventoryController {
         return ResponseEntity.ok(inventoryList);
     }
 
-    //update
+    //update done
     @PutMapping("{id}")
     public ResponseEntity<Object> updateInventory(@PathVariable UUID id, @RequestBody @Valid InventoryUpdateRequest inventoryUpdateRequest) throws InventoryNotFoundException {
         Inventory updateInventory = inventoryService.updateInventory(id, inventoryUpdateRequest);
         String message = "Inventory updated successfully";
-        InventoryDetailsResponse response = new InventoryDetailsResponse(message,updateInventory);
+        InventoryDetailsResponse response = new InventoryDetailsResponse(message, updateInventory);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
