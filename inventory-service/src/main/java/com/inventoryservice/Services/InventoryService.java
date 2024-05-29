@@ -11,7 +11,7 @@ public interface InventoryService {
 
     Inventory saveInventory(InventoryCreateRequest inventoryRequest);
 
-    Inventory getInventory(UUID id) throws InventoryNotFoundException;
+   // Inventory getInventory(UUID id) throws InventoryNotFoundException;
 
     Inventory updateInventory(UUID id, InventoryUpdateRequest inventoryUpdateRequest) throws InventoryNotFoundException;
 
