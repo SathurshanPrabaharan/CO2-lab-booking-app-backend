@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - release/dev
-    paths:
-      - 'user-service/**'
+    # paths:
+    #   - 'user-service/**'
   workflow_dispatch:
 
 jobs:
