@@ -1,7 +1,7 @@
 package com.inventoryservice.Services;
 
-import com.inventoryservice.DTO.Request.InventoryCreateRequest;
-import com.inventoryservice.DTO.Request.InventoryUpdateRequest;
+import com.inventoryservice.DTO.Request.Inventory.InventoryCreateRequest;
+import com.inventoryservice.DTO.Request.Inventory.InventoryUpdateRequest;
 import com.inventoryservice.Exception.InventoryNotFoundException;
 import com.inventoryservice.Models.Inventory;
 
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface InventoryService {
 
-    Inventory saveInventory(InventoryCreateRequest inventoryRequest);
+    Inventory saveInventory(InventoryCreateRequest inventoryCreateRequest);
 
    // Inventory getInventory(UUID id) throws InventoryNotFoundException;
 

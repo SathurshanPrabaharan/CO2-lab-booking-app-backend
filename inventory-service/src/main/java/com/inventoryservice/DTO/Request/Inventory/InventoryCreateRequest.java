@@ -1,29 +1,27 @@
-package com.inventoryservice.DTO.Request;
+package com.inventoryservice.DTO.Request.Inventory;
+
+import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.inventoryservice.Enums.STATUS;
-import com.inventoryservice.Validations.ValidStatus;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
 /*
-*  DTO is used when an existing inventory user is being updated.
-*/
-
+* DTO is used when a new inventory user is being created.
+* */
 @Data
+@AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class InventoryUpdateRequest {
+public class InventoryCreateRequest {
     @NotEmpty(message = "Invalid Name: Name cannot be empty")
     private String name;
-    @NotEmpty(message = "Invalid Serial Number: Serial Number cannot be empty")
     @Size(max = 50, message = "Serial Number can be at most 50 characters")
     private String serialNum;
     @Size(max = 100, message = "Manufacturer can be at most 100 characters")
@@ -42,9 +40,6 @@ public class InventoryUpdateRequest {
     private String storageSize;
     @Size(max = 50, message = "Operating System can be at most 50 characters")
     private String operatingSystem;
-    @NotNull(message = "Invalid status: Status cannot be null")
-    @ValidStatus(message = "Invalid status: Status must be one of ACTIVE, INACTIVE, or ARCHIVED")
-    private String status;
     @PastOrPresent(message = "Invalid Purchase Date: Purchase Date cannot be in the future")
     private LocalDate purchaseDate;
     @DecimalMin(value = "0.0", inclusive = false, message = "Invalid Purchase Cost: Purchase Cost must be greater than 0")
@@ -57,9 +52,9 @@ public class InventoryUpdateRequest {
     private LocalDate lastMaintenanceDate;
     @Future(message = "Invalid Next Maintenance Date: Next Maintenance Date must be in the future")
     private LocalDate nextMaintenanceDate;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
     @NotNull(message = "Invalid CreatedBy: CreatedBy cannot be null")
     private Long createdBy;
-    private List<Integer> installedSoftwares;
+    private List<UUID> installedSoftwaresID;
 }
+

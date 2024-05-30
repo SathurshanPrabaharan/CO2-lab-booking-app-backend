@@ -1,15 +1,19 @@
 package com.inventoryservice.Services.Impls;
 
-import com.inventoryservice.DTO.Request.InventoryCreateRequest;
-import com.inventoryservice.DTO.Request.InventoryUpdateRequest;
+import com.inventoryservice.DTO.Request.Inventory.InventoryCreateRequest;
+import com.inventoryservice.DTO.Request.Inventory.InventoryUpdateRequest;
 import com.inventoryservice.Enums.STATUS;
 import com.inventoryservice.Exception.InventoryNotFoundException;
 import com.inventoryservice.Models.Inventory;
+import com.inventoryservice.Models.Software;
 import com.inventoryservice.Repositories.InventoryRepository;
 import com.inventoryservice.Services.InventoryService;
+import com.inventoryservice.Services.SoftwareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,9 +23,15 @@ import java.util.UUID;
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
+    private final SoftwareService softwareService;
 
     @Override
     public Inventory saveInventory(InventoryCreateRequest inventoryCreateRequest) {
+        List<Software> associatedSoftwareList = new ArrayList<>();
+        for (UUID softwareId : inventoryCreateRequest.getInstalledSoftwaresID()) {
+            Software associatedSoftware = softwareService.findById(softwareId);
+            associatedSoftwareList.add(associatedSoftware);
+        }
         Inventory inventory = Inventory.builder()
                 .id(UUID.randomUUID())
                 .name(inventoryCreateRequest.getName())
@@ -33,17 +43,17 @@ public class InventoryServiceImpl implements InventoryService {
                 .memorySize(inventoryCreateRequest.getMemorySize())
                 .storageSize(inventoryCreateRequest.getStorageSize())
                 .operatingSystem(inventoryCreateRequest.getOperatingSystem())
-                .status(STATUS.ACTIVE)
+                .status(STATUS.ACTIVE) //set default status
                 .purchaseDate(inventoryCreateRequest.getPurchaseDate())
                 .purchaseCost(inventoryCreateRequest.getPurchaseCost())
                 .warrantyExpiry(inventoryCreateRequest.getWarrantyExpiry())
                 .shortNote(inventoryCreateRequest.getShortNote())
                 .lastMaintenanceDate(inventoryCreateRequest.getLastMaintenanceDate())
                 .nextMaintenanceDate(inventoryCreateRequest.getNextMaintenanceDate())
-                .createdAt(inventoryCreateRequest.getCreatedAt())
-                .updatedAt(inventoryCreateRequest.getUpdatedAt())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .createdBy(inventoryCreateRequest.getCreatedBy())
-                .installedSoftwares(inventoryCreateRequest.getInstalledSoftwares())
+                .installedSoftwares(associatedSoftwareList)
                 .build();
         return inventoryRepository.save(inventory);
     }
@@ -51,8 +61,8 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Inventory findById(UUID id) {
-        Optional<Inventory> AdminOptional = inventoryRepository.findById(id);
-        return AdminOptional.orElseThrow(() -> new InventoryNotFoundException("admin not found with id : " + id));
+        Optional<Inventory> InventoryOptional = inventoryRepository.findById(id);
+        return InventoryOptional.orElseThrow(() -> new InventoryNotFoundException("Inventory not found with id : " + id));
     }
     @Override
     public List<Inventory> getAllInventory(){
@@ -68,9 +78,14 @@ public class InventoryServiceImpl implements InventoryService {
                         () -> new InventoryNotFoundException("Inventory not found with ID: " + id)
                 );
 
+        List<Software> associatedSoftwareList = new ArrayList<>();
+        for (UUID softwareId : inventoryUpdateRequest.getInstalledSoftwaresID()) {
+            Software associatedSoftware = softwareService.findById(softwareId);
+            associatedSoftwareList.add(associatedSoftware);
+        }
         Inventory updateInventory = Inventory.builder()
                 .id(existingInventory.getId())
-                .name(existingInventory.getName())
+                .name(inventoryUpdateRequest.getName())
                 .serialNum(existingInventory.getSerialNum())
                 .manufacturer(existingInventory.getManufacturer())
                 .model(existingInventory.getModel())
@@ -89,7 +104,7 @@ public class InventoryServiceImpl implements InventoryService {
                 .createdAt(existingInventory.getCreatedAt())
                 .updatedAt(existingInventory.getUpdatedAt())
                 .createdBy(existingInventory.getCreatedBy())
-                .installedSoftwares(existingInventory.getInstalledSoftwares())
+                .installedSoftwares(associatedSoftwareList)
                 .build();
         return inventoryRepository.save(updateInventory);
 
