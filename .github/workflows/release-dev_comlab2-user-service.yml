@@ -58,5 +58,5 @@ jobs:
         with:
           app-name: 'comlab2-user-service'
           slot-name: 'Production'
-          package: 'user-service/target/*.jar'
+          package: '*.jar'
           
