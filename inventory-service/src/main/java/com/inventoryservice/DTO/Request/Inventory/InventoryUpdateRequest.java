@@ -52,7 +52,6 @@ public class InventoryUpdateRequest {
     private LocalDate purchaseDate;
     @DecimalMin(value = "0.0", inclusive = false, message = "Invalid Purchase Cost: Purchase Cost must be greater than 0")
     private Float purchaseCost;
-    @FutureOrPresent(message = "Invalid Warranty Expiry Date: Warranty Expiry Date cannot be in the past")
     private LocalDate warrantyExpiry;
     @Size(max = 100, message = "Short Note can be at most 100 characters")
     private String shortNote;

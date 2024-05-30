@@ -5,6 +5,7 @@ import com.inventoryservice.DTO.Request.Inventory.InventoryUpdateRequest;
 import com.inventoryservice.Exception.InventoryNotFoundException;
 import com.inventoryservice.Models.Inventory;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,13 +13,17 @@ public interface InventoryService {
 
     Inventory saveInventory(InventoryCreateRequest inventoryCreateRequest);
 
-   // Inventory getInventory(UUID id) throws InventoryNotFoundException;
-
     Inventory findById(UUID id);
 
     List<Inventory> getAllInventory();
 
     Inventory updateInventory(UUID id, InventoryUpdateRequest inventoryUpdateRequest) throws InventoryNotFoundException;
+
+    List<Inventory> getInventoryWarrantyExpiryDateRange(LocalDate startDate, LocalDate endDate);
+
+    List<Inventory> getNextMaintenanceDateRange(LocalDate startDate, LocalDate endDate);
+
+    List<Inventory> getLastMaintenanceDateRange(LocalDate startDate, LocalDate endDate);
 
 
 //    List<Inventory> getAllInventories();
