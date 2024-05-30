@@ -2,6 +2,7 @@ package com.inventoryservice.DTO.Response.Inventory;
 
 import com.inventoryservice.Enums.STATUS;
 import com.inventoryservice.Models.Inventory;
+import com.inventoryservice.Models.Software;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -51,7 +53,7 @@ class ResponseInventoryDetails {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Long createdBy;
-    private List<Integer> installedSoftwares;
+    private List<UUID> installedSoftwares;
 
     public ResponseInventoryDetails(Inventory inventory) {
         this.id = inventory.getId();
@@ -75,7 +77,8 @@ class ResponseInventoryDetails {
         this.createdAt = inventory.getCreatedAt();
         this.updatedAt = inventory.getUpdatedAt();
         this.createdBy = inventory.getCreatedBy();
-        this.installedSoftwares = inventory.getInstalledSoftwares();
-
+        this.installedSoftwares = inventory.getInstalledSoftwares().stream()
+                .map(Software::getId)
+                .collect(Collectors.toList());
     }
 }

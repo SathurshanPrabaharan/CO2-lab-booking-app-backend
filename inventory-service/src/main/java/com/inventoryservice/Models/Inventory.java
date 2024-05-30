@@ -89,8 +89,12 @@ public class Inventory {
 
     @Column(name = "created_by")
     private Long createdBy;
-
-    @Column(name = "installed_softwares")
-    private List<Integer> installedSoftwares;
+    @ManyToMany
+    @JoinTable(
+            name = "inventory_software",
+            joinColumns = @JoinColumn(name = "inventory_id"),
+            inverseJoinColumns = @JoinColumn(name = "software_id")
+    )
+    private List<Software> installedSoftwares;
 
 }
