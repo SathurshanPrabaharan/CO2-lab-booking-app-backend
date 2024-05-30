@@ -21,6 +21,9 @@ jobs:
         with:
           java-version: '17'
 
+      - name: change directory to user-service
+        run: cd ./user-service
+
       - name: Build with Maven
         run: mvn clean install
 
@@ -58,5 +61,5 @@ jobs:
         with:
           app-name: 'comlab2'
           slot-name: 'Production'
-          package: '*.jar'
+          package: './user-service/*.jar'
           
