@@ -10,6 +10,7 @@ import com.inventoryservice.Models.Inventory;
 import com.inventoryservice.Repositories.InventoryRepository;
 import com.inventoryservice.Services.InventoryService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,20 +45,21 @@ public class InventoryController {
     @GetMapping
     public ResponseEntity<Object> getAllInventory(
             @RequestParam(required = false) String manufacturer,
-            @RequestParam(required = false) String model,
             @RequestParam(required = false) String processor,
             @RequestParam(required = false) String memoryType,
             @RequestParam(required = false) String memorySize,
             @RequestParam(required = false) String storageType,
             @RequestParam(required = false) String storageSize,
             @RequestParam(required = false) String operatingSystem,
-            @RequestParam(required = false) STATUS status) {
+            @RequestParam(required = false) STATUS status,
+            @RequestParam(required = false) String startWarrantyExpiryDate, @RequestParam(required = false) String endWarrantyExpiryDate,
+            @RequestParam(required = false) String startNextMaintenanceDate, @RequestParam(required = false) String endNextMaintenanceDate,
+            @RequestParam(required = false) String startLastMaintenanceDate, @RequestParam(required = false) String endLastMaintenanceDate) {
+
         List<Inventory> inventoryList;
+
         if (manufacturer != null) {
             inventoryList = inventoryRepository.findByManufacturer(manufacturer);
-
-        } else if (model != null) {
-            inventoryList = inventoryRepository.findByModel(model);
         } else if (processor != null) {
             inventoryList = inventoryRepository.findByProcessor(processor);
         } else if (memoryType != null) {
@@ -72,6 +74,18 @@ public class InventoryController {
             inventoryList = inventoryRepository.findByOperatingSystem(operatingSystem);
         } else if (status != null) {
             inventoryList = inventoryRepository.findByStatus(status);
+        } else if (startWarrantyExpiryDate != null || endWarrantyExpiryDate != null) {
+            LocalDate start = LocalDate.parse(startWarrantyExpiryDate);
+            LocalDate end = LocalDate.parse(endWarrantyExpiryDate);
+            inventoryList = inventoryService.getInventoryWarrantyExpiryDateRange(start, end);
+        } else if (startNextMaintenanceDate != null || endNextMaintenanceDate != null) {
+            LocalDate start = LocalDate.parse(startNextMaintenanceDate);
+            LocalDate end = LocalDate.parse(endNextMaintenanceDate);
+            inventoryList = inventoryService.getNextMaintenanceDateRange(start, end);
+        } else if (startLastMaintenanceDate != null || endLastMaintenanceDate != null) {
+            LocalDate start = LocalDate.parse(startLastMaintenanceDate);
+            LocalDate end = LocalDate.parse(endLastMaintenanceDate);
+            inventoryList = inventoryService.getLastMaintenanceDateRange(start, end);
         } else {
             inventoryList = inventoryRepository.findAll();
         }

@@ -11,4 +11,8 @@ import java.util.UUID;
 public interface SoftwareRepository extends JpaRepository<Software,UUID> {
 
     Optional<Software> findById(UUID id);
+
+    List<Software> findByName(String name);
+
+    List<Software> findByVersion(String version);
 }

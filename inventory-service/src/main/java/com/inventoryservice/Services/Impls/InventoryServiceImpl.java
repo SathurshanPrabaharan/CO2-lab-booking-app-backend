@@ -12,6 +12,7 @@ import com.inventoryservice.Services.SoftwareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,6 @@ public class InventoryServiceImpl implements InventoryService {
                 .build();
         return inventoryRepository.save(inventory);
     }
-
 
     @Override
     public Inventory findById(UUID id) {
@@ -109,4 +109,17 @@ public class InventoryServiceImpl implements InventoryService {
         return inventoryRepository.save(updateInventory);
 
     }
+
+    public List<Inventory> getInventoryWarrantyExpiryDateRange(LocalDate startDate, LocalDate endDate){
+        return inventoryRepository.findByWarrantyExpiry(startDate,endDate);
+    }
+    public List<Inventory> getNextMaintenanceDateRange(LocalDate startDate, LocalDate endDate){
+        return inventoryRepository.findByNextMaintenanceDate(startDate,endDate);
+    }
+    public List<Inventory> getLastMaintenanceDateRange(LocalDate startDate, LocalDate endDate){
+        return inventoryRepository.findByLastMaintenanceDate(startDate,endDate);
+    }
+
+
+
 }
