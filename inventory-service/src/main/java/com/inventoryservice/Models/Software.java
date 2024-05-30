@@ -1,5 +1,6 @@
 package com.inventoryservice.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,5 +27,6 @@ public class Software {
     @Column(length = 100)
     private String version;
     @ManyToMany(mappedBy = "installedSoftwares")
+    @JsonBackReference // This prevents infinite recursion when serializing to JSON
     private List<Inventory> inventories;
 }

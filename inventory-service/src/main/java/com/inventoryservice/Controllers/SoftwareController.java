@@ -2,6 +2,7 @@ package com.inventoryservice.Controllers;
 
 import com.inventoryservice.DTO.Request.Software.SoftwareCreateRequest;
 import com.inventoryservice.DTO.Request.Software.SoftwareUpdateRequest;
+import com.inventoryservice.DTO.Response.ResponseMessage;
 import com.inventoryservice.DTO.Response.Software.SoftwareDetailsResponse;
 import com.inventoryservice.DTO.Response.Software.SoftwareResponse;
 import com.inventoryservice.Exception.InventoryNotFoundException;
@@ -54,4 +55,7 @@ public class SoftwareController {
                 .map(software -> new SoftwareDetailsResponse("List of all software", software))
                 .collect(Collectors.toList());
     }
+
+
+
 }
