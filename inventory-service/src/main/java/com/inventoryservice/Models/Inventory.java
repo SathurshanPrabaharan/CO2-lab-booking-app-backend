@@ -1,19 +1,22 @@
 package com.inventoryservice.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.inventoryservice.Enums.STATUS;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
+        import jakarta.persistence.*;
+        import lombok.AllArgsConstructor;
+        import lombok.Builder;
+        import lombok.Data;
+        import lombok.NoArgsConstructor;
+        import org.hibernate.annotations.CreationTimestamp;
+        import org.hibernate.annotations.GenericGenerator;
+        import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+        import java.time.LocalDate;
+        import java.time.LocalDateTime;
+        import java.util.List;
+        import java.util.UUID;
 
 @Entity
 @Table(name="inventories")
@@ -89,12 +92,15 @@ public class Inventory {
 
     @Column(name = "created_by")
     private Long createdBy;
+
+
     @ManyToMany
     @JoinTable(
             name = "inventory_software",
             joinColumns = @JoinColumn(name = "inventory_id"),
             inverseJoinColumns = @JoinColumn(name = "software_id")
     )
+    @JsonManagedReference // This ensures serialization of installedSoftwares
     private List<Software> installedSoftwares;
 
 }

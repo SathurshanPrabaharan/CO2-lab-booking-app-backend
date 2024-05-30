@@ -1,5 +1,5 @@
 package com.inventoryservice.DTO.Response.Software;
-
+//used to represent the response sent back to the client when retrieving details about a software entity
 import com.inventoryservice.Models.Software;
 import lombok.AllArgsConstructor;
 import lombok.Data;

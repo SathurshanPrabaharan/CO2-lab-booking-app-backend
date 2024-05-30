@@ -19,7 +19,7 @@ public class SoftwareServiceImpl implements SoftwareService {
 
     @Override
     public List<Software> getAllSoftwares() {
-        return null;
+        return softwareRepository.findAll();
     }
 
     @Override
@@ -30,12 +30,29 @@ public class SoftwareServiceImpl implements SoftwareService {
 
     @Override
     public Software saveSoftware(SoftwareCreateRequest softwareCreateRequest) {
-        return null;
+        Software software = Software.builder()
+                .id(UUID.randomUUID())
+                .name(softwareCreateRequest.getName())
+                .version(softwareCreateRequest.getVersion())
+                .build();
+        return softwareRepository.save(software);
     }
 
     @Override
-    public Software updateSoftware(UUID id, SoftwareUpdateRequest softwareUpdateRequest) throws InventoryNotFoundException {
-        return null;
+    public Software updateSoftware(UUID id, SoftwareUpdateRequest softwareUpdateRequest) {
+        Software existingSoftware = softwareRepository.findById(id)
+                .orElseThrow(
+                        ()->new InventoryNotFoundException("Software not found with id : "+id)
+                );
+        Software updatedSoftware = Software.builder()
+                .id(existingSoftware.getId())
+                .name(softwareUpdateRequest.getName())
+                .version(softwareUpdateRequest.getVersion())
+                .build();
+        return softwareRepository.save(updatedSoftware);
+
     }
+
+
 
 }

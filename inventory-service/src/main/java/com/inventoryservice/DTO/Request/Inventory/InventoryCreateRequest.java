@@ -40,17 +40,17 @@ public class InventoryCreateRequest {
     private String storageSize;
     @Size(max = 50, message = "Operating System can be at most 50 characters")
     private String operatingSystem;
-    @PastOrPresent(message = "Invalid Purchase Date: Purchase Date cannot be in the future")
+    //@PastOrPresent(message = "Invalid Purchase Date: Purchase Date cannot be in the future")
     private LocalDate purchaseDate;
     @DecimalMin(value = "0.0", inclusive = false, message = "Invalid Purchase Cost: Purchase Cost must be greater than 0")
     private Float purchaseCost;
-    @FutureOrPresent(message = "Invalid Warranty Expiry Date: Warranty Expiry Date cannot be in the past")
+    //@FutureOrPresent(message = "Invalid Warranty Expiry Date: Warranty Expiry Date cannot be in the past")
     private LocalDate warrantyExpiry;
     @Size(max = 100, message = "Short Note can be at most 100 characters")
     private String shortNote;
-    @PastOrPresent(message = "Invalid Last Maintenance Date: Last Maintenance Date cannot be in the future")
+    //@PastOrPresent(message = "Invalid Last Maintenance Date: Last Maintenance Date cannot be in the future")
     private LocalDate lastMaintenanceDate;
-    @Future(message = "Invalid Next Maintenance Date: Next Maintenance Date must be in the future")
+    //@Future(message = "Invalid Next Maintenance Date: Next Maintenance Date must be in the future")
     private LocalDate nextMaintenanceDate;
 
     @NotNull(message = "Invalid CreatedBy: CreatedBy cannot be null")
