@@ -16,7 +16,8 @@ import java.util.UUID;
 public interface SoftwareService {
     List<Software> getAllSoftwares();
 
-    Software findById(UUID id);
+    Software findById(UUID id
+    );
 
     Software saveSoftware(SoftwareCreateRequest softwareCreateRequest);
 
