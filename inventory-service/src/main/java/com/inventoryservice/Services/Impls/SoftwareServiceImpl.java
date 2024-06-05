@@ -7,11 +7,16 @@ import com.inventoryservice.Models.Software;
 import com.inventoryservice.Repositories.SoftwareRepository;
 import com.inventoryservice.Services.SoftwareService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class SoftwareServiceImpl implements SoftwareService {
@@ -52,5 +57,28 @@ public class SoftwareServiceImpl implements SoftwareService {
         return softwareRepository.save(updatedSoftware);
 
     }
+
+        @Override
+    public Page<Software> filterSoftware(String name, String version, int page, int size) {
+        if (page < 0 || size <= 0) {
+            throw new IllegalArgumentException("Page index must not be less than zero and size must be greater than zero");
+        }
+
+        List<Software> allSoftware = softwareRepository.findAll();
+        List<Software> filteredSoftware = allSoftware.stream()
+                .filter(software -> name == null || (software.getName() != null && software.getName().equals(name)))
+                .filter(software -> version == null || (software.getVersion() != null && software.getVersion().equals(version)))
+                .collect(Collectors.toList());
+
+        int totalSize = filteredSoftware.size();
+        int start = Math.min(page * size, totalSize);
+        int end = Math.min((page + 1) * size, totalSize);
+
+        List<Software> paginatedList = filteredSoftware.subList(start, end);
+
+        return new PageImpl<>(paginatedList, PageRequest.of(page, size), totalSize);
+    }
+
+
 
 }

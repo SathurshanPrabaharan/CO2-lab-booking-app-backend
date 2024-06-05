@@ -3,16 +3,23 @@ package com.inventoryservice.Controllers;
 import com.inventoryservice.DTO.Request.Software.SoftwareCreateRequest;
 import com.inventoryservice.DTO.Request.Software.SoftwareUpdateRequest;
 import com.inventoryservice.DTO.Response.Software.SoftwareDetailsResponse;
+import com.inventoryservice.DTO.Response.Software.SoftwareListResponse;
 import com.inventoryservice.DTO.Response.Software.SoftwareResponse;
 import com.inventoryservice.Exception.InventoryNotFoundException;
 import com.inventoryservice.Models.Software;
 import com.inventoryservice.Repositories.SoftwareRepository;
 import com.inventoryservice.Services.SoftwareService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+
+
+
 
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +36,7 @@ public class SoftwareController {
         super();
         this.softwareService = softwareService;
     }
+    @Operation(summary = "Create Software", description = "Create new software")
 
     @PostMapping
     public ResponseEntity<Object> saveSoftware(@RequestBody @Valid SoftwareCreateRequest software) {
@@ -37,6 +45,7 @@ public class SoftwareController {
         SoftwareResponse response = new SoftwareResponse(message, saveSoftware);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+    @Operation(summary = "Update Software", description = "Update the software")
 
     @PutMapping("{id}")
     public ResponseEntity<Object> updateSoftware(@PathVariable UUID id, @RequestBody @Valid SoftwareUpdateRequest softwareUpdateRequest) throws InventoryNotFoundException {
@@ -46,24 +55,28 @@ public class SoftwareController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get Softwares", description = "Get All Software by applying appropriate filters")
     @GetMapping
-    public ResponseEntity<Object> getAllSoftware(
-            @RequestParam(required = false)String name,
-            @RequestParam(required = false) String version)
+    public ResponseEntity<Object> filterSoftware(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String version,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    )
     {
-        List<Software> foundedSoftwares ;
-        if(name != null)
-        {
-            foundedSoftwares = softwareRepository.findByName(name);
-        } else if (version != null) {
-            foundedSoftwares=softwareRepository.findByVersion(version);
-        }else {
-            foundedSoftwares = softwareRepository.findAll();
+        // Validate page and size parameters
+        if (page < 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Page index must not be less than zero");
         }
-        if (foundedSoftwares.isEmpty()) {
-            throw new InventoryNotFoundException("No Softwares found");
+        if (size <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Size must be greater than zero");
         }
-        return ResponseEntity.ok(foundedSoftwares);
+        Page<Software> filteredSoftware = softwareService.filterSoftware(name,version,page,size);
+
+        String message = "Softwares fetched successfully";
+        SoftwareListResponse response = new SoftwareListResponse(message, filteredSoftware);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
 

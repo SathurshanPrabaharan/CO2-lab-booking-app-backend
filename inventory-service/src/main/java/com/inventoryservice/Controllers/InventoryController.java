@@ -3,10 +3,12 @@ package com.inventoryservice.Controllers;
 import com.inventoryservice.DTO.Request.Inventory.InventoryCreateRequest;
 import com.inventoryservice.DTO.Request.Inventory.InventoryUpdateRequest;
 import com.inventoryservice.DTO.Response.Inventory.InventoryDetailsResponse;
+import com.inventoryservice.DTO.Response.Inventory.InventoryListResponse;
 import com.inventoryservice.DTO.Response.Inventory.InventoryResponse;
 import com.inventoryservice.Enums.STATUS;
 import com.inventoryservice.Exception.InventoryNotFoundException;
 import com.inventoryservice.Models.Inventory;
+import com.inventoryservice.Models.Software;
 import com.inventoryservice.Repositories.InventoryRepository;
 import com.inventoryservice.Services.InventoryService;
 
@@ -14,7 +16,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +36,7 @@ public class InventoryController {
         super();
         this.inventoryService = inventoryService;
     }
-
-    //create done
+    @Operation(summary = "Create Inventory", description = "Create Inventory with appropriate softwares")
     @PostMapping
     public ResponseEntity<Object> saveInventory(@RequestBody @Valid InventoryCreateRequest inventory) {
         Inventory savedInventory = inventoryService.saveInventory(inventory);
@@ -42,8 +45,9 @@ public class InventoryController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get Inventories", description = "Get All Inventory by applying appropriate filters")
     @GetMapping
-    public ResponseEntity<Object> getAllInventory(
+    public ResponseEntity<Object> filterInventory(
             @RequestParam(required = false) String manufacturer,
             @RequestParam(required = false) String processor,
             @RequestParam(required = false) String memoryType,
@@ -52,51 +56,36 @@ public class InventoryController {
             @RequestParam(required = false) String storageSize,
             @RequestParam(required = false) String operatingSystem,
             @RequestParam(required = false) STATUS status,
-            @RequestParam(required = false) String startWarrantyExpiryDate, @RequestParam(required = false) String endWarrantyExpiryDate,
-            @RequestParam(required = false) String startNextMaintenanceDate, @RequestParam(required = false) String endNextMaintenanceDate,
-            @RequestParam(required = false) String startLastMaintenanceDate, @RequestParam(required = false) String endLastMaintenanceDate) {
+            @RequestParam(required = false) LocalDate startWarrantyExpiryDate, @RequestParam(required = false) LocalDate endWarrantyExpiryDate,
+            @RequestParam(required = false) LocalDate startNextMaintenanceDate, @RequestParam(required = false) LocalDate endNextMaintenanceDate,
+            @RequestParam(required = false) LocalDate startLastMaintenanceDate, @RequestParam(required = false) LocalDate endLastMaintenanceDate,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) UUID softwareId
 
-        List<Inventory> inventoryList;
+            ){
 
-        if (manufacturer != null) {
-            inventoryList = inventoryRepository.findByManufacturer(manufacturer);
-        } else if (processor != null) {
-            inventoryList = inventoryRepository.findByProcessor(processor);
-        } else if (memoryType != null) {
-            inventoryList = inventoryRepository.findByMemoryType(memoryType);
-        } else if (memorySize != null) {
-            inventoryList = inventoryRepository.findByMemorySize(memorySize);
-        } else if (storageType != null) {
-            inventoryList = inventoryRepository.findByStorageType(storageType);
-        } else if (storageSize != null) {
-            inventoryList = inventoryRepository.findByStorageSize(storageSize);
-        } else if (operatingSystem != null) {
-            inventoryList = inventoryRepository.findByOperatingSystem(operatingSystem);
-        } else if (status != null) {
-            inventoryList = inventoryRepository.findByStatus(status);
-        } else if (startWarrantyExpiryDate != null || endWarrantyExpiryDate != null) {
-            LocalDate start = LocalDate.parse(startWarrantyExpiryDate);
-            LocalDate end = LocalDate.parse(endWarrantyExpiryDate);
-            inventoryList = inventoryService.getInventoryWarrantyExpiryDateRange(start, end);
-        } else if (startNextMaintenanceDate != null || endNextMaintenanceDate != null) {
-            LocalDate start = LocalDate.parse(startNextMaintenanceDate);
-            LocalDate end = LocalDate.parse(endNextMaintenanceDate);
-            inventoryList = inventoryService.getNextMaintenanceDateRange(start, end);
-        } else if (startLastMaintenanceDate != null || endLastMaintenanceDate != null) {
-            LocalDate start = LocalDate.parse(startLastMaintenanceDate);
-            LocalDate end = LocalDate.parse(endLastMaintenanceDate);
-            inventoryList = inventoryService.getLastMaintenanceDateRange(start, end);
-        } else {
-            inventoryList = inventoryRepository.findAll();
+        // Validate page and size parameters
+        if (page < 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Page index must not be less than zero");
         }
-        if (inventoryList.isEmpty()) {
-            throw new InventoryNotFoundException("No inventory found");
+        if (size <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Size must be greater than zero");
         }
 
-        return ResponseEntity.ok(inventoryList);
+
+        Page<Inventory> filteredInventory = inventoryService.filterInventory(manufacturer,processor,memoryType,memorySize,storageType,storageSize
+        ,operatingSystem,status,startWarrantyExpiryDate,endWarrantyExpiryDate,startNextMaintenanceDate,endNextMaintenanceDate,
+                startLastMaintenanceDate,endLastMaintenanceDate,page,size,softwareId);
+        String message = "Inventories fetched successfully";
+        InventoryListResponse response = new InventoryListResponse(message,filteredInventory);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+
+
     }
 
-    //update done
+
+    @Operation(summary = "Update Inventory", description = "Update the inventory")
     @PutMapping("{id}")
     public ResponseEntity<Object> updateInventory(@PathVariable UUID id, @RequestBody @Valid InventoryUpdateRequest inventoryUpdateRequest) throws InventoryNotFoundException {
         Inventory updateInventory = inventoryService.updateInventory(id, inventoryUpdateRequest);

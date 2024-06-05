@@ -15,7 +15,8 @@ import com.inventoryservice.Enums.STATUS;
 
         import java.time.LocalDate;
         import java.time.LocalDateTime;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
         import java.util.UUID;
 
 @Entity
@@ -84,7 +85,8 @@ public class Inventory {
 
     @CreationTimestamp
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt;//    private LocalDateTime createdAt;
+
 
     @UpdateTimestamp
     @Column(name = "updated_at")
@@ -100,7 +102,9 @@ public class Inventory {
             joinColumns = @JoinColumn(name = "inventory_id"),
             inverseJoinColumns = @JoinColumn(name = "software_id")
     )
+
     @JsonManagedReference // This ensures serialization of installedSoftwares
-    private List<Software> installedSoftwares;
+    @Builder.Default
+    private List<Software> installedSoftwares =new ArrayList<>();;
 
 }

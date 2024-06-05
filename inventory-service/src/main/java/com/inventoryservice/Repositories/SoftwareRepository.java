@@ -15,4 +15,5 @@ public interface SoftwareRepository extends JpaRepository<Software,UUID> {
     List<Software> findByName(String name);
 
     List<Software> findByVersion(String version);
+
 }
