@@ -1,18 +1,15 @@
-package com.inventoryservice.Response;
+package com.inventoryservice.DTO.Response.Inventory;
 
 import com.inventoryservice.Models.Inventory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class InventoryResponse {
-    private Inventory result;
-    private String message;
 
-    public InventoryResponse(String message) {
-    }
+        private String message;
+        private Inventory data;
+
 }
-
