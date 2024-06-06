@@ -125,9 +125,6 @@ public class InventoryServiceImpl implements InventoryService {
     }
     @Override
     public Page<Inventory> filterInventory(String manufacturer, String processor, String memoryType, String memorySize, String storageType, String storageSize, String operatingSystem, STATUS status, LocalDate startWarrantyExpiryDate, LocalDate endWarrantyExpiryDate, LocalDate startNextMaintenanceDate, LocalDate endNextMaintenanceDate, LocalDate startLastMaintenanceDate, LocalDate endLastMaintenanceDate, int page, int size, UUID softwareId) {
-        if (page < 0 || size <= 0) {
-            throw new IllegalArgumentException("Page index must not be less than zero and size must be greater than zero");
-        }
 
         List<Inventory> allInventory = inventoryRepository.findAllByOrderByCreatedAtDesc();
         List<Inventory> filteredInventory = allInventory.stream()

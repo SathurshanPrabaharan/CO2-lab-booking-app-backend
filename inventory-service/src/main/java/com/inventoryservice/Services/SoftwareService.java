@@ -22,7 +22,7 @@ public interface SoftwareService {
     Software saveSoftware(SoftwareCreateRequest softwareCreateRequest);
 
     Software updateSoftware(UUID id, SoftwareUpdateRequest softwareUpdateRequest) throws InventoryNotFoundException;
-    Page<Software> filterSoftware(String name, String version, int page, int size);
+    Page<Software> filterSoftware(String name, int page, int size);
 
 
 

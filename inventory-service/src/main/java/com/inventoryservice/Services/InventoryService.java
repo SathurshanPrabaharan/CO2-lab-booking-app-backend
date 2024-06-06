@@ -31,8 +31,4 @@ public interface InventoryService {
     Page<Inventory> filterInventory(String manufacturer, String processor, String memoryType, String memorySize, String storageType, String storageSize, String operatingSystem, STATUS status, LocalDate startWarrantyExpiryDate, LocalDate endWarrantyExpiryDate, LocalDate startNextMaintenanceDate, LocalDate endNextMaintenanceDate, LocalDate startLastMaintenanceDate, LocalDate endLastMaintenanceDate, int page, int size,UUID software);
 
 
-//    List<Inventory> getAllInventories();
-//    Inventory getInventoryById(long id);
-//    Inventory updateInventory(Inventory inventory, long id);
-//    void deleteInventory(long id);
 }

@@ -65,25 +65,15 @@ public class InventoryController {
 
             ){
 
-        // Validate page and size parameters
-        if (page < 0) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Page index must not be less than zero");
-        }
-        if (size <= 0) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Size must be greater than zero");
-        }
-
-
         Page<Inventory> filteredInventory = inventoryService.filterInventory(manufacturer,processor,memoryType,memorySize,storageType,storageSize
         ,operatingSystem,status,startWarrantyExpiryDate,endWarrantyExpiryDate,startNextMaintenanceDate,endNextMaintenanceDate,
-                startLastMaintenanceDate,endLastMaintenanceDate,page,size,softwareId);
+                startLastMaintenanceDate,endLastMaintenanceDate,page-1,size,softwareId);
         String message = "Inventories fetched successfully";
         InventoryListResponse response = new InventoryListResponse(message,filteredInventory);
         return new ResponseEntity<>(response,HttpStatus.OK);
 
 
     }
-
 
     @Operation(summary = "Update Inventory", description = "Update the inventory")
     @PutMapping("{id}")

@@ -59,25 +59,19 @@ public class SoftwareController {
     @GetMapping
     public ResponseEntity<Object> filterSoftware(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) String version,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     )
     {
-        // Validate page and size parameters
-        if (page < 0) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Page index must not be less than zero");
-        }
-        if (size <= 0) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Size must be greater than zero");
-        }
-        Page<Software> filteredSoftware = softwareService.filterSoftware(name,version,page,size);
+
+        Page<Software> filteredSoftware = softwareService.filterSoftware(name,page-1,size);
 
         String message = "Softwares fetched successfully";
         SoftwareListResponse response = new SoftwareListResponse(message, filteredSoftware);
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
+
 
 
 }

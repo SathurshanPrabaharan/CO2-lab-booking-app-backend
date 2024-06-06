@@ -59,15 +59,12 @@ public class SoftwareServiceImpl implements SoftwareService {
     }
 
         @Override
-    public Page<Software> filterSoftware(String name, String version, int page, int size) {
-        if (page < 0 || size <= 0) {
-            throw new IllegalArgumentException("Page index must not be less than zero and size must be greater than zero");
-        }
+    public Page<Software> filterSoftware(String name, int page, int size) {
+
 
         List<Software> allSoftware = softwareRepository.findAll();
         List<Software> filteredSoftware = allSoftware.stream()
                 .filter(software -> name == null || (software.getName() != null && software.getName().equals(name)))
-                .filter(software -> version == null || (software.getVersion() != null && software.getVersion().equals(version)))
                 .collect(Collectors.toList());
 
         int totalSize = filteredSoftware.size();
