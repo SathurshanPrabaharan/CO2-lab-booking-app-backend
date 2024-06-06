@@ -1,9 +1,9 @@
-package com.inventoryservice.Enums;
+package com.userservice.Enums;
 
 public enum STATUS {
     ACTIVE,
     INACTIVE,
-    ARCHIVE
+    ARCHIVED
 
 
 }
