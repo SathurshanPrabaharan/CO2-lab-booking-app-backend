@@ -75,7 +75,7 @@ public class InventoryController {
 
     }
 
-    @Operation(summary = "Update Inventory", description = "Update the inventory")
+    @Operation(summary = "Update Inventory", description = "Update the inventory with od")
     @PutMapping("{id}")
     public ResponseEntity<Object> updateInventory(@PathVariable UUID id, @RequestBody @Valid InventoryUpdateRequest inventoryUpdateRequest) throws InventoryNotFoundException {
         Inventory updateInventory = inventoryService.updateInventory(id, inventoryUpdateRequest);

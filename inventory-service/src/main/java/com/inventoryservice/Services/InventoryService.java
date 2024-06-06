@@ -22,11 +22,7 @@ public interface InventoryService {
 
     Inventory updateInventory(UUID id, InventoryUpdateRequest inventoryUpdateRequest) throws InventoryNotFoundException;
 
-    List<Inventory> getInventoryWarrantyExpiryDateRange(LocalDate startDate, LocalDate endDate);
 
-    List<Inventory> getNextMaintenanceDateRange(LocalDate startDate, LocalDate endDate);
-
-    List<Inventory> getLastMaintenanceDateRange(LocalDate startDate, LocalDate endDate);
 
     Page<Inventory> filterInventory(String manufacturer, String processor, String memoryType, String memorySize, String storageType, String storageSize, String operatingSystem, STATUS status, LocalDate startWarrantyExpiryDate, LocalDate endWarrantyExpiryDate, LocalDate startNextMaintenanceDate, LocalDate endNextMaintenanceDate, LocalDate startLastMaintenanceDate, LocalDate endLastMaintenanceDate, int page, int size,UUID software);
 

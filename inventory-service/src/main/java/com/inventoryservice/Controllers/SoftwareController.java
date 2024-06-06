@@ -45,7 +45,7 @@ public class SoftwareController {
         SoftwareResponse response = new SoftwareResponse(message, saveSoftware);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-    @Operation(summary = "Update Software", description = "Update the software")
+    @Operation(summary = "Update Software", description = "Update the software using id")
 
     @PutMapping("{id}")
     public ResponseEntity<Object> updateSoftware(@PathVariable UUID id, @RequestBody @Valid SoftwareUpdateRequest softwareUpdateRequest) throws InventoryNotFoundException {
