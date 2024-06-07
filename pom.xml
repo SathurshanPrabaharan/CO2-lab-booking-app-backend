@@ -22,6 +22,7 @@
         <module>admin-api-gateway</module>
         <module>discovery-server</module>
         <module>identity-service</module>
+        <module>booking-service</module>
     </modules>
 
     <properties>
