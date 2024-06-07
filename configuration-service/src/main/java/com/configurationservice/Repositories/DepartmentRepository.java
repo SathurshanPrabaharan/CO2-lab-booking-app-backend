@@ -9,10 +9,5 @@ import java.util.UUID;
 
 public interface DepartmentRepository extends JpaRepository<Department, UUID> {
 
-
-    List<Department> findByCreatedByAndStatus(UUID createdBy, STATUS status);
-
-    List<Department> findByCreatedBy(UUID createdBy);
-
-    List<Department> findByStatus(STATUS status);
+    List<Department> findAllByOrderByCreatedAtDesc();
 }

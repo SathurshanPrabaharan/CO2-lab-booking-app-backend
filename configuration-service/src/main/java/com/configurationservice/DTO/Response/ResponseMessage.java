@@ -1,4 +1,4 @@
-package com.configurationservice.DTO.Response.Course;
+package com.configurationservice.DTO.Response;
 
 
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CourseResponseMessage {
+public class ResponseMessage {
 
     private String message;
 

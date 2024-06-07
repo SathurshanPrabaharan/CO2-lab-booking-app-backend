@@ -39,6 +39,8 @@ public class StaffCreateRequest {
 
     private UUID professionId;
 
+    private UUID departmentId;
+
     private Set<UUID> responsibleCourseIds;
 
     @NotEmpty(message = "Invalid userPrincipalName: User Principal Name cannot be empty")

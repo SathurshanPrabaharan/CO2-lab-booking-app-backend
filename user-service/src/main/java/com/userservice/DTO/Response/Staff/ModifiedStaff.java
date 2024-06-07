@@ -26,6 +26,7 @@ public class ModifiedStaff {
     private GENDER gender;
     private String userRole;
     private String profession;
+    private String department;
     private Set<String> responsibleCourses = new HashSet<>();
     private String userPrincipalName;
     private String contact_email;
@@ -43,7 +44,6 @@ public class ModifiedStaff {
         this.mobile = staff.getMobile();
         this.gender = staff.getGender();
         this.userRole = staff.getUserRole().getKey();
-        this.profession = staff.getProfession().getName();
         this.userPrincipalName = staff.getUserPrincipalName();
         this.contact_email = staff.getContact_email();
         this.photoUrl = staff.getPhotoUrl();
@@ -56,6 +56,14 @@ public class ModifiedStaff {
             for (Course course : responsibleCourses) {
                 this.responsibleCourses.add(course.getName());
             }
+        }
+
+        if (staff.getProfession() != null) {
+            this.profession = staff.getProfession().getName();
+        }
+
+        if (staff.getDepartment() != null) {
+            this.department = staff.getDepartment().getName();
         }
 
     }

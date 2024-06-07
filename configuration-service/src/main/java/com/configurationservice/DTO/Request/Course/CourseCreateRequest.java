@@ -1,17 +1,16 @@
 package com.configurationservice.DTO.Request.Course;
 
-import com.configurationservice.Enums.COURSE_TYPE;
+import com.configurationservice.Models.SupportModels.Staff;
 import com.configurationservice.Validations.ValidCourseType;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import com.configurationservice.Validations.ValidStatus;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -20,25 +19,24 @@ import java.util.UUID;
 @Builder
 public class CourseCreateRequest {
 
-    @NotEmpty(message = "Invalid Code: Code cannot be empty")
+    @NotEmpty(message = "Invalid code: code cannot be empty")
     private String code;
 
     @NotEmpty(message = "Invalid Name: Name cannot be empty")
     private String name;
 
-    @NotNull(message = "Invalid type: type cannot be null")
-    @ValidCourseType(message = "Invalid type: type must be one of TECHNICAL or NON_TECHNICAL")
-    private COURSE_TYPE type;
+    @NotNull(message = "Invalid courseType: courseType cannot be null")
+    @ValidCourseType(message = "Invalid courseType: courseType must be one of TECHNICAL or NON_TECHNICAL")
+    private String courseType;
 
-    @NotNull(message = "Invalid departmentId: departmentId cannot be null")
+
     private UUID departmentId;
 
-
-    @NotNull(message = "Invalid departmentId: departmentId cannot be null")
-    @Min(value = 1, message = "Semester must be greater than or equal to 1")
-    @Max(value = 8, message = "Semester must be less than or equal to 8")
     private short semester;
 
+    private UUID coordinatorId;
+
+    private Set<UUID> responsibleStaffIds;
 
     private LocalDateTime createdAt;
 
@@ -46,6 +44,7 @@ public class CourseCreateRequest {
 
     @NotNull(message = "Invalid createdBy: CreatedBy cannot be null")
     private UUID createdBy;
+
 
 
 
