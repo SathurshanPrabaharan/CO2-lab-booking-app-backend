@@ -1,8 +1,8 @@
 package com.userservice.DTO.Response.Staff;
 
-import com.userservice.DTO.Response.Course.ModifiedCourse;
-import com.userservice.DTO.Response.Department.ModifiedDepartment;
 import com.userservice.DTO.Response.Profession.ModifiedProfession;
+import com.userservice.DTO.Response.SupportModelResponses.ModifiedCourse;
+import com.userservice.DTO.Response.SupportModelResponses.ModifiedDepartment;
 import com.userservice.DTO.Response.UserRole.ModifiedUserRole;
 import com.userservice.Enums.GENDER;
 import com.userservice.Enums.STATUS;

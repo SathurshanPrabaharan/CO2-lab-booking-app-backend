@@ -63,7 +63,7 @@ public class Staff {
     private Department department;
 
     //save and merge together
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Course.class)
     @JoinTable(
             name = "staff_courses",
             joinColumns = @JoinColumn(name = "staff_id"),
@@ -71,6 +71,11 @@ public class Staff {
     )
     @Builder.Default
     private Set<Course> responsibleCourses = new HashSet<>();
+
+//    @ManyToMany(mappedBy = "responsibleStaffs", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+//    @Builder.Default
+//    private Set<Course> responsibleCourses = new HashSet<>();
+
 
     // Mail ID from organization
     @Column(name = "user_principal_name", nullable = false,unique = true)
@@ -112,5 +117,34 @@ public class Staff {
 
     @Column
     private STATUS status;
+
+    @Override
+    public String toString() {
+        return "Staff{" +
+                "id=" + id +
+                ", objectId=" + objectId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", gender=" + gender +
+                ", userRole=" + userRole +
+                ", profession=" + profession +
+                ", department=" + department +
+                ", responsibleCourses=" + responsibleCourses.stream().map(Course::getId).toList() +
+                ", userPrincipalName='" + userPrincipalName + '\'' +
+                ", contact_email='" + contact_email + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", isInitalLogged=" + isInitalLogged +
+                ", verifyToken='" + verifyToken + '\'' +
+                ", tokenIssuedAt=" + tokenIssuedAt +
+                ", accountEnabled=" + accountEnabled +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", createdBy=" + createdBy +
+                ", updatedBy=" + updatedBy +
+                ", status=" + status +
+                '}';
+    }
 
 }

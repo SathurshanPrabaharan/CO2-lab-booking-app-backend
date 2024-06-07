@@ -37,3 +37,4 @@ build/
 
 ### Environment Variable ###
 *env
+/.metadata/

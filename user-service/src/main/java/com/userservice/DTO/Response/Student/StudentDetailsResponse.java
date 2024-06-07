@@ -1,14 +1,13 @@
 package com.userservice.DTO.Response.Student;
 
-import com.userservice.DTO.Response.Course.ModifiedCourse;
-import com.userservice.DTO.Response.Department.ModifiedDepartment;
 import com.userservice.DTO.Response.Profession.ModifiedProfession;
+import com.userservice.DTO.Response.SupportModelResponses.ModifiedCourse;
+import com.userservice.DTO.Response.SupportModelResponses.ModifiedDepartment;
 import com.userservice.DTO.Response.UserRole.ModifiedUserRole;
 import com.userservice.Enums.GENDER;
 import com.userservice.Enums.STATUS;
 import com.userservice.Models.Student;
 import com.userservice.Models.SupportModels.Course;
-import com.userservice.Models.SupportModels.Department;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

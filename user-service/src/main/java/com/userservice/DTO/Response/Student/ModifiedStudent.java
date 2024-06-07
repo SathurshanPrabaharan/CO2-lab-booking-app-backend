@@ -24,6 +24,8 @@ public class ModifiedStudent {
     private String displayName;
     private String mobile;
     private GENDER gender;
+    private Short semester;
+    private String regNum;
     private String userRole;
     private String profession;
     private String department;
@@ -43,6 +45,8 @@ public class ModifiedStudent {
         this.displayName = student.getDisplayName();
         this.mobile = student.getMobile();
         this.gender = student.getGender();
+        this.semester= student.getSemester();
+        this.regNum=student.getRegNum();
         this.userRole = student.getUserRole().getKey();
         this.userPrincipalName = student.getUserPrincipalName();
         this.contact_email = student.getContact_email();
@@ -50,6 +54,7 @@ public class ModifiedStudent {
         this.isInitalLogged = student.getIsInitalLogged();
         this.accountEnabled = student.getAccountEnabled();
         this.status = student.getStatus();
+
 
         Set<Course> currentCourses = student.getCurrentCourses();
         if (currentCourses != null) {

@@ -1,8 +1,6 @@
-package com.userservice.DTO.Response.Department;
+package com.userservice.DTO.Response.SupportModelResponses;
 
 
-import com.userservice.Enums.COURSE_TYPE;
-import com.userservice.Models.SupportModels.Course;
 import com.userservice.Models.SupportModels.Department;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,12 +14,15 @@ import java.util.UUID;
 public class ModifiedDepartment {
     private UUID id;
     private String name;
-    private UUID hodId;
+    private ModifiedStaffSimple hod;
 
     public ModifiedDepartment(Department department){
         this.id=department.getId();
         this.name=department.getName();
-        this.hodId=department.getHodId();
+
+        if(department.getHod() != null){
+            this.hod = new ModifiedStaffSimple(department.getHod());
+        }
 
     }
 }

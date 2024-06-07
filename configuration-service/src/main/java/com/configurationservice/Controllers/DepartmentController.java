@@ -3,6 +3,7 @@ package com.configurationservice.Controllers;
 import com.configurationservice.DTO.Request.Department.DepartmentArchiveRequest;
 import com.configurationservice.DTO.Request.Department.DepartmentCreateRequest;
 import com.configurationservice.DTO.Request.Department.DepartmentUpdateRequest;
+import com.configurationservice.DTO.Response.Department.DepartmentCreatedResponse;
 import com.configurationservice.DTO.Response.Department.DepartmentDetailsResponse;
 import com.configurationservice.DTO.Response.Department.DepartmentListResponse;
 import com.configurationservice.DTO.Response.Department.DepartmentResponse;
@@ -40,7 +41,7 @@ public class DepartmentController {
     public ResponseEntity<Object> saveDepartment(@RequestBody @Valid DepartmentCreateRequest departmentCreateRequest){
         Department savedDepartment = departmentService.saveDepartment(departmentCreateRequest);
         String message = "Department created successfully";
-        DepartmentResponse response = new DepartmentResponse(message, savedDepartment);
+        DepartmentCreatedResponse response = new DepartmentCreatedResponse(message, savedDepartment);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
