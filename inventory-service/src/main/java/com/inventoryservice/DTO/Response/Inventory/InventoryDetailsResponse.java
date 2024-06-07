@@ -26,6 +26,9 @@ public class InventoryDetailsResponse {
         this.message = message;
         this.data = new ResponseInventoryDetails(foundedInventory);
     }
+
+    public InventoryDetailsResponse(String inventory_deleted_successfully, String deleteInventoryMessage) {
+    }
 }
 
 @AllArgsConstructor

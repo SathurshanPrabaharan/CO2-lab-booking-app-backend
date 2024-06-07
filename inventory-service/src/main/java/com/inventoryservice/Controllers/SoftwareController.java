@@ -1,11 +1,12 @@
 package com.inventoryservice.Controllers;
 
 import com.inventoryservice.DTO.Request.Software.SoftwareCreateRequest;
+import com.inventoryservice.DTO.Request.Software.SoftwareDeleteRequest;
 import com.inventoryservice.DTO.Request.Software.SoftwareUpdateRequest;
 import com.inventoryservice.DTO.Response.Software.SoftwareDetailsResponse;
 import com.inventoryservice.DTO.Response.Software.SoftwareListResponse;
 import com.inventoryservice.DTO.Response.Software.SoftwareResponse;
-import com.inventoryservice.Exception.InventoryNotFoundException;
+import com.inventoryservice.Exception.ResourceNotFoundException;
 import com.inventoryservice.Models.Software;
 import com.inventoryservice.Repositories.SoftwareRepository;
 import com.inventoryservice.Services.SoftwareService;
@@ -48,7 +49,7 @@ public class SoftwareController {
     @Operation(summary = "Update Software", description = "Update the software using id")
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> updateSoftware(@PathVariable UUID id, @RequestBody @Valid SoftwareUpdateRequest softwareUpdateRequest) throws InventoryNotFoundException {
+    public ResponseEntity<Object> updateSoftware(@PathVariable UUID id, @RequestBody @Valid SoftwareUpdateRequest softwareUpdateRequest) throws ResourceNotFoundException {
         Software updateSoftware = softwareService.updateSoftware(id, softwareUpdateRequest);
         String message = "Software updated successfully";
         SoftwareDetailsResponse response = new SoftwareDetailsResponse(message, updateSoftware);
@@ -70,6 +71,24 @@ public class SoftwareController {
         SoftwareListResponse response = new SoftwareListResponse(message, filteredSoftware);
         return new ResponseEntity<>(response, HttpStatus.OK);
 
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> deleteSoftware(@PathVariable UUID id, @RequestBody @Valid SoftwareDeleteRequest softwareDeleteRequest) throws ResourceNotFoundException {
+        Software deleteSoftware = softwareService.deleteSoftware(id, softwareDeleteRequest).getData();
+        String message = "Software deleted successfully";
+        SoftwareDetailsResponse response = new SoftwareDetailsResponse(message, deleteSoftware);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @GetMapping("{id}")
+    public ResponseEntity<Object> getSoftwareDetails(@PathVariable UUID id) throws ResourceNotFoundException {
+        Software software = softwareRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Software not found with id: " + id));
+        String message = "Software details fetched successfully";
+        SoftwareDetailsResponse response = new SoftwareDetailsResponse(message, software);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

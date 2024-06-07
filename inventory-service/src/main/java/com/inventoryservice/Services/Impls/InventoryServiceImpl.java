@@ -1,14 +1,16 @@
 package com.inventoryservice.Services.Impls;
 
 import com.inventoryservice.DTO.Request.Inventory.InventoryCreateRequest;
+import com.inventoryservice.DTO.Request.Inventory.InventoryDeleteRequest;
 import com.inventoryservice.DTO.Request.Inventory.InventoryUpdateRequest;
 import com.inventoryservice.Enums.STATUS;
-import com.inventoryservice.Exception.InventoryNotFoundException;
+import com.inventoryservice.Exception.ResourceNotFoundException;
 import com.inventoryservice.Models.Inventory;
 import com.inventoryservice.Models.Software;
 import com.inventoryservice.Repositories.InventoryRepository;
 import com.inventoryservice.Services.InventoryService;
 import com.inventoryservice.Services.SoftwareService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -47,6 +49,7 @@ public class InventoryServiceImpl implements InventoryService {
                 .memoryType(inventoryCreateRequest.getMemoryType())
                 .memorySize(inventoryCreateRequest.getMemorySize())
                 .storageSize(inventoryCreateRequest.getStorageSize())
+                .storageType(inventoryCreateRequest.getStorageType())
                 .operatingSystem(inventoryCreateRequest.getOperatingSystem())
                 .status(STATUS.ACTIVE) //set default status
                 .purchaseDate(inventoryCreateRequest.getPurchaseDate())
@@ -64,9 +67,18 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    public String deleteInventory(UUID id, @Valid InventoryDeleteRequest inventoryDeleteRequest) throws ResourceNotFoundException {
+        Optional<Inventory> inventoryOptional = inventoryRepository.findById(id);
+        Inventory inventory = inventoryOptional.orElseThrow(() -> new ResourceNotFoundException("Inventory not found with id : " + id));
+        inventoryRepository.delete(inventory);
+        return "Inventory with id: " + id + " has been deleted successfully.";
+    }
+
+
+    @Override
     public Inventory findById(UUID id) {
         Optional<Inventory> InventoryOptional = inventoryRepository.findById(id);
-        return InventoryOptional.orElseThrow(() -> new InventoryNotFoundException("Inventory not found with id : " + id));
+        return InventoryOptional.orElseThrow(() -> new ResourceNotFoundException("Inventory not found with id : " + id));
     }
     @Override
     public List<Inventory> getAllInventory(){
@@ -79,7 +91,7 @@ public class InventoryServiceImpl implements InventoryService {
 
         Inventory existingInventory = inventoryRepository.findById(id)
                 .orElseThrow(
-                        () -> new InventoryNotFoundException("Inventory not found with ID: " + id)
+                        () -> new ResourceNotFoundException("Inventory not found with ID: " + id)
                 );
 
         List<Software> associatedSoftwareList = new ArrayList<>();

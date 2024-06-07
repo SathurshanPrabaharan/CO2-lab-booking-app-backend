@@ -1,12 +1,13 @@
 package com.inventoryservice.Controllers;
 
 import com.inventoryservice.DTO.Request.Inventory.InventoryCreateRequest;
+import com.inventoryservice.DTO.Request.Inventory.InventoryDeleteRequest;
 import com.inventoryservice.DTO.Request.Inventory.InventoryUpdateRequest;
 import com.inventoryservice.DTO.Response.Inventory.InventoryDetailsResponse;
 import com.inventoryservice.DTO.Response.Inventory.InventoryListResponse;
 import com.inventoryservice.DTO.Response.Inventory.InventoryResponse;
 import com.inventoryservice.Enums.STATUS;
-import com.inventoryservice.Exception.InventoryNotFoundException;
+import com.inventoryservice.Exception.ResourceNotFoundException;
 import com.inventoryservice.Models.Inventory;
 import com.inventoryservice.Models.Software;
 import com.inventoryservice.Repositories.InventoryRepository;
@@ -77,7 +78,7 @@ public class InventoryController {
 
     @Operation(summary = "Update Inventory", description = "Update the inventory with od")
     @PutMapping("{id}")
-    public ResponseEntity<Object> updateInventory(@PathVariable UUID id, @RequestBody @Valid InventoryUpdateRequest inventoryUpdateRequest) throws InventoryNotFoundException {
+    public ResponseEntity<Object> updateInventory(@PathVariable UUID id, @RequestBody @Valid InventoryUpdateRequest inventoryUpdateRequest) throws ResourceNotFoundException {
         Inventory updateInventory = inventoryService.updateInventory(id, inventoryUpdateRequest);
         String message = "Inventory updated successfully";
         InventoryDetailsResponse response = new InventoryDetailsResponse(message, updateInventory);
@@ -85,24 +86,23 @@ public class InventoryController {
     }
 
 
+    //Delete done with response msg
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteInventory(@PathVariable UUID id) throws InventoryNotFoundException {
-        Inventory inventory = inventoryRepository.findById(id)
-                .orElseThrow(() -> new InventoryNotFoundException("Inventory not found with id: " + id));
-
-        inventoryRepository.delete(inventory);
-        String message = "Inventory with ID: " + id + " has been deleted";
-        return ResponseEntity.ok(message);
+    public ResponseEntity<Object> deleteInventory(@PathVariable UUID id, @RequestBody @Valid InventoryDeleteRequest inventoryDeleteRequest) throws ResourceNotFoundException {
+        String deleteInventoryMessage = inventoryService.deleteInventory(id, inventoryDeleteRequest);
+        InventoryDetailsResponse response = new InventoryDetailsResponse("Inventory deleted successfully", deleteInventoryMessage);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
+    //Get inventory details using id
     @GetMapping("{id}")
-    public ResponseEntity<InventoryResponse> getInventoryDetails(@PathVariable UUID id) throws InventoryNotFoundException {
+    public ResponseEntity<Object> getInventoryDetails(@PathVariable UUID id) throws ResourceNotFoundException {
         Inventory inventory = inventoryRepository.findById(id)
-                .orElseThrow(() -> new InventoryNotFoundException("Inventory not found with id : " + id));
-        String message = "Inventory details retrieved successfully";
-        InventoryResponse response = new InventoryResponse(message, inventory);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+                .orElseThrow(() -> new ResourceNotFoundException("Inventory not found with id: " + id));
+        String message = "Inventory details fetched successfully";
+        InventoryDetailsResponse response = new InventoryDetailsResponse(message, inventory);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
 

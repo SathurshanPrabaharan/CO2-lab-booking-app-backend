@@ -1,8 +1,10 @@
 package com.inventoryservice.Services.Impls;
 
 import com.inventoryservice.DTO.Request.Software.SoftwareCreateRequest;
+import com.inventoryservice.DTO.Request.Software.SoftwareDeleteRequest;
 import com.inventoryservice.DTO.Request.Software.SoftwareUpdateRequest;
-import com.inventoryservice.Exception.InventoryNotFoundException;
+import com.inventoryservice.DTO.Response.Software.SoftwareResponse;
+import com.inventoryservice.Exception.ResourceNotFoundException;
 import com.inventoryservice.Models.Software;
 import com.inventoryservice.Repositories.SoftwareRepository;
 import com.inventoryservice.Services.SoftwareService;
@@ -30,7 +32,7 @@ public class SoftwareServiceImpl implements SoftwareService {
     @Override
     public Software findById(UUID id) {
         Optional<Software> softwareOptional = softwareRepository.findById(id);
-        return softwareOptional.orElseThrow(() -> new InventoryNotFoundException("Software not found with id : " + id));
+        return softwareOptional.orElseThrow(() -> new ResourceNotFoundException("Software not found with id : " + id));
     }
 
     @Override
@@ -47,7 +49,7 @@ public class SoftwareServiceImpl implements SoftwareService {
     public Software updateSoftware(UUID id, SoftwareUpdateRequest softwareUpdateRequest) {
         Software existingSoftware = softwareRepository.findById(id)
                 .orElseThrow(
-                        ()->new InventoryNotFoundException("Software not found with id : "+id)
+                        ()->new ResourceNotFoundException("Software not found with id : "+id)
                 );
         Software updatedSoftware = Software.builder()
                 .id(existingSoftware.getId())
@@ -76,6 +78,15 @@ public class SoftwareServiceImpl implements SoftwareService {
         return new PageImpl<>(paginatedList, PageRequest.of(page, size), totalSize);
     }
 
+    @Override
+    public SoftwareResponse deleteSoftware(UUID id, SoftwareDeleteRequest softwareDeleteRequest) {
+        Software existingSoftware = softwareRepository.findById(id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Software not found with id: " + id)
+                );
 
-
+        softwareRepository.delete(existingSoftware);
+        String message = "Software with id: " + id + " has been deleted successfully.";
+        return new SoftwareResponse(message, existingSoftware);
+    }
 }
