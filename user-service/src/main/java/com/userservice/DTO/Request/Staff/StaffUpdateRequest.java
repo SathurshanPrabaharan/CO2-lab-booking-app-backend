@@ -38,6 +38,8 @@ public class StaffUpdateRequest {
 
     private UUID professionId;
 
+    private UUID departmentId;
+
     private Set<UUID> responsibleCourseIds;
 
     private String contact_email;

@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -15,26 +15,40 @@ import java.util.UUID;
 @Builder
 public class AdminCreateRequest {
 
-    @NotEmpty(message = "Invalid Name: Name cannot be empty")
-    private String name;
 
-    @Email(message = "Invalid Email: Invalid email format")
-    @NotEmpty(message = "Invalid Email: Email cannot be empty")
-    private String email;
+    @NotEmpty(message="Invalid first name : First name cannot be empty" )
+    private String firstName;
 
-    @NotEmpty(message = "Invalid Password: Password cannot be empty")
-    @Size(min = 8,message = "Password should be minimum 8 characters")
-    private String password;
+    @NotEmpty(message="Invalid last name : Last name cannot be empty" )
+    private String lastName;
 
-    private LocalDateTime createdAt;
+    @NotEmpty(message="Invalid display name : Display name cannot be empty" )
+    private String displayName;
 
-    private LocalDateTime updatedAt;
+    private String mobile;
+
+    private String gender;
+
+    @NotNull(message = "Invalid userRoleId: userRoleId cannot be null")
+    private UUID userRoleId;
+
+    private UUID professionId;
+
+    private UUID departmentId;
+
+    // If not provided, value will be initiated in the service
+    private String userPrincipalName;
+
+    @NotEmpty(message = "Invalid tempPassword: Temporary Password cannot be empty")
+    private String tempPassword;
+
+    private String contact_email;
+
+    private String photoUrl;
 
     @NotNull(message = "Invalid createdBy: CreatedBy cannot be null")
     private UUID createdBy;
 
-    @NotNull(message = "Invalid professionId: professionId cannot be null")
-    private UUID professionId;
 
 
 }

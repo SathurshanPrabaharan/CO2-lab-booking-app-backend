@@ -3,6 +3,7 @@ package com.userservice.Models;
 import com.userservice.Enums.GENDER;
 import com.userservice.Enums.STATUS;
 import com.userservice.Models.SupportModels.Course;
+import com.userservice.Models.SupportModels.Department;
 import com.userservice.Models.SupportModels.Profession;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class Staff {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "object_id",unique = true)
+    @Column(name = "object_id",unique = true,nullable = false)
     private UUID objectId;
 
     @Column( name = "first_name",nullable = false)
@@ -40,7 +41,7 @@ public class Staff {
     @Column( name = "last_name",nullable = false)
     private String lastName;
 
-    @Column(name = "display_name")
+    @Column(name = "display_name", nullable = false)
     private String displayName;
 
     @Column
@@ -57,8 +58,12 @@ public class Staff {
     @JoinColumn(name = "profession_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_staff_profession"))
     private Profession profession;
 
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_student_department"))
+    private Department department;
+
     //save and merge together
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Course.class)
     @JoinTable(
             name = "staff_courses",
             joinColumns = @JoinColumn(name = "staff_id"),
@@ -66,6 +71,11 @@ public class Staff {
     )
     @Builder.Default
     private Set<Course> responsibleCourses = new HashSet<>();
+
+//    @ManyToMany(mappedBy = "responsibleStaffs", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+//    @Builder.Default
+//    private Set<Course> responsibleCourses = new HashSet<>();
+
 
     // Mail ID from organization
     @Column(name = "user_principal_name", nullable = false,unique = true)
@@ -107,5 +117,34 @@ public class Staff {
 
     @Column
     private STATUS status;
+
+    @Override
+    public String toString() {
+        return "Staff{" +
+                "id=" + id +
+                ", objectId=" + objectId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", gender=" + gender +
+                ", userRole=" + userRole +
+                ", profession=" + profession +
+                ", department=" + department +
+                ", responsibleCourses=" + responsibleCourses.stream().map(Course::getId).toList() +
+                ", userPrincipalName='" + userPrincipalName + '\'' +
+                ", contact_email='" + contact_email + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", isInitalLogged=" + isInitalLogged +
+                ", verifyToken='" + verifyToken + '\'' +
+                ", tokenIssuedAt=" + tokenIssuedAt +
+                ", accountEnabled=" + accountEnabled +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", createdBy=" + createdBy +
+                ", updatedBy=" + updatedBy +
+                ", status=" + status +
+                '}';
+    }
 
 }
