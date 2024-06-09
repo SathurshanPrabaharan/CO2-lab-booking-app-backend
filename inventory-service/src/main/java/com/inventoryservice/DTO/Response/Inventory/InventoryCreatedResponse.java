@@ -19,25 +19,22 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class InventoryDetailsResponse {
+public class InventoryCreatedResponse {
 
     private String message;
-    private ResponseInventoryDetails data;
+    private ResponseCreatedInventory data;
 
 
-    public InventoryDetailsResponse(String message, Inventory foundedInventory) {
+    public InventoryCreatedResponse(String message, Inventory foundedInventory) {
         this.message = message;
-        this.data = new ResponseInventoryDetails(foundedInventory);
-    }
-
-    public InventoryDetailsResponse(String inventory_deleted_successfully, String deleteInventoryMessage) {
+        this.data = new ResponseCreatedInventory(foundedInventory);
     }
 }
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-class ResponseInventoryDetails {
+class ResponseCreatedInventory {
     private UUID id;
     private String name;
     private String serialNum;
@@ -61,7 +58,7 @@ class ResponseInventoryDetails {
     private STATUS status;
     private Set<ModifiedSoftware> installedSoftwares = new HashSet<>();
 
-    public ResponseInventoryDetails(Inventory inventory) {
+    public ResponseCreatedInventory(Inventory inventory) {
         this.id = inventory.getId();
         this.name = inventory.getName();
         this.serialNum = inventory.getSerialNum();
@@ -84,6 +81,7 @@ class ResponseInventoryDetails {
         this.createdBy = inventory.getCreatedBy();
         this.status = inventory.getStatus();
 
+
         // if installed softwares exist
         Set<Software> temp = inventory.getInstalledSoftwares();
         if (temp != null) {
@@ -91,5 +89,7 @@ class ResponseInventoryDetails {
                 this.installedSoftwares.add(new ModifiedSoftware(software));
             }
         }
+
+
     }
 }

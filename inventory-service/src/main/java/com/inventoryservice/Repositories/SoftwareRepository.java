@@ -12,6 +12,8 @@ public interface SoftwareRepository extends JpaRepository<Software,UUID> {
 
     Optional<Software> findById(UUID id);
 
+    List<Software> findAllByOrderByCreatedAtDesc();
+
     List<Software> findByName(String name);
 
     List<Software> findByVersion(String version);

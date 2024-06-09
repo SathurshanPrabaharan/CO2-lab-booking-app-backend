@@ -1,28 +1,30 @@
 package com.inventoryservice.Repositories;
 
-import com.inventoryservice.Enums.STATUS;
 import com.inventoryservice.Models.Inventory;
+import com.inventoryservice.Models.Software;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
 
 
-    @Query("SELECT e FROM Inventory e WHERE e.warrantyExpiry BETWEEN :startDate AND :endDate")
-    List<Inventory> findByWarrantyExpiry(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
-
-    @Query("SELECT e FROM Inventory e WHERE e.nextMaintenanceDate BETWEEN :startDate AND :endDate")
-    List<Inventory> findByNextMaintenanceDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
-
-    @Query("SELECT e FROM Inventory e WHERE e.lastMaintenanceDate BETWEEN :startDate AND :endDate")
-    List<Inventory> findByLastMaintenanceDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
-
     List<Inventory> findAllByOrderByCreatedAtDesc();
+
+    @Query("SELECT i.installedSoftwares FROM Inventory i WHERE i.id = :inventoryId")
+    Set<Software> findInstalledSoftwaresByInventoryId(@Param("inventoryId") UUID inventoryId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM inventory_software WHERE inventory_id = ?1", nativeQuery = true)
+    void deleteSoftwareByInventoryId(UUID inventoryId);
 
 }
