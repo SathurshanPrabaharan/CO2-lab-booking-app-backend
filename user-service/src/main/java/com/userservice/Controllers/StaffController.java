@@ -43,12 +43,14 @@ public class StaffController {
     public ResponseEntity<Object> filterStaff(
             @RequestParam(required = false) UUID userRoleId,
             @RequestParam(required = false) UUID professionId,
+            @RequestParam(required = false) UUID departmentId,
+            @RequestParam(required = false) String gender,
             @RequestParam(required = false) UUID createdBy,
             @RequestParam(required = false) String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        Page<Staff> filteredStaffs = staffService.filterStaff(userRoleId, professionId, createdBy, status, page-1, size);
+        Page<Staff> filteredStaffs = staffService.filterStaff(userRoleId, professionId, departmentId,gender,  createdBy, status, page-1, size);
         String message = "Staffs fetched successfully";
         StaffListResponse response = new StaffListResponse(message, filteredStaffs);
         return new ResponseEntity<>(response, HttpStatus.OK);

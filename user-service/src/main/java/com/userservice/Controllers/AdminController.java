@@ -1,79 +1,64 @@
 package com.userservice.Controllers;
 
+
+import com.userservice.DTO.Request.Admin.AdminArchiveRequest;
 import com.userservice.DTO.Request.Admin.AdminCreateRequest;
 import com.userservice.DTO.Request.Admin.AdminUpdateRequest;
+import com.userservice.DTO.Response.ResponseMessage;
 import com.userservice.DTO.Response.Admin.AdminDetailsResponse;
 import com.userservice.DTO.Response.Admin.AdminListResponse;
-import com.userservice.DTO.Response.Admin.AdminResponse;
-import com.userservice.DTO.Response.ResponseMessage;
-import com.userservice.Enums.STATUS;
 import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Admin;
 import com.userservice.Services.AdminService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users/admins")
-@RequiredArgsConstructor
+@Tag(name = "Admin Controller", description = "Endpoints for admins")
 public class AdminController {
 
-    private final AdminService adminService;
+    @Autowired
+    private AdminService adminService;
 
+    @Operation(summary = "Create Admin", description = "Create admin with role privileges")
     @PostMapping
-    public ResponseEntity<Object> saveEmployee(@RequestBody @Valid AdminCreateRequest admin){
+    public ResponseEntity<Object> saveAdmin(@RequestBody @Valid AdminCreateRequest admin) {
         Admin savedAdmin = adminService.saveAdmin(admin);
         String message = "Admin created successfully";
-        AdminResponse response = new AdminResponse(message, savedAdmin);
+        AdminDetailsResponse response = new AdminDetailsResponse(message, savedAdmin);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-//    @PostMapping(value = "/register")
-//    public ResponseEntity<Object> registerAdmin(@RequestBody AdminRegisterRequest request){
-//
-//    }
-
-
-
+    @Operation(summary = "Get Admins",
+            description = "Get All admins by applying page,size,userRoleId,professionId,departmentId,createdBy,gender,status filters")
     @GetMapping
-    public ResponseEntity<Object> getAllAdmins(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String name,
+    public ResponseEntity<Object> filterAdmin(
+            @RequestParam(required = false) UUID userRoleId,
+            @RequestParam(required = false) UUID professionId,
+            @RequestParam(required = false) UUID departmentId,
+            @RequestParam(required = false) String gender,
+            @RequestParam(required = false) String status,
             @RequestParam(required = false) UUID createdBy,
-            @RequestParam(required = false) String status
-    ){
-        List<Admin> foundedAdmins;
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        if (name == null && createdBy == null && status == null){
-           foundedAdmins = adminService.getAllAdmins(null,null,null);
-        }else if(status == null){
-
-            foundedAdmins = adminService.getAllAdmins(name, createdBy, null);
-        }else{
-            foundedAdmins = adminService.getAllAdmins(name, createdBy, STATUS.valueOf(status));
-        }
-
-
+        Page<Admin> filteredAdmins = adminService.filterAdmin(userRoleId, professionId, departmentId,gender, status, createdBy, page-1, size);
         String message = "Admins fetched successfully";
-
-        AdminListResponse response;
-        if(page==null && size==null) {
-            response = new AdminListResponse(message, foundedAdmins);
-        }else{
-            response = new AdminListResponse(message, foundedAdmins, page, size);
-        }
-
+        AdminListResponse response = new AdminListResponse(message, filteredAdmins);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
+    @Operation(summary = "Get Admin Details", description = "Get all details of the associated admin")
     @GetMapping("{id}")
     public ResponseEntity<Object> getAdminDetails(@PathVariable UUID id) throws ResourceNotFoundException {
         Admin admin = adminService.findById(id);
@@ -83,23 +68,26 @@ public class AdminController {
     }
 
 
+    @Operation(summary = "Update Admin", description = "Update the admin except userPrincipleName, objectId")
     @PutMapping("{id}")
-    public ResponseEntity<Object> updateAdmin(@PathVariable UUID id ,@RequestBody @Valid AdminUpdateRequest adminUpdateRequest) throws ResourceNotFoundException {
-        Admin updatedAdmin  = adminService.updateAdmin(id,adminUpdateRequest);
+    public ResponseEntity<Object> updateAdmin(@PathVariable UUID id ,@RequestBody @Valid AdminUpdateRequest request) throws ResourceNotFoundException {
+        Admin updatedAdmin  = adminService.updateAdmin(id,request);
         String message = "Admin updated successfully";
         AdminDetailsResponse response = new AdminDetailsResponse(message,updatedAdmin);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object> archiveAdmin(@PathVariable UUID id) throws ResourceNotFoundException {
-        adminService.archiveAdmin(id);
-        String message = "Admin archived successfully";
-        ResponseMessage response = new ResponseMessage(message);
-        return new ResponseEntity<>(response,HttpStatus.OK);
-    }
+   @Operation(summary = "Archive Admin", description = "Archive the Admin -> Status=ARCHIVED and Disable Azure Ad user account")
+   @DeleteMapping("{id}")
+   public ResponseEntity<Object> archiveAdmin(@PathVariable UUID id, @RequestBody AdminArchiveRequest request) throws ResourceNotFoundException {
+       adminService.archiveAdmin(id,request);
+       String message = "Admin archived successfully";
+       ResponseMessage response = new ResponseMessage(message);
+       return new ResponseEntity<>(response,HttpStatus.OK);
+   }
 
 
 
 }
+

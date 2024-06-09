@@ -1,13 +1,16 @@
 package com.userservice.DTO.Request.Admin;
 
 import com.userservice.Validations.ValidStatus;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -16,15 +19,35 @@ import java.util.UUID;
 @Builder
 public class AdminUpdateRequest {
 
-    @NotEmpty(message = "Invalid Name: Name cannot be empty")
-    private String name;
+    @NotEmpty(message="Invalid first name : First name cannot be empty" )
+    private String firstName;
 
-    @NotNull(message = "Invalid professionId: professionId cannot be null")
+    @NotEmpty(message="Invalid last name : Last name cannot be empty" )
+    private String lastName;
+
+    @NotEmpty(message="Invalid display name : Display name cannot be empty" )
+    private String displayName;
+
+    private String mobile;
+
+    private String gender;
+
+    @NotNull(message = "Invalid userRoleId: userRoleId cannot be null")
+    private UUID userRoleId;
+
     private UUID professionId;
 
-    private LocalDateTime createdAt;
+    private UUID departmentId;
 
-    private LocalDateTime updatedAt;
+    private String contact_email;
+
+    private String photoUrl;
+
+    private Boolean isInitalLogged;
+
+    private String verifyToken;
+
+    private LocalDateTime tokenIssuedAt;
 
 
     @NotNull(message = "Invalid updatedBy: updatedBy cannot be null")
@@ -33,5 +56,8 @@ public class AdminUpdateRequest {
     @NotNull(message = "Invalid status: Status cannot be null")
     @ValidStatus(message = "Invalid status: Status must be one of ACTIVE, INACTIVE, or ARCHIVED")
     private String status;
+
+    @Builder.Default
+    private boolean wantToEnableAccount=false;
 
 }

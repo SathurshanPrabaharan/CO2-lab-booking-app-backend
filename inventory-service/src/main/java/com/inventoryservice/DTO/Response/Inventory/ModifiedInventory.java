@@ -1,22 +1,17 @@
 package com.inventoryservice.DTO.Response.Inventory;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import com.inventoryservice.DTO.Response.Software.ModifiedSoftware;
 import com.inventoryservice.Enums.STATUS;
 import com.inventoryservice.Models.Inventory;
 import com.inventoryservice.Models.Software;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,19 +29,14 @@ public class ModifiedInventory {
     private String storageType;
     private String storageSize;
     private String operatingSystem;
-    private STATUS status;
     private LocalDate purchaseDate;
     private Float purchaseCost;
     private LocalDate warrantyExpiry;
     private String shortNote;
     private LocalDate lastMaintenanceDate;
     private LocalDate nextMaintenanceDate;
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    private Long createdBy;
-    private List<Software> installedSoftwares;
+    private STATUS status;
+    private Set<ModifiedSoftware> installedSoftwares = new HashSet<>();
 
 
 
@@ -68,15 +58,12 @@ public class ModifiedInventory {
         this.shortNote=inventory.getShortNote();
         this.lastMaintenanceDate=inventory.getLastMaintenanceDate();
         this.nextMaintenanceDate=inventory.getNextMaintenanceDate();
-        this.createdAt=inventory.getCreatedAt();
-        this.updatedAt=inventory.getUpdatedAt();
-        this.createdBy=inventory.getCreatedBy();
-        this.installedSoftwares   = inventory.getInstalledSoftwares() != null ? inventory.getInstalledSoftwares() : new ArrayList<>();
-        // Initialize installedSoftwares list and copy elements
-        this.installedSoftwares = new ArrayList<>();
-        List<Software> inventorySoftwares = inventory.getInstalledSoftwares();
-        if (inventorySoftwares != null) {
-            this.installedSoftwares.addAll(inventorySoftwares);
+
+        Set<Software> temp = inventory.getInstalledSoftwares();
+        if (temp != null) {
+            for (Software software : temp) {
+                this.installedSoftwares.add(new ModifiedSoftware(software));
+            }
         }
     }
 
