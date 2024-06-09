@@ -1,23 +1,20 @@
 package com.inventoryservice.Models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.inventoryservice.Enums.STATUS;
-        import jakarta.persistence.*;
-        import lombok.AllArgsConstructor;
-        import lombok.Builder;
-        import lombok.Data;
-        import lombok.NoArgsConstructor;
-        import org.hibernate.annotations.CreationTimestamp;
-        import org.hibernate.annotations.GenericGenerator;
-        import org.hibernate.annotations.UpdateTimestamp;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
-        import java.time.LocalDate;
-        import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-        import java.util.UUID;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Table(name="inventories")
@@ -32,7 +29,7 @@ public class Inventory {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column( nullable = false,length = 20)
+    @Column( nullable = false,length = 20,unique = true)
     private String name;
 
     @Column(name = "serial_num",length = 50)
@@ -93,7 +90,10 @@ public class Inventory {
     private LocalDateTime updatedAt;
 
     @Column(name = "created_by")
-    private Long createdBy;
+    private UUID createdBy;
+
+    @Column(name = "updated_by")
+    private UUID updatedBy;
 
 
     @ManyToMany
@@ -105,6 +105,6 @@ public class Inventory {
 
     @JsonManagedReference // This ensures serialization of installedSoftwares
     @Builder.Default
-    private List<Software> installedSoftwares =new ArrayList<>();;
+    private Set<Software> installedSoftwares =new HashSet<>();
 
 }

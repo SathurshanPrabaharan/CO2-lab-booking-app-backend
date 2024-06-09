@@ -1,4 +1,4 @@
-package com.inventoryservice.DTO.Request.Inventory;
+package com.inventoryservice.DTO.Request.Software;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,8 +12,11 @@ import java.util.UUID;
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
 @Builder
-public class InventoryDeleteRequest {
-    @NotNull(message = "Invalid DeletedBy: DeletedBy cannot be null")
-    private Long deletedBy;
+public class SoftwareArchiveRequest {
+
+    @NotNull(message = "Invalid archivedBy: archivedBy cannot be null")
+    private UUID archivedBy;
 
 }
+
+
