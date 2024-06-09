@@ -10,13 +10,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ModifiedInventory {
+public class ModifiedInventorySimple {
 
     private UUID id;
     private String name;
@@ -36,11 +37,10 @@ public class ModifiedInventory {
     private LocalDate lastMaintenanceDate;
     private LocalDate nextMaintenanceDate;
     private STATUS status;
-    private Set<ModifiedSoftware> installedSoftwares = new HashSet<>();
 
 
 
-    public ModifiedInventory (Inventory inventory){
+    public ModifiedInventorySimple(Inventory inventory){
         this.id=inventory.getId();
         this.name=inventory.getName();
         this.serialNum=inventory.getSerialNum();
@@ -59,12 +59,6 @@ public class ModifiedInventory {
         this.lastMaintenanceDate=inventory.getLastMaintenanceDate();
         this.nextMaintenanceDate=inventory.getNextMaintenanceDate();
 
-        Set<Software> temp = inventory.getInstalledSoftwares();
-        if (temp != null) {
-            for (Software software : temp) {
-                this.installedSoftwares.add(new ModifiedSoftware(software));
-            }
-        }
     }
 
 

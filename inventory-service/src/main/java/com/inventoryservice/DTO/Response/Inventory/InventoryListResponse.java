@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,13 +28,13 @@ public class InventoryListResponse {
 @Data
 class ResultInventory{
     private long total;
-    private List<ModifiedInventory> results;
+    private Set<ModifiedInventorySimple> results;
 
     public ResultInventory(Page<Inventory> results) {
         this.total = results.getTotalElements();
-        List<ModifiedInventory> resultModifiedInventories = new ArrayList<>();
+        Set<ModifiedInventorySimple> resultModifiedInventories = new HashSet<>();
         for(Inventory currentInventory : results.getContent()){
-            ModifiedInventory temp = new ModifiedInventory(currentInventory);
+            ModifiedInventorySimple temp = new ModifiedInventorySimple(currentInventory);
             resultModifiedInventories.add(temp);
         }
         this.results=resultModifiedInventories;
