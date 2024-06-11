@@ -10,9 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class UserServiceApplication {
 	public static void main(String[] args) {
 
+		// Load the env file
 		Dotenv dotenv = Dotenv.configure()
-//				.directory("./user-service")
-				.directory("./")
+				.directory("./user-service")
+//				.directory("./")
 				.filename(".env")
 				.load();
 
