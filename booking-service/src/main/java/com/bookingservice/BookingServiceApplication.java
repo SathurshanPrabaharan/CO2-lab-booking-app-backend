@@ -9,8 +9,8 @@ public class BookingServiceApplication {
 	public static void main(String[] args) {
 
 		Dotenv dotenv = Dotenv.configure()
-//				.directory("./booking-service")
-				.directory("./")
+				.directory("./booking-service")
+//				.directory("./")
 				.filename(".env")
 				.load();
 		dotenv.entries().forEach(entry -> {
