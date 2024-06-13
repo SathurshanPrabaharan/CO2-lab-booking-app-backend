@@ -19,6 +19,36 @@ jobs:
           distribution: 'temurin' # Specify the Java distribution
           java-version: '17'
 
+      - name: Set environment variables from secrets
+        run: |
+          echo "LOCAL_CLIENT_ID=${{ secrets.LOCAL_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "LOCAL_CLIENT_SECRET=${{ secrets.LOCAL_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "LOCAL_TENANT_ID=${{ secrets.LOCAL_TENANT_ID }}" >> $GITHUB_ENV
+          echo "LOCAL_DOMAIN_NAME=${{ secrets.LOCAL_DOMAIN_NAME }}" >> $GITHUB_ENV
+          echo "LOCAL_DATASOURCE_DRIVER_CLASS_NAME=${{ secrets.LOCAL_DATASOURCE_DRIVER_CLASS_NAME }}" >> $GITHUB_ENV
+          echo "LOCAL_DATASOURCE_URL=${{ secrets.LOCAL_DATASOURCE_URL }}" >> $GITHUB_ENV
+          echo "LOCAL_DATASOURCE_USERNAME=${{ secrets.LOCAL_DATASOURCE_USERNAME }}" >> $GITHUB_ENV
+          echo "LOCAL_DATASOURCE_PASSWORD=${{ secrets.LOCAL_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
+          echo "DEV_TENANT_ID=${{ secrets.DEV_TENANT_ID }}" >> $GITHUB_ENV
+          echo "DEV_CLIENT_ID=${{ secrets.DEV_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "DEV_CLIENT_SECRET=${{ secrets.DEV_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "DEV_DOMAIN_NAME=${{ secrets.DEV_DOMAIN_NAME }}" >> $GITHUB_ENV
+          echo "DEV_DATASOURCE_DRIVER_CLASS_NAME=${{ secrets.DEV_DATASOURCE_DRIVER_CLASS_NAME }}" >> $GITHUB_ENV
+          echo "DEV_DATASOURCE_URL=${{ secrets.DEV_DATASOURCE_URL }}" >> $GITHUB_ENV
+          echo "DEV_DATASOURCE_USERNAME=${{ secrets.DEV_DATASOURCE_USERNAME }}" >> $GITHUB_ENV
+          echo "DEV_DATASOURCE_PASSWORD=${{ secrets.DEV_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
+          echo "AZURE_TENANT_ID=${{ secrets.AZURE_TENANT_ID }}" >> $GITHUB_ENV
+          echo "AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "AZURE_CLIENT_SECRET=${{ secrets.AZURE_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "AZURE_APP_ID_URI=${{ secrets.AZURE_APP_ID_URI }}" >> $GITHUB_ENV
+          echo "AZURE_SCOPE=${{ secrets.AZURE_SCOPE }}" >> $GITHUB_ENV
+          echo "AZURE_AUTHORIZATION_GRANT_TYPE=${{ secrets.AZURE_AUTHORIZATION_GRANT_TYPE }}" >> $GITHUB_ENV
+          echo "AZURE_REDIRECT_URI=${{ secrets.AZURE_REDIRECT_URI }}" >> $GITHUB_ENV
+          echo "AZURE_AUTHORIZATION_URI=${{ secrets.AZURE_AUTHORIZATION_URI }}" >> $GITHUB_ENV
+          echo "AZURE_TOKEN_URI=${{ secrets.AZURE_TOKEN_URI }}" >> $GITHUB_ENV
+          echo "AZURE_USER_INFO_URI=${{ secrets.AZURE_USER_INFO_URI }}" >> $GITHUB_ENV
+          echo "AZURE_JWK_SET_URI=${{ secrets.AZURE_JWK_SET_URI }}" >> $GITHUB_ENV
+
       - name: Build with Maven
         run: mvn -f user-service/pom.xml clean install
 
@@ -42,6 +72,36 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: user-service-MS
+
+      - name: Set environment variables from secrets
+        run: |
+          echo "LOCAL_CLIENT_ID=${{ secrets.LOCAL_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "LOCAL_CLIENT_SECRET=${{ secrets.LOCAL_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "LOCAL_TENANT_ID=${{ secrets.LOCAL_TENANT_ID }}" >> $GITHUB_ENV
+          echo "LOCAL_DOMAIN_NAME=${{ secrets.LOCAL_DOMAIN_NAME }}" >> $GITHUB_ENV
+          echo "LOCAL_DATASOURCE_DRIVER_CLASS_NAME=${{ secrets.LOCAL_DATASOURCE_DRIVER_CLASS_NAME }}" >> $GITHUB_ENV
+          echo "LOCAL_DATASOURCE_URL=${{ secrets.LOCAL_DATASOURCE_URL }}" >> $GITHUB_ENV
+          echo "LOCAL_DATASOURCE_USERNAME=${{ secrets.LOCAL_DATASOURCE_USERNAME }}" >> $GITHUB_ENV
+          echo "LOCAL_DATASOURCE_PASSWORD=${{ secrets.LOCAL_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
+          echo "DEV_TENANT_ID=${{ secrets.DEV_TENANT_ID }}" >> $GITHUB_ENV
+          echo "DEV_CLIENT_ID=${{ secrets.DEV_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "DEV_CLIENT_SECRET=${{ secrets.DEV_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "DEV_DOMAIN_NAME=${{ secrets.DEV_DOMAIN_NAME }}" >> $GITHUB_ENV
+          echo "DEV_DATASOURCE_DRIVER_CLASS_NAME=${{ secrets.DEV_DATASOURCE_DRIVER_CLASS_NAME }}" >> $GITHUB_ENV
+          echo "DEV_DATASOURCE_URL=${{ secrets.DEV_DATASOURCE_URL }}" >> $GITHUB_ENV
+          echo "DEV_DATASOURCE_USERNAME=${{ secrets.DEV_DATASOURCE_USERNAME }}" >> $GITHUB_ENV
+          echo "DEV_DATASOURCE_PASSWORD=${{ secrets.DEV_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
+          echo "AZURE_TENANT_ID=${{ secrets.AZURE_TENANT_ID }}" >> $GITHUB_ENV
+          echo "AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "AZURE_CLIENT_SECRET=${{ secrets.AZURE_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "AZURE_APP_ID_URI=${{ secrets.AZURE_APP_ID_URI }}" >> $GITHUB_ENV
+          echo "AZURE_SCOPE=${{ secrets.AZURE_SCOPE }}" >> $GITHUB_ENV
+          echo "AZURE_AUTHORIZATION_GRANT_TYPE=${{ secrets.AZURE_AUTHORIZATION_GRANT_TYPE }}" >> $GITHUB_ENV
+          echo "AZURE_REDIRECT_URI=${{ secrets.AZURE_REDIRECT_URI }}" >> $GITHUB_ENV
+          echo "AZURE_AUTHORIZATION_URI=${{ secrets.AZURE_AUTHORIZATION_URI }}" >> $GITHUB_ENV
+          echo "AZURE_TOKEN_URI=${{ secrets.AZURE_TOKEN_URI }}" >> $GITHUB_ENV
+          echo "AZURE_USER_INFO_URI=${{ secrets.AZURE_USER_INFO_URI }}" >> $GITHUB_ENV
+          echo "AZURE_JWK_SET_URI=${{ secrets.AZURE_JWK_SET_URI }}" >> $GITHUB_ENV
       
       - name: Login to Azure
         uses: azure/login@v1
