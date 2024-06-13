@@ -11,15 +11,15 @@ public class AdminApiGatewayApplication {
     public static void main(String[] args) {
 //        System.out.println("Working Directory = " + System.getProperty("user.dir"));
 
-        Dotenv dotenv = Dotenv.configure()
-                .directory("./admin-api-gateway")
-//                .directory("./")
-                .filename(".env")
-                .load();
-
-        dotenv.entries().forEach(entry -> {
-            System.setProperty(entry.getKey(), entry.getValue());
-        });
+//        Dotenv dotenv = Dotenv.configure()
+//                .directory("./admin-api-gateway")
+////                .directory("./")
+//                .filename(".env")
+//                .load();
+//
+//        dotenv.entries().forEach(entry -> {
+//            System.setProperty(entry.getKey(), entry.getValue());
+//        });
 
         SpringApplication.run(AdminApiGatewayApplication.class, args);
     }
