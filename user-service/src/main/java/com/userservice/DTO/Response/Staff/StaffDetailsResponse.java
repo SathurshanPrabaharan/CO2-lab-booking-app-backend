@@ -1,7 +1,8 @@
 package com.userservice.DTO.Response.Staff;
 
-import com.userservice.DTO.Response.Course.ModifiedCourse;
 import com.userservice.DTO.Response.Profession.ModifiedProfession;
+import com.userservice.DTO.Response.SupportModelResponses.ModifiedCourse;
+import com.userservice.DTO.Response.SupportModelResponses.ModifiedDepartment;
 import com.userservice.DTO.Response.UserRole.ModifiedUserRole;
 import com.userservice.Enums.GENDER;
 import com.userservice.Enums.STATUS;
@@ -44,6 +45,7 @@ class ResponseStaffDetails {
     private GENDER gender;
     private ModifiedUserRole userRole;
     private ModifiedProfession profession;
+    private ModifiedDepartment department;
     private Set<ModifiedCourse> responsibleCourses = new HashSet<>();
     private String userPrincipalName;
     private String contact_email;
@@ -67,7 +69,6 @@ class ResponseStaffDetails {
         this.mobile = staff.getMobile();
         this.gender = staff.getGender();
         this.userRole = new ModifiedUserRole(staff.getUserRole());
-        this.profession = new ModifiedProfession(staff.getProfession());
         this.userPrincipalName = staff.getUserPrincipalName();
         this.contact_email = staff.getContact_email();
         this.photoUrl = staff.getPhotoUrl();
@@ -86,6 +87,14 @@ class ResponseStaffDetails {
             temp.stream()
                     .map(ModifiedCourse::new)
                     .forEach(this.responsibleCourses::add);
+        }
+
+        if(staff.getProfession() !=null){
+            this.profession = new ModifiedProfession(staff.getProfession());
+        }
+
+        if(staff.getDepartment() !=null){
+            this.department = new ModifiedDepartment(staff.getDepartment());
         }
 
     }

@@ -10,10 +10,12 @@ import com.userservice.Enums.STATUS;
 import com.userservice.Exceptions.ResourceNotFoundException;
 import com.userservice.Models.Staff;
 import com.userservice.Models.SupportModels.Course;
+import com.userservice.Models.SupportModels.Department;
 import com.userservice.Models.SupportModels.Profession;
 import com.userservice.Models.UserRole;
 import com.userservice.Repositories.StaffRepository;
 import com.userservice.Repositories.SupportRepositories.CourseRepository;
+import com.userservice.Repositories.SupportRepositories.DepartmentRepository;
 import com.userservice.Repositories.SupportRepositories.ProfessionRepository;
 import com.userservice.Repositories.UserRoleRepository;
 import com.userservice.Services.AzureAdService;
@@ -38,16 +40,19 @@ public class StaffServiceImpl implements StaffService {
     private final StaffRepository staffRepository;
     private final UserRoleRepository userRoleRepository;
     private final ProfessionRepository professionRepository;
+    private final DepartmentRepository departmentRepository;
     private final CourseRepository courseRepository;
 
     @Autowired
     public StaffServiceImpl(StaffRepository staffRepository,
                             UserRoleRepository userRoleRepository,
                             ProfessionRepository professionRepository,
+                            DepartmentRepository departmentRepository,
                             CourseRepository courseRepository) {
         this.staffRepository = staffRepository;
         this.userRoleRepository = userRoleRepository;
         this.professionRepository = professionRepository;
+        this.departmentRepository = departmentRepository;
         this.courseRepository = courseRepository;
     }
 
@@ -112,6 +117,13 @@ public class StaffServiceImpl implements StaffService {
             staff.setProfession(profession);
         }
 
+        // Set Department if exists
+        if (request.getDepartmentId() != null) {
+            Department department = departmentRepository.findById(request.getDepartmentId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + request.getDepartmentId()));
+            staff.setDepartment(department);
+        }
+
         // Set Responsible Course if exists
         if (request.getResponsibleCourseIds() != null) {
             List<Course> responsibleCoursesList = courseRepository.findAllById(request.getResponsibleCourseIds());
@@ -140,7 +152,7 @@ public class StaffServiceImpl implements StaffService {
 
 
     @Override
-    public Page<Staff> filterStaff(UUID userRoleId, UUID professionId, UUID createdBy, String status, int page, int size) {
+    public Page<Staff> filterStaff(UUID userRoleId, UUID professionId, UUID departmentId, String gender, UUID createdBy, String status, int page, int size) {
         // Fetch all staff ordered by createdAt in descending order
         List<Staff> allStaff = staffRepository.findAllByOrderByCreatedAtDesc();
 
@@ -148,6 +160,8 @@ public class StaffServiceImpl implements StaffService {
         List<Staff> filteredStaff = allStaff.stream()
                 .filter(staff -> userRoleId == null || (staff.getUserRole() != null && staff.getUserRole().getId().equals(userRoleId)))
                 .filter(staff -> professionId == null || (staff.getProfession() != null && staff.getProfession().getId().equals(professionId)))
+                .filter(staff -> departmentId == null || (staff.getDepartment() != null && staff.getDepartment().getId().equals(departmentId)))
+                .filter(staff -> gender == null || staff.getGender().toString().equalsIgnoreCase(gender))
                 .filter(staff -> createdBy == null || staff.getCreatedBy().equals(createdBy))
                 .filter(staff -> status == null || staff.getStatus().toString().equalsIgnoreCase(status))
                 .collect(Collectors.toList());
@@ -207,6 +221,13 @@ public class StaffServiceImpl implements StaffService {
             updatedStaff.setProfession(profession);
         }
 
+        // Set Department if exists
+        if (request.getDepartmentId() != null) {
+            Department department = departmentRepository.findById(request.getDepartmentId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + request.getDepartmentId()));
+            updatedStaff.setDepartment(department);
+        }
+
         // Set Responsible Course if exists
         if (request.getResponsibleCourseIds() != null) {
             List<Course> responsibleCoursesList = courseRepository.findAllById(request.getResponsibleCourseIds());
@@ -260,6 +281,7 @@ public class StaffServiceImpl implements StaffService {
                 .status(STATUS.ARCHIVED)
                 .userRole(existingStaff.getUserRole())
                 .profession(existingStaff.getProfession())
+                .department(existingStaff.getDepartment())
                 .responsibleCourses(existingStaff.getResponsibleCourses())
                 .build();
 

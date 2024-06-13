@@ -17,7 +17,7 @@ public interface StaffService {
 
     List<Staff> getAllStaffs();
 
-    Page<Staff> filterStaff(UUID userRoleId, UUID professionId, UUID createdBy, String status, int page, int size);
+    Page<Staff> filterStaff(UUID userRoleId, UUID professionId, UUID departmentId, String gender, UUID createdBy, String status, int page, int size);
 
     Staff findById(UUID id);
 

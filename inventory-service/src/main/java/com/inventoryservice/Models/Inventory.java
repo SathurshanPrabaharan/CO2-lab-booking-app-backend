@@ -1,8 +1,11 @@
 package com.inventoryservice.Models;
 
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.inventoryservice.Enums.STATUS;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,14 +14,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name="inventories")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "build")
+@Builder
 public class Inventory {
 
     @Id
@@ -26,7 +29,7 @@ public class Inventory {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column( nullable = false,length = 20)
+    @Column( nullable = false,length = 20,unique = true)
     private String name;
 
     @Column(name = "serial_num",length = 50)
@@ -79,16 +82,29 @@ public class Inventory {
 
     @CreationTimestamp
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt;//    private LocalDateTime createdAt;
+
 
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @Column(name = "created_by")
-    private Long createdBy;
+    private UUID createdBy;
 
-    @Column(name = "installed_softwares")
-    private List<Integer> installedSoftwares;
+    @Column(name = "updated_by")
+    private UUID updatedBy;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "inventory_software",
+            joinColumns = @JoinColumn(name = "inventory_id"),
+            inverseJoinColumns = @JoinColumn(name = "software_id")
+    )
+
+    @JsonManagedReference // This ensures serialization of installedSoftwares
+    @Builder.Default
+    private Set<Software> installedSoftwares =new HashSet<>();
 
 }

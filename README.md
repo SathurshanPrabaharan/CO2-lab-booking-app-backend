@@ -8,9 +8,14 @@ Software engineering course - team project
 - user-service          : 8084
 - inventory-service     : 8085
 - configuration-service : 8086
+- booking-service       : 8087
+- notification-service  : 8088
 
 ## API Gateways
 - Admin-API-Gateway : 8080
 
 ## Discovery-server
 - Eureka : 8761
+
+## Distributed Tracing
+- zipkin : 9411

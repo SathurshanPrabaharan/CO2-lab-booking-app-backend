@@ -1,29 +1,36 @@
 package com.inventoryservice.Controllers;
 
-import com.inventoryservice.DTO.InventoryRequest;
+import com.inventoryservice.DTO.Request.Inventory.InventoryCreateRequest;
+import com.inventoryservice.DTO.Request.Inventory.InventoryArchiveRequest;
+import com.inventoryservice.DTO.Request.Inventory.InventoryUpdateRequest;
+import com.inventoryservice.DTO.Response.Inventory.InventoryCreatedResponse;
+import com.inventoryservice.DTO.Response.Inventory.InventoryDetailsResponse;
+import com.inventoryservice.DTO.Response.Inventory.InventoryListResponse;
+import com.inventoryservice.DTO.Response.ResponseMessage;
 import com.inventoryservice.Enums.STATUS;
-import com.inventoryservice.Exception.InventoryNotFoundException;
+import com.inventoryservice.Exception.ResourceNotFoundException;
 import com.inventoryservice.Models.Inventory;
 import com.inventoryservice.Repositories.InventoryRepository;
-import com.inventoryservice.Response.InventoryResponse;
 import com.inventoryservice.Services.InventoryService;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/inventories")
+@Tag(name = "Inventory Controller", description = "Endpoints for inventories")
 public class InventoryController {
     @Autowired
     private InventoryRepository inventoryRepository;
-
     @Autowired
     private InventoryService inventoryService;
 
@@ -31,131 +38,76 @@ public class InventoryController {
         super();
         this.inventoryService = inventoryService;
     }
-
-    //create
+    @Operation(summary = "Create Inventory", description = "Create Inventory with appropriate softwares")
     @PostMapping
-    public ResponseEntity<Object> saveInventory(@RequestBody InventoryRequest result){
-        Inventory savedInventory = inventoryService.saveInventory(result);
-        String message = "Inventory  posted successfully";
-        InventoryResponse response = new InventoryResponse(savedInventory, message);
+    public ResponseEntity<Object> saveInventory(@RequestBody @Valid InventoryCreateRequest inventory) {
+        Inventory savedInventory = inventoryService.saveInventory(inventory);
+        String message = "Inventory created successfully";
+        InventoryCreatedResponse response = new InventoryCreatedResponse(message, savedInventory);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get Inventories", description = "Get All Inventory by applying appropriate filters")
     @GetMapping
-    public ResponseEntity<Object> getAllInventory(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastMaintenanceDate,
+    public ResponseEntity<Object> filterInventory(
+            @RequestParam(required = false) String manufacturer,
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) String processor,
+            @RequestParam(required = false) String memoryType,
+            @RequestParam(required = false) String memorySize,
+            @RequestParam(required = false) String storageType,
+            @RequestParam(required = false) String storageSize,
+            @RequestParam(required = false) String operatingSystem,
+            @RequestParam(required = false) STATUS status,
+            @RequestParam(required = false) LocalDate startWarrantyExpiryDate, @RequestParam(required = false) LocalDate endWarrantyExpiryDate,
+            @RequestParam(required = false) LocalDate startNextMaintenanceDate, @RequestParam(required = false) LocalDate endNextMaintenanceDate,
+            @RequestParam(required = false) LocalDate startLastMaintenanceDate, @RequestParam(required = false) LocalDate endLastMaintenanceDate,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) UUID softwareId
 
-                                           @RequestParam(required = false) String name,
-                                           @RequestParam(required = false) String serialNum,
-                                           @RequestParam(required = false) String manufacturer,
-                                           @RequestParam(required = false) String model,
-                                           @RequestParam(required = false) String processor,
-                                           @RequestParam(required = false) String memoryType,
-                                           @RequestParam(required = false) String memorySize,
-                                           @RequestParam(required = false) String storageType,
-                                           @RequestParam(required = false) String storageSize,
-                                           @RequestParam(required = false) String operatingSystem,
-                                           @RequestParam(required = false) STATUS status,
-                                           @RequestParam(required = false) @DateTimeFormat (iso = DateTimeFormat.ISO.DATE) LocalDate purchaseDate,
-                                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate warrantyExpiry,
-                                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate nextMaintenanceDate,
-                                           @RequestParam(required = false) Float purchaseCost,
-                                           @RequestParam(required = false) Long createdBy,
-                                           @RequestParam(required = false) List<Integer>installedSoftwares) throws InventoryNotFoundException {
-        List<Inventory> inventoryList;
-        if (lastMaintenanceDate != null) {
-            inventoryList = inventoryRepository.findByLastMaintenanceDate(lastMaintenanceDate);
-        }
-        else if (serialNum != null) {
-            inventoryList = inventoryRepository.findBySerialNum(serialNum);
-        }
-        else if (name !=null) {
-            inventoryList=inventoryRepository.findByName(name);
+            ){
 
-        }
-        else if (manufacturer !=null) {
-            inventoryList=inventoryRepository.findByManufacturer(manufacturer);
+        Page<Inventory> filteredInventory = inventoryService.filterInventory(manufacturer,model,processor,memoryType,memorySize,storageType,storageSize
+        ,operatingSystem,status,startWarrantyExpiryDate,endWarrantyExpiryDate,startNextMaintenanceDate,endNextMaintenanceDate,
+                startLastMaintenanceDate,endLastMaintenanceDate,page-1,size,softwareId);
+        String message = "Inventories fetched successfully";
+        InventoryListResponse response = new InventoryListResponse(message,filteredInventory);
+        return new ResponseEntity<>(response,HttpStatus.OK);
 
-        }
-        else if (model !=null) {
-            inventoryList=inventoryRepository.findByModel(model);
-        }
-        else if (processor !=null) {
-            inventoryList=inventoryRepository.findByProcessor(processor);
-        }
-        else if (memoryType !=null) {
-            inventoryList=inventoryRepository.findByMemoryType(memoryType);
-        }
-        else if (memorySize !=null) {
-            inventoryList=inventoryRepository.findByMemorySize(memorySize);
-        }
-        else if (storageType !=null) {
-            inventoryList=inventoryRepository.findByStorageType(storageType);
-        }
-        else if (storageSize !=null) {
-            inventoryList=inventoryRepository.findByStorageSize(storageSize);
-        }
-        else if (operatingSystem !=null) {
-            inventoryList=inventoryRepository.findByOperatingSystem(operatingSystem);
-        }
-        else if (status != null) {
-            inventoryList = inventoryRepository.findByStatus(status);
-        }
-        else if (purchaseDate !=null) {
-            inventoryList=inventoryRepository.findByPurchaseDate(purchaseDate);
-        }
-        else if (warrantyExpiry !=null) {
-            inventoryList=inventoryRepository.findByWarrantyExpiry(warrantyExpiry);
-        }
-        else if (nextMaintenanceDate !=null) {
-            inventoryList=inventoryRepository.findByNextMaintenanceDate(nextMaintenanceDate);
-        }
-        else if (purchaseCost !=null) {
-            inventoryList=inventoryRepository.findByPurchaseCost(purchaseCost);
-        }
-        else if (createdBy !=null) {
-            inventoryList=inventoryRepository.findByCreatedBy(createdBy);
-        }
-        else if (installedSoftwares !=null) {
-            inventoryList=inventoryRepository.findByInstalledSoftwares(installedSoftwares);
-        }
-        else {
-            inventoryList = inventoryRepository.findAll();
-        }
-        if (inventoryList.isEmpty()) {
-            throw new InventoryNotFoundException("No inventory found");
-        }
 
-        return  ResponseEntity.ok(inventoryList);
     }
 
 
-    @PutMapping("{id}")
-    public ResponseEntity<Object> updateInventory(@PathVariable UUID id ,@RequestBody Inventory inventoryDetails) throws InventoryNotFoundException {
-        Inventory updateInventory  = inventoryService.updateInventory(id,inventoryDetails);
-        String message = "Inventory  updated successfully";
-        InventoryResponse response = new InventoryResponse(updateInventory,message);
-        return new ResponseEntity<>(response,HttpStatus.CREATED);
-    }
 
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteInventory(@PathVariable UUID id) throws InventoryNotFoundException {
-        Inventory inventory = inventoryRepository.findById(id)
-                .orElseThrow(() -> new InventoryNotFoundException("Inventory not found with id: " + id));
-
-        inventoryRepository.delete(inventory);
-        String message = "Inventory with ID: " + id + " has been deleted";
-        return ResponseEntity.ok(message);
-    }
-
-
+    //Get inventory details using id
     @GetMapping("{id}")
-    public ResponseEntity<InventoryResponse> getInventoryDetails(@PathVariable UUID id) throws InventoryNotFoundException {
-        Inventory inventory = inventoryRepository.findById(id)
-                .orElseThrow(() -> new InventoryNotFoundException("Inventory not found with id : " + id));
-        String message = "Inventory details retrieved successfully";
-        InventoryResponse response = new InventoryResponse(inventory, message);
-        return new ResponseEntity<>(response,HttpStatus.CREATED);
+    public ResponseEntity<Object> getInventoryDetails(@PathVariable UUID id) throws ResourceNotFoundException {
+        Inventory inventory = inventoryService.findById(id);
+        String message = "Inventory details fetched successfully";
+        InventoryDetailsResponse response = new InventoryDetailsResponse(message, inventory);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
+    @Operation(summary = "Update Inventory", description = "Update the inventory with od")
+    @PutMapping("{id}")
+    public ResponseEntity<Object> updateInventory(@PathVariable UUID id, @RequestBody @Valid InventoryUpdateRequest request) throws ResourceNotFoundException {
+        Inventory updateInventory = inventoryService.updateInventory(id, request);
+        String message = "Inventory updated successfully";
+        InventoryDetailsResponse response = new InventoryDetailsResponse(message, updateInventory);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    //Delete done with response msg
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> archiveInventory(@PathVariable UUID id, @RequestBody @Valid InventoryArchiveRequest request) throws ResourceNotFoundException {
+        inventoryService.archiveInventory(id, request);
+        String message = "Inventory archived successfully";
+        ResponseMessage response = new ResponseMessage(message);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }
 

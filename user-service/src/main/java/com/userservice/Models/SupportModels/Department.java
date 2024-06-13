@@ -1,6 +1,7 @@
 package com.userservice.Models.SupportModels;
 
 import com.userservice.Enums.STATUS;
+import com.userservice.Models.Staff;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,8 +30,9 @@ public class Department {
     @Column( nullable = false)
     private String name;
 
-    @Column(name = "HOD_id")
-    private UUID hodId;
+    @ManyToOne
+    @JoinColumn(name = "hod_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_department_hod"))
+    private Staff hod;
 
     @CreationTimestamp
     @Column(name = "created_at")

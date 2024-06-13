@@ -3,8 +3,10 @@ package com.userservice.Models;
 import com.userservice.Enums.GENDER;
 import com.userservice.Enums.STATUS;
 import com.userservice.Models.SupportModels.Course;
+import com.userservice.Models.SupportModels.Department;
 import com.userservice.Models.SupportModels.Profession;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +33,7 @@ public class Student {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(unique = true,nullable = false)
+    @Column(name = "object_id",unique = true,nullable = false)
     private UUID objectId;
 
     @Column( name = "first_name",nullable = false)
@@ -40,7 +42,7 @@ public class Student {
     @Column( name = "last_name",nullable = false)
     private String lastName;
 
-    @Column(name = "display_name")
+    @Column(name = "display_name",nullable = false)
     private String displayName;
 
     @Column
@@ -50,7 +52,7 @@ public class Student {
     private GENDER gender;
 
     @ManyToOne
-    @JoinColumn(name = "userRole_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_student_userRole"))
+    @JoinColumn(name = "user_role_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_student_userRole"))
     private UserRole userRole;
 
     @ManyToOne
@@ -58,10 +60,15 @@ public class Student {
     private Profession profession;
 
     @Column
+    @Positive
     private Short semester;
 
     @Column(name = "reg_num")
     private String regNum;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_student_department"))
+    private Department department;
 
     //save and merge together
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -73,7 +80,7 @@ public class Student {
     @Builder.Default
     private Set<Course> currentCourses = new HashSet<>();
 
-    // email from organization
+    // Mail ID from organization
     @Column(name = "user_principal_name", nullable = false,unique = true)
     private String userPrincipalName;
 
@@ -97,9 +104,6 @@ public class Student {
     @Builder.Default
     private Boolean accountEnabled = false;
 
-    @Column
-    private STATUS status;
-
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -114,5 +118,8 @@ public class Student {
 
     @Column(name = "updated_by")
     private UUID updatedBy;
+
+    @Column
+    private STATUS status;
 
 }
