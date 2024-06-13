@@ -1,0 +1,54 @@
+#spring:
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.security.oauth2.resource.reactive.ReactiveOAuth2ResourceServerAutoConfiguration
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: https://login.microsoftonline.com/b0380c00-b922-4c89-aecf-e99408315ea5/discovery/v2.0/keys
+#
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: myService
+#          uri: http://localhost:8081
+#          predicates:
+#            - Path=/api/**
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - StripPrefix=1
+#            - TokenRelay
+#
+#server:
+#  port: 8080
+
+
+# Please fill these placeholders before running this application:
+# 1. ${TENANT_ID}
+# 4. ${RESOURCE_SERVER_1_CLIENT_ID}
+# 5. ${RESOURCE_SERVER_2_CLIENT_ID}
+
+#logging:
+#  level:
+#    root: DEBUG
+#server:
+#  port: 8080
+#spring:
+#  application:
+#    name: admin-api-gateway
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: co2-lab-booking-app
+#          uri: http://localhost:8081
+#          predicates:
+#            - Path=/**
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: https://login.microsoftonline.com/${AZURE_TENANT_ID}/discovery/v2.0/keys
+#          issuer-uri: https://login.microsoftonline.com/${AZURE_TENANT_ID}/v2.0
+#          audiences: ${AZURE_CLIENT_ID}
+#  profiles:
+#    active: develop
