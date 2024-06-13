@@ -6,6 +6,13 @@ spring:
     output:
       ansi:
         enabled: ALWAYS
+  zipkin:
+    base-url: http://localhost:9411
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
 
 server:
   port: 8761
@@ -19,4 +26,5 @@ eureka:
     fetch-registry: false
     service-url:
       default-zone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
 

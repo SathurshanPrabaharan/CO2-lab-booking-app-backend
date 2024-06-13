@@ -27,7 +27,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/api/v1/configuration/departments")
+@RequestMapping("/api/v1/configurations/departments")
 @Tag(name = "Department Controller", description = "Endpoints for departments")
 public class DepartmentController {
 

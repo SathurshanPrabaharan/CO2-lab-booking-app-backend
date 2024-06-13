@@ -25,7 +25,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/api/v1/configuration/courses")
+@RequestMapping("/api/v1/configurations/courses")
 @Tag(name = "Course Controller", description = "Endpoints for courses")
 public class CourseController {
 
