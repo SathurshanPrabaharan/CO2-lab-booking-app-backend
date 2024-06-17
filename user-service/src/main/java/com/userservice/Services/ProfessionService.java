@@ -4,7 +4,7 @@ package com.userservice.Services;
 import com.userservice.DTO.Request.Profession.ProfessionCreateRequest;
 import com.userservice.DTO.Request.Profession.ProfessionUpdateRequest;
 import com.userservice.Enums.STATUS;
-import com.userservice.Models.Profession;
+import com.userservice.Models.SupportModels.Profession;
 
 import java.util.List;
 import java.util.UUID;

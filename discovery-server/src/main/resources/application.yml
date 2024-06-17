@@ -1,6 +1,18 @@
 spring:
   application:
     name: discovery-server
+  main:
+    banner-mode: off
+    output:
+      ansi:
+        enabled: ALWAYS
+  zipkin:
+    base-url: http://localhost:9411
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
 
 server:
   port: 8761
@@ -10,8 +22,9 @@ eureka:
   instance:
     hostname: localhost
   client:
-    registerWithEureka: false
-    fetchRegistry: false
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      default-zone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
 
