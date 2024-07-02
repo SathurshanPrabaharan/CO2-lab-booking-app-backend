@@ -10,6 +10,7 @@ import com.bookingservice.Enums.COURSE_TYPE;
 import com.bookingservice.Enums.STATUS;
 import com.bookingservice.Exceptions.ResourceNotFoundException;
 import com.bookingservice.Models.Booking;
+import com.bookingservice.Models.NotificationMessage;
 import com.bookingservice.Models.SupportModels.Admin;
 import com.bookingservice.Models.SupportModels.Course;
 import com.bookingservice.Models.SupportModels.Staff;
@@ -23,7 +24,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,20 +37,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
-
+    //logger instance
+    private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
     @Autowired
     private final BookingRepository bookingRepository;
-
     @Autowired
     private final StaffRepository staffRepository;
-
     @Autowired
     private final AdminRepository adminRepository;
     @Autowired
     private final CourseRepository courseRepository;
 
-
-
+    //sending messages to Kafka topics in a Spring Boot application
+    //only messages of type NotificationMessage are sent
+    @Autowired
+    private KafkaTemplate<String, NotificationMessage> kafkaTemplate;
 
     public BookingServiceImpl(
             BookingRepository bookingRepository,
@@ -87,6 +93,7 @@ public class BookingServiceImpl implements BookingService {
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
                 .status(STATUS.ACTIVE)
+                .userEmail(request.getUserEmail())
                 .build();
 
 
@@ -222,12 +229,6 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.save(existingBooking); // Save the updated booking
     }
 
-
-
-
-
-
-
     @Override
     public void archiveBooking(UUID id, BookingArchiveRequest request) {
 
@@ -251,6 +252,7 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.save(existingBooking);
     }
 
+    // service for approve or reject the booking
     @Override
     @Transactional
     public Booking approveOrRejectBooking(UUID id, BookingPatchRequest request) {
@@ -281,10 +283,16 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new IllegalArgumentException("Admin not found with id: " + request.getUpdatedByAdminId()));
         existingBooking.setUpdatedByAdmin(updatedByAdmin);
 
+        //used as the message payload that will be sent to a Kafka topic using kafka template
+        NotificationMessage message = new NotificationMessage();
+
         if (status == BOOKING_STATUS.APPROVED) {
             existingBooking.setApprovedAt(LocalDateTime.now());
             existingBooking.setApprovedBy(updatedByAdmin);
-            //sent mail
+            //This sets the recipient's email address to the email associated with the booking
+            message.setTo(existingBooking.getUserEmail());
+            message.setSubject("Booking Approved");
+            message.setBody("Your booking has been approved.");
 
         } else if (status == BOOKING_STATUS.REJECTED) {
             existingBooking.setRejectedAt(LocalDateTime.now());
@@ -292,10 +300,26 @@ public class BookingServiceImpl implements BookingService {
             existingBooking.setRejectReason(request.getRejectReason());
             existingBooking.setStatus(STATUS.INACTIVE);
             //sent mail
+            message.setTo(existingBooking.getUserEmail());
+            message.setSubject("Booking Rejected");
+            message.setBody("Your booking has been rejected. Reason: " + request.getRejectReason());
         }
 
-        return bookingRepository.save(existingBooking);
+        bookingRepository.save(existingBooking);
+
+        //informational message indicating that a notification message is being sent to Kafka
+        logger.info("Sending message to Kafka: {}", message);
+        /**
+         * Publish message to Kafka
+         *  sends the NotificationMessage(message) to the booking-notifications topic in Kafka
+         */
+        kafkaTemplate.send("booking-notifications", message);
+        logger.info("Message sent to Kafka topic booking-notifications");
+
+        return existingBooking;
+
     }
+
 
 
 

@@ -43,6 +43,7 @@ public class BookingCreateRequest {
     private UUID createdByStaffId;
 
     private UUID createdByAdminId;
+    private String userEmail;
 
     // Add validation logic in the DTO itself
     public void validate() {

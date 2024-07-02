@@ -101,4 +101,7 @@ public class Booking {
     @Column( nullable = false)
     private STATUS status;
 
+    @Column(nullable = false)
+    private String userEmail;
+
 }
