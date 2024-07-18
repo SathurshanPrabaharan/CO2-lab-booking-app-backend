@@ -55,7 +55,6 @@ class ResponseCreatedBooking {
     private ModifiedAdminSimple approvedBy;
     private ModifiedAdminSimple rejectedBy;
     private STATUS status;
-    private String userEmail;
 
 
 
@@ -75,7 +74,6 @@ class ResponseCreatedBooking {
         this.approvedAt=booking.getApprovedAt();
         this.rejectedAt = booking.getRejectedAt();
         this.status = booking.getStatus();
-        this.userEmail=booking.getUserEmail();
 
 
         // course

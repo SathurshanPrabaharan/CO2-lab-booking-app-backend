@@ -1,9 +1,11 @@
 package com.notificationservice.Service;
 import com.notificationservice.Models.NotificationMessage;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,13 +33,13 @@ public class NotificationService {
 
     public void sendEmail(NotificationMessage message) {
         try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo(message.getTo());
-            mailMessage.setSubject(message.getSubject());
-            mailMessage.setText(message.getBody());
-
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setTo(message.getTo());
+            helper.setSubject(message.getSubject());
+            helper.setText(message.getBody(), true); // Set the boolean flag to true to send HTML content
             logger.info("Sending email to: {}", message.getTo());
-            mailSender.send(mailMessage);
+            mailSender.send(mimeMessage);
             logger.info("Email sent to: {}", message.getTo());
         } catch (Exception e) {
             logger.error("Error sending email",e.getMessage(), e);
