@@ -58,6 +58,8 @@ class ResponseCreatedBooking {
 
 
 
+
+
     public ResponseCreatedBooking(Booking booking) {
         this.id = booking.getId();
         this.title = booking.getTitle();

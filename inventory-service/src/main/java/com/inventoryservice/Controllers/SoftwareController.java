@@ -66,7 +66,7 @@ public class SoftwareController {
     }
 
 
-
+    @Operation(summary = "Get Software using id", description = "Create new software")
     @GetMapping("{id}")
     public ResponseEntity<Object> getSoftwareDetails(@PathVariable UUID id) throws ResourceNotFoundException {
         Software software = softwareService.findById(id);
