@@ -292,14 +292,12 @@ public class BookingServiceImpl implements BookingService {
             if(existingBooking.getCreatedByStaff()!= null)
             {
                 message.setTo(existingBooking.getCreatedByStaff().getContact_email());
-
             }
             else
             {
                 message.setTo(existingBooking.getCreatedByAdmin().getContact_email());
             }
             message.setSubject("Booking Approved");
-           // message.setBody("Your booking has been approved.");
             message.setBody(generateApprovalEmailBody(existingBooking));
 
 
@@ -312,14 +310,12 @@ public class BookingServiceImpl implements BookingService {
             if(existingBooking.getCreatedByStaff()!= null)
             {
                 message.setTo(existingBooking.getCreatedByStaff().getContact_email());
-
             }
             else
             {
                 message.setTo(existingBooking.getCreatedByAdmin().getContact_email());
             }
             message.setSubject("Booking Rejected");
-            //message.setBody("Your booking has been rejected. Reason: " + request.getRejectReason());
             message.setBody(generateRejectionEmailBody(existingBooking, request.getRejectReason()));
 
         }
