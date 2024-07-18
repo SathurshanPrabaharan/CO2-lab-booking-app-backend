@@ -81,6 +81,7 @@ public class InventoryController {
 
 
     //Get inventory details using id
+    @Operation(summary = "Get Inventories using id", description = "Get  Inventory by using inventory id")
     @GetMapping("{id}")
     public ResponseEntity<Object> getInventoryDetails(@PathVariable UUID id) throws ResourceNotFoundException {
         Inventory inventory = inventoryService.findById(id);
@@ -90,7 +91,7 @@ public class InventoryController {
     }
 
 
-    @Operation(summary = "Update Inventory", description = "Update the inventory with od")
+    @Operation(summary = "Update Inventory using id", description = "Update the inventory with od")
     @PutMapping("{id}")
     public ResponseEntity<Object> updateInventory(@PathVariable UUID id, @RequestBody @Valid InventoryUpdateRequest request) throws ResourceNotFoundException {
         Inventory updateInventory = inventoryService.updateInventory(id, request);
@@ -101,6 +102,7 @@ public class InventoryController {
 
 
     //Delete done with response msg
+    @Operation(summary = "archived Inventories", description = "Delete Inventory by using inventory id")
     @DeleteMapping("{id}")
     public ResponseEntity<Object> archiveInventory(@PathVariable UUID id, @RequestBody @Valid InventoryArchiveRequest request) throws ResourceNotFoundException {
         inventoryService.archiveInventory(id, request);

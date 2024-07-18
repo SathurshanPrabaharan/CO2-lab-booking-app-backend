@@ -98,6 +98,10 @@ public class BookingController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+    /**
+     * for approving or rejecting a booking
+     *
+     */
     @Operation(summary = "Approve or Reject Booking", description = "Approve or Reject Booking")
     @PatchMapping("{id}")
     public ResponseEntity<Object> approveOrRejectBooking(@PathVariable UUID id ,@RequestBody @Valid BookingPatchRequest request) throws ResourceNotFoundException {
