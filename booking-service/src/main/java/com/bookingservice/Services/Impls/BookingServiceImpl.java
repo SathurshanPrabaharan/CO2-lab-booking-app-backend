@@ -393,8 +393,11 @@ public class BookingServiceImpl implements BookingService {
                 "<table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"main\">" +
                 "<tr>" +
                 "<td class=\"wrapper\">" +
-                "<p>Hi there</p>" +
+                "<p>Hi "+booking.getCreatedByStaff().getFirstName()+",</p>" +
                 "<p>We are pleased to inform you that your lab booking request has been approved by the admin.</p>" +
+                "<p>Course : "+booking.getCourse().getCode()+" - "+booking.getCourse().getName()+"</p>"+
+                "<p>Date : "+booking.getDate()+"</p>"+
+                "<p>Time : "+booking.getStartTime()+" - " + booking.getEndTime()+"</p>"+
                 "<table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"btn btn-primary\">" +
                 "<tbody>" +
                 "<tr>" +
@@ -487,8 +490,9 @@ public class BookingServiceImpl implements BookingService {
                 "<table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"main\">" +
                 "<tr>" +
                 "<td class=\"wrapper\">" +
-                "<p>Hi there</p>" +
-                "<p>We regret to inform you that your lab booking request has been rejected by the admin.</p>" +
+                "<p>Hi "+booking.getCreatedByStaff().getFirstName()+",</p>" +
+                "<p>We regret to inform you that your lab booking for Course "+booking.getCourse().getCode()+" - " +booking.getCourse().getName()+ ", scheduled from "+booking.getStartTime()+" to "+booking.getEndTime()+", has been rejected by the admin."+
+                "<p>Reason : "+rejectReason+".</p>"+
                 "<table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"btn btn-primary\">" +
                 "<tbody>" +
                 "<tr>" +
