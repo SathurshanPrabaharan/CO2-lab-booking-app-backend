@@ -66,6 +66,15 @@ public class StaffController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+    @Operation(summary = "Get Staff Details By Object Id", description = "Get all details of the associated staff by Object Id")
+    @GetMapping("oid/{id}")
+    public ResponseEntity<Object> getStaffDetailsByObjectId(@PathVariable UUID id) throws ResourceNotFoundException {
+        Staff staff = staffService.findByObjectId(id);
+        String message = "Staff details fetched successfully";
+        StaffDetailsResponse response = new StaffDetailsResponse(message, staff);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
 
     @Operation(summary = "Update Staff", description = "Update the staff exclude role privileges")
     @PutMapping("{id}")

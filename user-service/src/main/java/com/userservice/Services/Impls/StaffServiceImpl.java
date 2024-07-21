@@ -144,6 +144,13 @@ public class StaffServiceImpl implements StaffService {
     }
 
 
+    @Override
+    public Staff findByObjectId(UUID id) {
+        Optional<Staff> staffOptional = staffRepository.findByObjectId(id);
+        return staffOptional.orElseThrow(() -> new ResourceNotFoundException("Staff not found with id : " + id));
+    }
+
+
 
     @Override
     public List<Staff> getAllStaffs() {

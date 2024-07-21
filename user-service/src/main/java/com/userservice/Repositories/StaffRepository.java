@@ -18,7 +18,7 @@ public interface StaffRepository extends JpaRepository<Staff, UUID> {
 
     List<Staff> findAllByOrderByCreatedAtDesc();
 
-
+    Optional<Staff> findByObjectId(UUID id);
 
 
 }

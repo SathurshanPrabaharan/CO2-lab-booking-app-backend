@@ -17,6 +17,8 @@ public interface AdminRepository extends JpaRepository<Admin, UUID> {
 
     List<Admin> findAllByOrderByCreatedAtDesc();
 
+    Optional<Admin> findByObjectId(UUID id);
+
 
 
 

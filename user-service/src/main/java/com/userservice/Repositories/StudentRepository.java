@@ -17,7 +17,7 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
 
     List<Student> findAllByOrderByCreatedAtDesc();
 
-
+    Optional<Student> findByObjectId(UUID id);
 
 
 }

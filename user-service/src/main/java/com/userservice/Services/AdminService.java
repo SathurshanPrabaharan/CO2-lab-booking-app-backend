@@ -22,6 +22,8 @@ public interface AdminService {
 
     Admin findById(UUID id);
 
+    Admin findByObjectId(UUID id);
+
     Admin updateAdmin(UUID id, AdminUpdateRequest request);
 
 

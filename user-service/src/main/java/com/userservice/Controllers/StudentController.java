@@ -70,6 +70,17 @@ public class StudentController {
     }
 
 
+    @Operation(summary = "Get Student Details by Object ID", description = "Get all details of the associated student by Object Id")
+    @GetMapping("oid/{id}")
+    public ResponseEntity<Object> getStudentDetailsByObjectId(@PathVariable UUID id) throws ResourceNotFoundException {
+        Student student = studentService.findByObjectId(id);
+        String message = "Student details fetched successfully";
+        StudentDetailsResponse response = new StudentDetailsResponse(message, student);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+
+
     @Operation(summary = "Update Student", description = "Update the student except userPrincipleName, objectId")
     @PutMapping("{id}")
     public ResponseEntity<Object> updateStudent(@PathVariable UUID id ,@RequestBody @Valid StudentUpdateRequest request) throws ResourceNotFoundException {

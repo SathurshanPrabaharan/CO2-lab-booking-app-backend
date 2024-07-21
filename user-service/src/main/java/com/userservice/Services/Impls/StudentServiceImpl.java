@@ -156,6 +156,12 @@ public class StudentServiceImpl implements StudentService {
         return studentOptional.orElseThrow(() -> new ResourceNotFoundException("Student not found with id : " + id));
     }
 
+    @Override
+    public Student findByObjectId(UUID id) {
+        Optional<Student> studentOptional = studentRepository.findByObjectId(id);
+        return studentOptional.orElseThrow(() -> new ResourceNotFoundException("Student not found with id : " + id));
+    }
+
 
 
     @Override
