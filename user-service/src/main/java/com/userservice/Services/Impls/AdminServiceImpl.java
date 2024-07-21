@@ -132,6 +132,12 @@ public class AdminServiceImpl implements AdminService {
         return adminOptional.orElseThrow(() -> new ResourceNotFoundException("Admin not found with id : " + id));
     }
 
+    @Override
+    public Admin findByObjectId(UUID id) {
+        Optional<Admin> adminOptional = adminRepository.findByObjectId(id);
+        return adminOptional.orElseThrow(() -> new ResourceNotFoundException("Admin not found with object id : " + id));
+    }
+
 
 
     @Override

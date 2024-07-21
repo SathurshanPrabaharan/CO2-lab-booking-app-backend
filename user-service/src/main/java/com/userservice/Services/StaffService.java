@@ -21,6 +21,8 @@ public interface StaffService {
 
     Staff findById(UUID id);
 
+    Staff findByObjectId(UUID id);
+
     Staff updateStaff(UUID id, StaffUpdateRequest request);
 
 

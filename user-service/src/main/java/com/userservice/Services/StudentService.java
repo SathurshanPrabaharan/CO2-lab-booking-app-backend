@@ -22,6 +22,8 @@ public interface StudentService {
 
     Student findById(UUID id);
 
+    Student findByObjectId(UUID id);
+
     Student updateStudent(UUID id, StudentUpdateRequest request);
 
 

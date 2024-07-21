@@ -67,6 +67,15 @@ public class AdminController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+    @Operation(summary = "Get Admin Details by oid", description = "Get all details of the associated admin using object ID")
+    @GetMapping("oid/{id}")
+    public ResponseEntity<Object> getAdminDetailsByObjectId(@PathVariable UUID id) throws ResourceNotFoundException {
+        Admin admin = adminService.findByObjectId(id);
+        String message = "Admin details fetched successfully";
+        AdminDetailsResponse response = new AdminDetailsResponse(message, admin);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
 
     @Operation(summary = "Update Admin", description = "Update the admin except userPrincipleName, objectId")
     @PutMapping("{id}")
