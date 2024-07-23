@@ -60,13 +60,14 @@ both staff and students in a university environment
 
 
 ## Documentation
-1. [ER, User case diagram ](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/ER-,-Use-Case-,-Activity,-Sequence-Diagrams)
-2. [Postman API Testing](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Postman-API-Testing)
-3. [Project Architecture](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Project-Architecture)
-4. [Requirement Analysis](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Requirement-Analysis)
-5. [Test Case](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Test-Case)
-6. [User Guide for the System](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/User-Guide-for-the-System)
-7. [Terms and conditions](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/8.-Terms-and-Conditions)
+1. [Home](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/1.-Home)
+2. [ER, User case diagram ](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/ER-,-Use-Case-,-Activity,-Sequence-Diagrams)
+3. [Postman API Testing](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Postman-API-Testing)
+4. [Project Architecture](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Project-Architecture)
+5. [Requirement Analysis](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Requirement-Analysis)
+6. [Test Case](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Test-Case)
+7. [User Guide for the System](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/User-Guide-for-the-System)
+8. [Terms and conditions](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/8.-Terms-and-Conditions)
 
 
 ## Team Members 
