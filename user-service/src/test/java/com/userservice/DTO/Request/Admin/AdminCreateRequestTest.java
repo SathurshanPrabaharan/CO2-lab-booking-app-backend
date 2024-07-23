@@ -26,7 +26,7 @@ public class AdminCreateRequestTest {
     }
 
     @Test
-    public void testAdminCreateRequestValid()
+    public void testAdminCreateRequestValid() {
         AdminCreateRequest request = AdminCreateRequest.builder()
                 .firstName("John")
                 .lastName("Doe")
