@@ -71,29 +71,29 @@ both staff and students in a university environment
 
 ## Team Members 
 
-**1. Project Manager**
-    Saritha K 
+**1. Project Manager:**
+Saritha K 
     
-**2. Requirement Analyst**
-    Uzair U.M. 
-    Tharanyaa R  
+**2. Requirement Analyst:**
+Uzair U.M. 
+Tharanyaa R  
     
-**3. Interface Designer**
-    Kokilaraj A  
-    Paul Tharukshan T 
+**3. Interface Designer:**
+Kokilaraj A  
+Paul Tharukshan T 
 
-**4. Senior software Engineer** 
-    Sathurshan P 
-    Sajishvar M. 
+**4. Senior software Engineer:** 
+Sathurshan P 
+Sajishvar M. 
 
-**5. Software Engineer** 
-    Divyani C.P 
-    Darshika P
-    Keerthikan F.J 
+**5. Software Engineer:** 
+Divyani C.P 
+Darshika P
+Keerthikan F.J 
 
-**6. QA** 
-    Joshua J.T. 
-    Ravixshanna A. QA
+**6. QA:** 
+Joshua J.T. 
+Ravixshanna A. QA
 
 
 
