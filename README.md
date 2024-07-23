@@ -1,6 +1,6 @@
 # Computer lab 02 Booking system
 
-![Login Page](https://github.com/user-attachments/assets/6aef6f16-cce6-442b-904f-9582ebb8dc50)
+![image](https://github.com/user-attachments/assets/4c6d4f22-76ea-469f-9ba5-e7e3e1b70557)
 
 ## 1. INTRODUCTION: 
 
