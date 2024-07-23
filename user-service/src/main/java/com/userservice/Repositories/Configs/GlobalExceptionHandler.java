@@ -1,4 +1,4 @@
-package com.userservice.Configs;
+package com.userservice.Repositories.Configs;
 
 import com.userservice.Exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;

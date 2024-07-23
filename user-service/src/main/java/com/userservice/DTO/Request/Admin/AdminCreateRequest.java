@@ -1,12 +1,12 @@
 package com.userservice.DTO.Request.Admin;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -48,7 +48,6 @@ public class AdminCreateRequest {
 
     @NotNull(message = "Invalid createdBy: CreatedBy cannot be null")
     private UUID createdBy;
-
 
 
 }
