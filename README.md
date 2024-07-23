@@ -1,71 +1,106 @@
-# CO2-lab-booking-app-backend
-Software engineering course - team project
+# Computer lab 02 Booking system
 
-## technology
-- Spring Boot
+![Login Page](https://github.com/user-attachments/assets/6aef6f16-cce6-442b-904f-9582ebb8dc50)
 
-## Micro-services
-- user-service          : 8084
-- inventory-service     : 8085
-- configuration-service : 8086
-- booking-service       : 8087
-- notification-service  : 8088
-- [Notification Service Configuration](#kafka-configuration)
+## 1. INTRODUCTION
 
-## API Gateways
-- Admin-API-Gateway : 8080
+    The proposed software is a comprehensive solution for managing laboratory 
+    resources, bookings, and schedules within a university setting. It aims to streamline 
+    administrative tasks, enhance communication between staff and students, and 
+    improve overall efficiency in laboratory operations. With different functionalities 
+    and user roles, including authentication and authorization, the software ensures 
+    secure access for users such as administrators, staff, and students.
+   
+    Admins can accept or reject staff requests for lab bookings, manage inventory, 
+    view analytical utilization of laboratory components by students, transfer admin 
+    ownership, send reminders, and receive notifications for various events. Staff 
+    members can book lab slots, request override bookings, insert attendance 
+    summaries, view booked lab time slots, and access lab schedules. Students can 
+    view the lab schedule, access course-specific schedules, and view software details.
+   
+    The software includes notification services for admins, staff, and students to stay 
+    updated on lab bookings, override requests, reminders, and more. It also features 
+    inventory management to record specifications, track software availability, and 
+    manage licenses. Profile management allows users to update their information, 
+    while lab booking management handles time slot bookings, override requests, and 
+    cancellations. Reporting and analytics generate valuable insights on lab utilization 
+    and provide graphical representations for easy understanding.
+   
+    In summary, the proposed software offers a user-friendly and efficient solution for 
+    managing all aspects of laboratory resources, bookings, and schedules, benefiting 
+    both staff and students in a university environment
 
-## Discovery-server
-- Eureka : 8761
+## 2. OBJECTIVES 
+### 1. Streamline Administrative Tasks:
+  One of the objectives of the project is to 
+  streamline administrative tasks related to laboratory resource 
+  management. This includes automating processes such as accepting or 
+  rejecting staff requests for lab bookings, managing inventory, and 
+  generating reports. By reducing manual effort and improving efficiency, 
+  the software aims to save time and resources for administrators.
+### 2. Enhance Communication and Collaboration:
+  Another objective of the 
+  project is to enhance communication and collaboration between staff 
+  and students. The software facilitates effective communication by 
+  providing notification services, allowing users to stay updated on lab 
+  bookings, override requests, and reminders. It also enables staff 
+  members to easily view and manage lab time slots, improving 
+  coordination and ensuring smooth operations.
+### 3. Improve Efficiency in Laboratory Operations:
+  The project aims to improve 
+  overall efficiency in laboratory operations through various features and 
+  functionalities. By providing a centralized platform for lab bookings, the 
+  software simplifies the process and reduces scheduling conflicts.
+  Additionally, the inventory management feature helps track software 
+  availability and licenses, ensuring that resources are utilized effectively. 
+  The reporting and analytics capabilities provide valuable insights on lab 
+  utilization, enabling administrators to make data-driven decisions for 
+  resource optimization
 
-## Distributed Tracing
-- zipkin : 9411
 
-## Kafka Configuration
 
-Follow these steps to configure Kafka:
+## Documentation
+1. [ER, User case diagram ](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/ER-,-Use-Case-,-Activity,-Sequence-Diagrams)
+2. [Postman API Testing](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Postman-API-Testing)
+3. [Project Architecture](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Project-Architecture)
+4. [Requirement Analysis](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Requirement-Analysis)
+5. [Test Case](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/Test-Case)
+6. [User Guide for the System](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/User-Guide-for-the-System)
+7. [Terms and conditions](https://github.com/SathurshanPrabaharan/CO2-lab-booking-app-backend/wiki/8.-Terms-and-Conditions)
 
-1. **Download Kafka**
-  - [Download link](https://downloads.apache.org/kafka/3.7.1/kafka_2.13-3.7.1.tgz)
-  - Unzip the file in the `C` drive and rename the folder to `Kafka`.
 
-2. **Setup Log Directories**
-  - Open `C:\kafka\config\zookeeper.properties` and change `dataDir` to `c:/kafka/zookeeper-data`.
-    ```properties
-    dataDir=c:/kafka/zookeeper-data
-    ```
-    ![ZooKeeper Properties](img.png)
-  - Open `C:\kafka\config\server.properties` and change `log.dirs` to `c:/kafka/kafka-logs`.
-    ```properties
-    log.dirs=c:/kafka/kafka-logs
-    ```
-    ![Server Properties](img_1.png)
+## Team Members 
 
-3. **Start ZooKeeper Server**
-  - Open Command Prompt in the Kafka directory and run:
-    ```
-    .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
-    ```
-    ![ZooKeeper Start](img_2.png)
+**1. Project Manager**
+    Saritha K 
+    
+**2. Requirement Analyst**
+    Uzair U.M. 
+    Tharanyaa R  
+    
+**3. Interface Designer**
+    Kokilaraj A  
+    Paul Tharukshan T 
 
-4. **Start Kafka Broker**
-  - Open a new Command Prompt in the Kafka directory and run:
-    ```
-    .\bin\windows\kafka-server-start.bat .\config\server.properties
-    ```
-    ![Kafka Broker Start](img_3.png)
+**4. Senior software Engineer** 
+    Sathurshan P 
+    Sajishvar M. 
 
-5. **Create Kafka Topic**
-  - Open a new Command Prompt in `C:\kafka\bin\windows` directory and run:
-    ```
-    .\kafka-topics.bat --create --topic booking-notifications --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
-    ```
-    ![Create Topic](img_4.png)
+**5. Software Engineer** 
+    Divyani C.P 
+    Darshika P
+    Keerthikan F.J 
 
-6. **Describe Kafka Consumer Group**
-  - Open a new Command Prompt in `C:\kafka\bin\windows` directory and run:
-    ```
-    .\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --describe --group notification-group
-    ```
-    ![Consumer Group](img_5.png)
+**6. QA** 
+    Joshua J.T. 
+    Ravixshanna A. QA
 
+
+
+
+
+
+
+  
+
+   
