@@ -2,33 +2,33 @@
 
 ![Login Page](https://github.com/user-attachments/assets/6aef6f16-cce6-442b-904f-9582ebb8dc50)
 
-## 1. INTRODUCTION
+## 1. INTRODUCTION: 
 
-    The proposed software is a comprehensive solution for managing laboratory 
-    resources, bookings, and schedules within a university setting. It aims to streamline 
-    administrative tasks, enhance communication between staff and students, and 
-    improve overall efficiency in laboratory operations. With different functionalities 
-    and user roles, including authentication and authorization, the software ensures 
-    secure access for users such as administrators, staff, and students.
+The proposed software is a comprehensive solution for managing laboratory 
+resources, bookings, and schedules within a university setting. It aims to streamline 
+administrative tasks, enhance communication between staff and students, and 
+improve overall efficiency in laboratory operations. With different functionalities 
+and user roles, including authentication and authorization, the software ensures 
+secure access for users such as administrators, staff, and students.
    
-    Admins can accept or reject staff requests for lab bookings, manage inventory, 
-    view analytical utilization of laboratory components by students, transfer admin 
-    ownership, send reminders, and receive notifications for various events. Staff 
-    members can book lab slots, request override bookings, insert attendance 
-    summaries, view booked lab time slots, and access lab schedules. Students can 
-    view the lab schedule, access course-specific schedules, and view software details.
+Admins can accept or reject staff requests for lab bookings, manage inventory, 
+view analytical utilization of laboratory components by students, transfer admin 
+ownership, send reminders, and receive notifications for various events. Staff 
+members can book lab slots, request override bookings, insert attendance 
+summaries, view booked lab time slots, and access lab schedules. Students can 
+view the lab schedule, access course-specific schedules, and view software details.
    
-    The software includes notification services for admins, staff, and students to stay 
-    updated on lab bookings, override requests, reminders, and more. It also features 
-    inventory management to record specifications, track software availability, and 
-    manage licenses. Profile management allows users to update their information, 
-    while lab booking management handles time slot bookings, override requests, and 
-    cancellations. Reporting and analytics generate valuable insights on lab utilization 
-    and provide graphical representations for easy understanding.
+The software includes notification services for admins, staff, and students to stay 
+updated on lab bookings, override requests, reminders, and more. It also features 
+inventory management to record specifications, track software availability, and 
+manage licenses. Profile management allows users to update their information, 
+while lab booking management handles time slot bookings, override requests, and 
+cancellations. Reporting and analytics generate valuable insights on lab utilization 
+and provide graphical representations for easy understanding.
    
-    In summary, the proposed software offers a user-friendly and efficient solution for 
-    managing all aspects of laboratory resources, bookings, and schedules, benefiting 
-    both staff and students in a university environment
+In summary, the proposed software offers a user-friendly and efficient solution for 
+managing all aspects of laboratory resources, bookings, and schedules, benefiting 
+both staff and students in a university environment
 
 ## 2. OBJECTIVES 
 ### 1. Streamline Administrative Tasks:
