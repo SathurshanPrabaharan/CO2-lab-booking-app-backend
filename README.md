@@ -96,6 +96,9 @@ Keerthikan F.J
 Joshua J.T. 
 Ravixshanna A. QA
 
+![WhatsApp Image 2024-07-23 at 11 20 15_e9783ade](https://github.com/user-attachments/assets/19949cb6-c327-486f-b23f-d70d91ee0396)
+![WhatsApp Image 2024-07-23 at 11 19 41_67d8fb6f](https://github.com/user-attachments/assets/cc0bd063-a2fc-4845-8614-b17e898dcd63)
+
 
 
 
