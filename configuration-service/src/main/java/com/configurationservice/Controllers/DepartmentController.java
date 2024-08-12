@@ -29,6 +29,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/configurations/departments")
 @Tag(name = "Department Controller", description = "Endpoints for departments")
+@CrossOrigin("http://localhost:5173")
+//@CrossOrigin("http://192.168.52.120:5173/")
 public class DepartmentController {
 
     @Autowired

@@ -29,6 +29,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/users/user-roles")
 @Tag(name = "User Role Controller", description = "Endpoints for user roles")
+@CrossOrigin("http://localhost:5173")
+//@CrossOrigin("http://192.168.52.120:5173/")
 public class UserRoleController {
 
     @Autowired
